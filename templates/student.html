@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    table,
+    th,
+    td {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 15px;
+    }
+  </style>
+
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+  <script>
+
+
+    function delete_student(id) {
+      if (confirm("Do you really want to delete! ")) {
+
+        console.log("enterd in delete request ", id)
+        $.ajax
+          (
+            {
+              url: '/student/' + id,
+              type: 'DELETE',
+              success: function (result) {
+                window.location.reload();
+
+              },
+              error: function (response) {
+                console.log(response)
+              }
+            }
+          );
+      } else {
+        txt = "You pressed Cancel!";
+      }
+    };
+
+
+    function update_form(id,name,age) {
+      var name=name;
+      var id=Number(id);
+      var age=Number(age);
+      var obj = {name: name, age: age, id:id};
+      var json = JSON.stringify(obj);
+      window.location.href='/student/update_form/'+json;
+    }
+    function student_list(){
+      window.location.href='/student/submit_form/';
+
+    }
+
+  </script>
+
+
+
+  </script>
+
+
+
+  <title>students</title>
+  <h1><b><u>Students</u></b></h1>
+  <h2><b><u>Student_list</u></b></h2>
+  <table>
+    <tr>
+      <th>student_id</th>
+      <th>student_name</th>
+      <th>student_age</th>
+      <th>delete record</th>
+      <th>update</th>
+    </tr>
+    {% for i in record: %}
+    <tr>
+      <td>{{i[0]}}</td>
+      <td>{{i[1]}}</td>
+      <td>{{i[2]}}</td>
+
+      <td><input type="button" onclick='delete_student("{{i[0]}}")' value="delete"></td>
+      <td><input type="button" onclick='update_form("{{i[0]}}","{{i[1]}}","{{i[2]}}")' value="update"></td>
+    </tr>
+    {% endfor %}
+  </table>
+  <p id="demo"></p>
+  <p></p>
+  <input type="button" onclick='student_list()' value="insert more">
+  </body>
+</head>
+
+</html>
