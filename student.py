@@ -1,8 +1,17 @@
-from flask import Blueprint,render_template,redirect,url_for,request,jsonify
 import json
+import os
+from datetime import datetime
+from flask import Blueprint,render_template,redirect,url_for,request,jsonify,flash
 from models import read_configconnection,logger
+from werkzeug.utils import secure_filename
 logger=logger()
+upload_folder='D:\\ashu\\GitHub\\files'
+allowed_extension = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif','csv','docx'}
+
 student=Blueprint("student",__name__,template_folder="templates")
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extension
 
 @student.route("/submit_form/")
 def submit_form():
@@ -49,8 +58,7 @@ def create_student():
     mydb=read_configconnection()
     mycursor=mydb.cursor()
     if request.method=='POST':
-        print(request.form["name"])
-        
+
         name=request.form["name"]
         
         if (request.form["age"]).isdigit:
@@ -59,7 +67,25 @@ def create_student():
         else:
             return render_template("404.html",error="Feild age should  be a digit or numeric value not  alpa value")
         
+        file=request.files['file']
         
+        print(file.filename)
+    
+        if file and allowed_file(file.filename):
+            file_name=secure_filename(file.filename)
+            file.save(os.path.join(upload_folder, file_name))
+        else:
+            return render_template("404.html",error=f"only .txt, .pdf, .png, .jpg, .jpeg,\
+                 .gif,.csv,.docx ")
+        val_1=(file_name,upload_folder)
+        try:
+            sql_1=f"insert into web_data.files (file_name, file_location) values {val_1} "
+            mycursor.execute(sql_1)
+            mydb.commit()
+        except Exception as error:
+            logger.error(f"exception arise : {error}")
+            print(f"Exception arise : {error}")     
+
         val=(name,age)
     
     try:
