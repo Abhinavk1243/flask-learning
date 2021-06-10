@@ -1,11 +1,14 @@
 import json
+import pandas as pd
 import os
 from datetime import datetime
 from flask import Blueprint,render_template,redirect,url_for,request,jsonify,flash
 from models import read_configconnection,logger
+from df_sql import csv_to_table,create_table,checkTableExists
 from werkzeug.utils import secure_filename
 logger=logger()
-upload_folder='D:\\ashu\\GitHub\\files'
+
+upload_folder="flask-learning\\files"
 allowed_extension = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif','csv','docx'}
 
 student=Blueprint("student",__name__,template_folder="templates")
@@ -73,10 +76,12 @@ def create_student():
     
         if file and allowed_file(file.filename):
             file_name=secure_filename(file.filename)
-            file.save(os.path.join(upload_folder, file_name))
+            
+            file.save(os.path.join(os.path.expanduser('~'),upload_folder, file_name))
         else:
             return render_template("404.html",error=f"only .txt, .pdf, .png, .jpg, .jpeg,\
                  .gif,.csv,.docx ")
+        
         val_1=(file_name,upload_folder)
         try:
             sql_1=f"insert into web_data.files (file_name, file_location) values {val_1} "

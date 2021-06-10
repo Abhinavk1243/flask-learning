@@ -7,12 +7,21 @@
     th,
     td {
       border: 1px solid black;
-      border-collapse: collapse;
+      
     }
 
     th,
     td {
       padding: 15px;
+    }
+    h1 {
+      color: maroon;
+      text-align: center;
+      
+      margin-left: 40px;
+    } 
+    #insert_button{
+      color: red;
     }
   </style>
 
@@ -20,10 +29,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
   <script>
 
 
@@ -73,31 +82,42 @@
 
 
   <title>students</title>
-  <h1><b><u>Students</u></b></h1>
-  <h2><b><u>Student_list</u></b></h2>
-  <table>
-    <tr>
-      <th>student_id</th>
-      <th>student_name</th>
-      <th>student_age</th>
-      <th>delete record</th>
-      <th>update</th>
-    </tr>
-    {% for i in record: %}
-    <tr>
-      <td>{{i[0]}}</td>
-      <td>{{i[1]}}</td>
-      <td>{{i[2]}}</td>
-
-      <td><input type="button" onclick='delete_student("{{i[0]}}")' value="delete"></td>
-      <td><input type="button" onclick='update_form("{{i[0]}}","{{i[1]}}","{{i[2]}}")' value="update"></td>
-    </tr>
-    {% endfor %}
-  </table>
+  
+  <h1 style="color:red;"><b><u>Students</u></b></h1>
+  
+  
+  <div class="container">
+    <table class="table table-striped table-bordered">
+      <tr style="color:black;" >
+        <th>student_id</th>
+        <th>student_name</th>
+        <th>student_age</th>
+        <th>delete record</th>
+        <th>update</th>
+      </tr>
+      {% for i in record: %}
+      <tr>
+        <td>{{i[0]}}</td>
+        <td>{{i[1]}}</td>
+        <td>{{i[2]}}</td>
+  
+        <td><input type="button"   class="btn btn-danger onclick='delete_student("{{i[0]}}")' value="delete"></td>
+        <td><input type="button" class="btn btn-primary" onclick='update_form("{{i[0]}}","{{i[1]}}","{{i[2]}}")' value="update"></td>
+      </tr>
+      {% endfor %}
+    </table>
+    </div>
+  
   <p id="demo"></p>
   <p></p>
-  <input type="button" onclick='student_list()' value="insert more">
-  </body>
+  <div class="container">
+    <div class="center">
+  <input id="insert_button"  class="btn btn-secondary" type="button" onclick='student_list()' value="insert more">
+  
+    </div>
+
+</div>
+</body>
 </head>
 
 </html>
