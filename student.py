@@ -29,6 +29,7 @@ def student_list():
         dict_1=request.args.to_dict()
         sql="select * from  web_data.student " 
         no_of_cond=0
+        print(dict_1)
         for i in list(dict_1.keys()):
             if no_of_cond==0:
                 sql=sql+f"  where {i}={dict_1[i]}"
@@ -69,7 +70,7 @@ def create_student():
 
         else:
             return render_template("404.html",error="Feild age should  be a digit or numeric value not  alpa value")
-        
+        """
         file=request.files['file']
         
         print(file.filename)
@@ -90,7 +91,7 @@ def create_student():
         except Exception as error:
             logger.error(f"exception arise : {error}")
             print(f"Exception arise : {error}")     
-
+        """
         val=(name,age)
     
     try:

@@ -22,7 +22,7 @@ def not_found(e):
 app.register_blueprint(student,url_prefix="/student")
 @app.route("/")
 def info():
-    return "/student"
+    return render_template("index.html")
 
 if __name__=="__main__":
     app.run(debug=True)
