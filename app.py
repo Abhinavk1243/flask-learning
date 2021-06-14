@@ -3,6 +3,7 @@ from flask import Flask,render_template,request,redirect,url_for
 from models import logger
 logger=logger()
 from student import student
+from auth import auth
 from flask import Flask
 app=Flask(__name__)
 
@@ -20,9 +21,10 @@ def not_found(e):
 
 
 app.register_blueprint(student,url_prefix="/student")
+app.register_blueprint(auth,url_prefix="/auth")
 @app.route("/")
 def info():
-    return render_template("index.html")
+    return "/student/"
 
 if __name__=="__main__":
     app.run(debug=True)

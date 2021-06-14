@@ -9,21 +9,20 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
- 
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 
 
-<style>
 
+    <style>
         #container {
-        border: 12px solid #B22222;
-        border-radius: 10px;
-        margin-top: 15px;
-        margin-bottom: 15px;
+            border: 12px solid #B22222;
+            border-radius: 10px;
+            margin-top: 15px;
+            margin-bottom: 15px;
         }
-       
+
         .formcontainer {
             text-align: left;
             text-align: center;
@@ -70,8 +69,9 @@
         button:hover {
             opacity: 0.8;
         }
-        #id{
-            display :flex;
+
+        #id {
+            display: flex;
         }
 
         span.psw {
@@ -93,40 +93,69 @@
 <body>
     <nav class="navbar navbar-default">
         <div class="container-fluid">
-          <ul class="nav navbar-nav">
-            <li><a href="#" onclick="student_list()">Student list</a></li>
-            <li><a href="#" onclick="student_list()">Student form</a></li>
-          </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="#" onclick="student_list()">Student list</a></li>
+                <li><a href="#" onclick="student()">Student form</a></li>
+            </ul>
         </div>
-      </nav>
-      <h1>student</h1>
-   
+    </nav>
+    <h1>student</h1>
+
     <div class="square" id="form">
         <hr />
         <div class="container">
+
+            Name : <input id="name" value="{{rec['student_name'][0]}}" type="text" name="name" />
+
+            Age : <input id="age" value="{{rec['student_age'][0]}}" type="number" name="age" />
+            {% if update == True %}
+                <button onclick="myFunction()">save</button>
+            {% endif %}
+            {% if post == True %}
+                <button onclick="savedata()">save</button>
+            {% endif %}
+
             
-            Name : <input id="name" value="{{name}}" type="text" name="name" />
-
-            Age : <input id="age" value="{{age}}" type="number" name="age" />
-
-            <button onclick="myFunction()">update</button>
         </div>
     </div>
 
-    
-    
-    <script>
 
-        function myFunction() {
-            console.log('{{data}}')
+
+    <script>
+        function savedata(){
             var name_1 = document.getElementById("name").value;
             var age = Number(document.getElementById("age").value);
-            var id = Number("{{id}}");
+            var obj = { s_name: name_1, age: age};
+            var json = JSON.stringify(obj);
+            $.ajax({
+                url: '/student/' + json,
+                type: 'POST',
+
+
+                success: function (response) {
+                    window.location.href = '/student/'
+                },
+                error: function (error) {
+                    alert('api calling failed')
+                    console.log(error);
+                }
+            });
+        }
+
+
+
+      
+
+        function myFunction() {
+
+            var name_1 = document.getElementById("name").value;
+            var age = Number(document.getElementById("age").value);
+            var id = Number("{{rec['student_id'][0]}}");
             if (age == 0) {
-                age = Number("{{age}}");
+                age = Number("{{rec['student_age'][0]}}");
             }
             if (name_1 == "") {
-                name_1 = "{{name}}";
+                name_1 = "{{rec['student_name'][0]}}";
             }
 
 
@@ -135,9 +164,9 @@
 
             // Converting JS object to JSON string
             var json = JSON.stringify(obj);
-            
 
-            console.log(name_1)
+            console.log("in put")
+            console.log(name_1);
             console.log(age);
             console.log(id);
             console.log(obj)
@@ -155,13 +184,16 @@
                     console.log(error);
                 }
             });
-
-
         }
-        function student_list(){
-        console.log('hello');
-        window.location.href = '/student/'
-      }
+
+
+
+
+
+        function student_list() {
+            console.log('hello');
+            window.location.href = '/student/'
+        }
 
 
 

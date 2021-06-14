@@ -18,7 +18,7 @@ def allowed_file(filename):
 
 @student.route("/submit_form/")
 def submit_form():
-    return render_template("student_create.html")
+    return render_template("update_form.html",metpost=True,rec={'student_name':"",'student_age':0,"student_id":0})
 
 @student.route("/",methods=['GET'])
 def student_list():
@@ -57,42 +57,15 @@ def student_list():
         record=mycursor.fetchall()
         return render_template("student.html",record=record)
 
-@student.route("/",methods=["POST"])
-def create_student():
+@student.route("/<data>",methods=["POST"])
+def create_student(data):
     mydb=read_configconnection()
     mycursor=mydb.cursor()
-    if request.method=='POST':
-
-        name=request.form["name"]
-        
-        if (request.form["age"]).isdigit:
-            age=int(request.form["age"])
-
-        else:
-            return render_template("404.html",error="Feild age should  be a digit or numeric value not  alpa value")
-        """
-        file=request.files['file']
-        
-        print(file.filename)
     
-        if file and allowed_file(file.filename):
-            file_name=secure_filename(file.filename)
-            
-            file.save(os.path.join(os.path.expanduser('~'),upload_folder, file_name))
-        else:
-            return render_template("404.html",error=f"only .txt, .pdf, .png, .jpg, .jpeg,\
-                 .gif,.csv,.docx ")
-        
-        val_1=(file_name,upload_folder)
-        try:
-            sql_1=f"insert into web_data.files (file_name, file_location) values {val_1} "
-            mycursor.execute(sql_1)
-            mydb.commit()
-        except Exception as error:
-            logger.error(f"exception arise : {error}")
-            print(f"Exception arise : {error}")     
-        """
-        val=(name,age)
+    data=json.loads(data)
+    name=data['s_name']
+    age=data['age']
+    val=(name,age)
     
     try:
         sql=f"insert into web_data.student(student_name, student_age) values {val}"
@@ -136,16 +109,22 @@ def remove_student(id):
         
     return "OK"
 
-@student.route("/update_form/<data>")
-def update_form(data):
-    print("----------------------------")
-    print("----------------------------")
-    data=json.loads(data)
-    name=data['name']
-    age=data['age']
-    id=data['id']
-    
-    return render_template("/update_form.html/",name=name,id=id,age=age)
+@student.route("/update_form/")
+def update_form():
+
+    if request.args:
+        student_id=request.args.get('id')
+        mydb=read_configconnection()
+        mycursor=mydb.cursor()
+        
+        df=pd.read_sql(con=mydb, sql=f"select * from  web_data.student where student_id={student_id}")
+        rec=df.to_dict('list')
+        
+        return render_template("/update_form.html/",rec=rec,update=True,post=False)
+    else:
+        rec={'student_name':"",'student_age':0,"student_id":0}
+        return render_template("/update_form.html/",rec=rec,post=True,update=False)
+
 
 
 @student.route("/<data>",methods=["PUT"])
