@@ -67,10 +67,10 @@ def create_student(data):
     mydb=read_configconnection()
     mycursor=mydb.cursor()
     
-    data=json.loads(data)
-    name=data['s_name']
-    age=data['age']
-    val=(name,age)
+    student_data=json.loads(data)
+    student_name=student_data['student_name']
+    student_age=student_data['student_age']
+    val=(student_name,student_age)
     
     try:
         sql=f"insert into web_data.student(student_name, student_age) values {val}"
@@ -99,23 +99,18 @@ def remove_student(id):
         try:
             sql=f"delete from  web_data.student where student_id={id} "
             mycursor.execute(sql)
-            mydb.commit()
-            
+            mydb.commit()            
             logger.debug(f"record of id = {id} is deleted from the database")
-
         except Exception as error:
             logger.error(f"exception arise : {error}")
             print(f"Exception arise : {error}")
             return render_template("404.html",error=error)
-
         finally:
-            mydb.close()
-        
+            mydb.close()       
     return "DELETED"
 
 @student.route("/studentForm/",methods=["GET"])
 def studentForm():
-
     if request.args:
         student_id=request.args.get('id')
         mydb=read_configconnection()
@@ -145,9 +140,7 @@ def student_update(data):
         print(f"error arise : {error}")
         return render_template("404.html",error=error)
     finally:
-        mydb.close()
-    
-    
+        mydb.close() 
     return 'updated'
     
 

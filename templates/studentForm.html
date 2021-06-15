@@ -116,11 +116,11 @@
     <script>
         function save_student() {
             var student_name = document.getElementById("name").value;
-            var age = Number(document.getElementById("age").value);
-            var obj = { s_name: student_name, age: age };
-            var json = JSON.stringify(obj);
+            var student_age = Number(document.getElementById("age").value);
+            var student_obj = { student_name: student_name, student_age: student_age };
+            var student = JSON.stringify(student_obj);
             $.ajax({
-                url: '/student/' + json,
+                url: '/student/' + student,
                 type: 'POST',
                 success: function (response) {
                     window.location.href = '/student/'
