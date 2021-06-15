@@ -16,9 +16,6 @@ student=Blueprint("student",__name__,template_folder="templates")
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extension
 
-@student.route("/submit_form/")
-def submit_form():
-    return render_template("update_form.html",metpost=True,rec={'student_name':"",'student_age':0,"student_id":0})
 
 @student.route("/",methods=['GET'])
 def student_list():
@@ -26,16 +23,24 @@ def student_list():
     if request.args:
         mydb=read_configconnection()
         mycursor=mydb.cursor()
-        dict_1=request.args.to_dict()
+        query_params_dict=request.args.to_dict()
         sql="select * from  web_data.student " 
         no_of_cond=0
-        print(dict_1)
-        for i in list(dict_1.keys()):
+        print(query_params_dict)
+        for i in list(query_params_dict.keys()):
             if no_of_cond==0:
-                sql=sql+f"  where {i}={dict_1[i]}"
+                if (query_params_dict[i]).isalpha:
+                    sql=sql+f"  where {i}='{query_params_dict[i]}' "
+                else:
+                    sql=sql+f" and {i}=int({query_params_dict[i]})"
+
                 no_of_cond=1
             else:
-                sql=sql+f" and {i}={dict_1[i]}"
+                if (query_params_dict[i]).isalpha:
+                    sql=sql+f" and {i}='{query_params_dict[i]}' "
+                else:
+                    sql=sql+f" and {i}=int({query_params_dict[i]})"
+
                 
         print(sql)
         try:
@@ -44,7 +49,7 @@ def student_list():
         except Exception as error:
             return render_template("404.html",error=error)
         if record==[]:
-            message=f"error :'data at {dict_1} not found '"
+            message=f"error :'data at {query_params_dict} not found '"
             return render_template("404.html",error=message)
         else:
             return render_template("student.html",record=record)
@@ -91,7 +96,6 @@ def remove_student(id):
         mydb=read_configconnection()
         mycursor=mydb.cursor()
 
-
         try:
             sql=f"delete from  web_data.student where student_id={id} "
             mycursor.execute(sql)
@@ -107,40 +111,33 @@ def remove_student(id):
         finally:
             mydb.close()
         
-    return "OK"
+    return "DELETED"
 
-@student.route("/update_form/")
-def update_form():
+@student.route("/studentForm/",methods=["GET"])
+def studentForm():
 
     if request.args:
         student_id=request.args.get('id')
         mydb=read_configconnection()
-        mycursor=mydb.cursor()
-        
         df=pd.read_sql(con=mydb, sql=f"select * from  web_data.student where student_id={student_id}")
-        rec=df.to_dict('list')
-        
-        return render_template("/update_form.html/",rec=rec,update=True,post=False)
+        record=df.to_dict('list')
+        return render_template("/studentForm.html/",record=record,update=True,post=False)
     else:
-        rec={'student_name':"",'student_age':0,"student_id":0}
-        return render_template("/update_form.html/",rec=rec,post=True,update=False)
-
+        record={'student_name':"",'student_age':0,"student_id":0}
+        return render_template("/studentForm.html/",record=record,post=True,update=False)
 
 
 @student.route("/<data>",methods=["PUT"])
 def student_update(data):
     mydb=read_configconnection()
     mycursor=mydb.cursor()
-    data=json.loads(data)
-    s_name=data["s_name"]
-    age=data['age']
-    student_id=data['id']
-
-    
-    
+    student_data=json.loads(data)
+    student_name=student_data["student_name"]
+    student_age=student_data['student_age']
+    student_id=student_data['student_id']
     try:
-        sql=f"update web_data.student set student_name='{s_name}',\
-        student_age={age} where student_id={student_id}"
+        sql=f"update web_data.student set student_name='{student_name}',\
+        student_age={student_age} where student_id={student_id}"
         mycursor.execute(sql)
         mydb.commit()
         print(f"Data updatated successfully")

@@ -11,7 +11,7 @@ logger=logger()
 auth=Blueprint("auth",__name__,template_folder="templates")
 @auth.route("/")
 def home():
-    return render_template('login.html')
+    return render_template('home.html')
 
 @auth.route("/login/",methods=['POST'])
 def login():
@@ -26,10 +26,10 @@ def login():
         account = mycursor.fetchone()
         if account:
             msg='account logged in'
-            return render_template('login.html',msg=msg)
+            return render_template('home.html',msg=msg)
         else:
             msg = 'Incorrect username / password !'
-            return render_template('login.html',msg=msg)
+            return render_template('home.html',msg=msg)
         
 
     
