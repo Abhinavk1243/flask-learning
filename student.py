@@ -2,11 +2,14 @@ import json
 import pandas as pd
 import os
 from datetime import datetime
-from flask import Blueprint,render_template,redirect,url_for,request,jsonify,flash
-from models import read_configconnection,logger
-from df_sql import csv_to_table,create_table,checkTableExists
+from flask import Blueprint,render_template,redirect,url_for,request,jsonify,flash,session
+from models import mysl_pool_connection,logger
+#from df_sql import csv_to_table,create_table,checkTableExists
 from werkzeug.utils import secure_filename
 logger=logger()
+
+pool_cnxn=mysl_pool_connection()
+mycursor=pool_cnxn.cursor()
 
 upload_folder="flask-learning\\files"
 allowed_extension = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif','csv','docx'}
@@ -21,8 +24,8 @@ def allowed_file(filename):
 def student_list():
     
     if request.args:
-        mydb=read_configconnection()
-        mycursor=mydb.cursor()
+            
+        mycursor=pool_cnxn.cursor()
         query_params_dict=request.args.to_dict()
         sql="select * from  web_data.student " 
         no_of_cond=0
@@ -41,7 +44,7 @@ def student_list():
                 else:
                     sql=sql+f" and {i}=int({query_params_dict[i]})"
 
-                
+                    
         print(sql)
         try:
             mycursor.execute(sql)
@@ -53,19 +56,19 @@ def student_list():
             return render_template("404.html",error=message)
         else:
             return render_template("student.html",record=record)
-        
-    else:
-        mydb=read_configconnection()
-        mycursor=mydb.cursor()
+            
+    else:            
+        mycursor=pool_cnxn.cursor()
         sql="select * from  web_data.student "
         mycursor.execute(sql)
         record=mycursor.fetchall()
         return render_template("student.html",record=record)
+    
 
 @student.route("/<data>",methods=["POST"])
 def create_student(data):
-    mydb=read_configconnection()
-    mycursor=mydb.cursor()
+    
+    mycursor=pool_cnxn.cursor()
     
     student_data=json.loads(data)
     student_name=student_data['student_name']
@@ -75,7 +78,7 @@ def create_student(data):
     try:
         sql=f"insert into web_data.student(student_name, student_age) values {val}"
         mycursor.execute(sql)
-        mydb.commit()
+        pool_cnxn.commit()
         logger.debug(f"data {val} successfully inserted")
         print("data inserted")
 
@@ -83,38 +86,33 @@ def create_student(data):
         logger.error(f"exception arise : {error}")
         print(f"Exception arise : {error}")
         return render_template("404.html",error=error)
-
-    finally:
-        mydb.close()
-    
     return redirect(url_for("student.student_list"))
 
 
-@student.route("/<int:id>",methods=['DELETE'])
-def remove_student(id):
-    if request.method=='DELETE':
-        mydb=read_configconnection()
-        mycursor=mydb.cursor()
+@student.route("/<int:student_id>",methods=['DELETE'])
+def remove_student(student_id):
+    if request.method=='DELETE':        
+        mycursor=pool_cnxn.cursor()
 
         try:
-            sql=f"delete from  web_data.student where student_id={id} "
+            sql=f"delete from  web_data.student where student_id={student_id} "
             mycursor.execute(sql)
-            mydb.commit()            
+            pool_cnxn.commit()            
             logger.debug(f"record of id = {id} is deleted from the database")
         except Exception as error:
             logger.error(f"exception arise : {error}")
             print(f"Exception arise : {error}")
             return render_template("404.html",error=error)
-        finally:
-            mydb.close()       
+        
+                  
     return "DELETED"
 
 @student.route("/studentForm/",methods=["GET"])
 def studentForm():
     if request.args:
         student_id=request.args.get('id')
-        mydb=read_configconnection()
-        df=pd.read_sql(con=mydb, sql=f"select * from  web_data.student where student_id={student_id}")
+        
+        df=pd.read_sql(con=pool_cnxn, sql=f"select * from  web_data.student where student_id={student_id}")
         record=df.to_dict('list')
         return render_template("/studentForm.html/",record=record,update=True,post=False)
     else:
@@ -124,8 +122,8 @@ def studentForm():
 
 @student.route("/<data>",methods=["PUT"])
 def student_update(data):
-    mydb=read_configconnection()
-    mycursor=mydb.cursor()
+    
+    mycursor=pool_cnxn.cursor()
     student_data=json.loads(data)
     student_name=student_data["student_name"]
     student_age=student_data['student_age']
@@ -134,15 +132,16 @@ def student_update(data):
         sql=f"update web_data.student set student_name='{student_name}',\
         student_age={student_age} where student_id={student_id}"
         mycursor.execute(sql)
-        mydb.commit()
+        pool_cnxn.commit()
         print(f"Data updatated successfully")
     except Exception as error:
         print(f"error arise : {error}")
         return render_template("404.html",error=error)
-    finally:
-        mydb.close() 
+    
+        
     return 'updated'
     
+
 
 
 

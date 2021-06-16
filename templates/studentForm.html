@@ -91,6 +91,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="#" onclick="student_list()">Student list</a></li>
                 <li><a href="#" onclick="student()">Student form</a></li>
+                <li id="logout"><a href="#" onclick="logout()">logout</a></li>
             </ul>
         </div>
     </nav>
@@ -160,6 +161,9 @@
         function student_list() {
             window.location.href = '/student/'
         }
+        function logout(){
+      window.location.href = '/auth/logout/'
+    }
 
     </script>
 

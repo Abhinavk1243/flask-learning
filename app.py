@@ -1,11 +1,12 @@
 
-from flask import Flask,render_template,request,redirect,url_for
+from flask import Flask,render_template,request,redirect,url_for,session
 from models import logger
 logger=logger()
 from student import student
 from auth import auth
 from flask import Flask
 app=Flask(__name__)
+app.secret_key="Abhinav154543"
 
 @app.errorhandler(405)
 def not_found(e):
@@ -19,12 +20,26 @@ def not_found(e):
 def not_found(e):
   return  render_template("500.html",error=e)
 
+@app.before_request
+def before_user():
+  if request.path=="/":
+    return None
+  if request.path=="/auth/login/":
+    return None
+  if request.path=="/auth/signup/":
+    return None
+  if "user" not in session:
+    msg="please logged in !"
+    return render_template('home.html',msg=msg)
 
-app.register_blueprint(student,url_prefix="/student")
-app.register_blueprint(auth,url_prefix="/auth")
+
 @app.route("/")
-def info():
-    return "/student/"
+def home():
+  return render_template('home.html')
+
+app.register_blueprint(auth,url_prefix="/auth")
+app.register_blueprint(student,url_prefix="/student")
+
 
 if __name__=="__main__":
     app.run(debug=True)

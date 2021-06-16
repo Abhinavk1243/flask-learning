@@ -2,8 +2,11 @@ from datetime import datetime
 import mysql.connector as msc 
 import pandas as pd
 
-from models import read_configconnection,logger,getconfig
+from models import mysl_pool_connection,logger,getconfig
 logger=logger()
+
+pool_cnxn=mysl_pool_connection()
+mycursor=pool_cnxn.cursor()
 
 def csv_to_table(file_name,table_name):
     """ Method insert a data of csv file in sql table
@@ -13,8 +16,8 @@ def csv_to_table(file_name,table_name):
     """
 
     df=pd.read_csv(f"./files/{file_name}",sep="|")
-    mydb=read_configconnection()
-    mycursor=mydb.cursor()
+    
+    
     database=getconfig("mysql","database")
     
     cols_1=df.columns
@@ -38,7 +41,7 @@ def csv_to_table(file_name,table_name):
         logger.error(f"Exception arise : {error}")
     
     finally:
-        mydb.commit()
+        pool_cnxn.commit()
 
             
 def  table_to_csv(table_name,file_name):
@@ -52,16 +55,16 @@ def  table_to_csv(table_name,file_name):
         object: dataframe of sql table
     """
 
-    mydb=read_configconnection()
+    
     db=getconfig("mysql","database")
     try:
-        df=pd.read_sql(con=mydb, sql=f"SELECT * FROM {db}.{table_name}")
+        df=pd.read_sql(con=pool_cnxn, sql=f"SELECT * FROM {db}.{table_name}")
         df.to_csv(f"./files/{file_name}",sep="|",index=False)
         logger.debug(f"data of table : {table_name}  is stored in csv file :{file_name} ")  
     except Exception as error:
         logger.error(f"Exception arise : {error}")
     finally:
-        mydb.close()
+        pool_cnxn.close()
 
         
 
@@ -73,8 +76,8 @@ def create_table(file_name,table_name):
         file_name (str): name of csv file
         table_name (str): name of table want to created
     """
-    mydb=read_configconnection()
-    mycursor=mydb.cursor()
+    
+    
     df=pd.DataFrame()
 
     try:
@@ -121,7 +124,7 @@ def create_table(file_name,table_name):
         #print(f"create table test_db.{file_name}({table_schema})")
         sql=f"CREATE TABLE {db}.{table_name}({table_schema})"
         mycursor.execute(sql)
-        mydb.commit()
+        pool_cnxn.commit()
         logger.debug(f"create table {db}.{table_name}({cols}) ")
     except Exception as error:
         logger.error(f"exception arise : {error}")
@@ -129,8 +132,8 @@ def create_table(file_name,table_name):
     
 
 def checkTableExists(tablename):
-    mydb=read_configconnection()
-    mycursor=mydb.cursor()
+    
+    
     print(f"SELECT COUNT(*) FROM information_schema.tables \
         WHERE TABLE_SCHEMA = 'web_data' AND TABLE_NAME = '{tablename}' ")
     mycursor.execute(f"SELECT COUNT(*) FROM information_schema.tables \
