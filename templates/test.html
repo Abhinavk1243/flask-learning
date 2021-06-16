@@ -23,7 +23,7 @@
 		integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
 	
-	<!--<style>
+	<style>
 		
 		body {
     display: 'flexbox';
@@ -391,7 +391,7 @@
     }
 
  }
-	</style>-->
+	</style>
 	
 	
 	<script>
@@ -437,40 +437,13 @@
 					</div>
 				</div>
 			</form>
-			<div class="navbar-nav ml-auto action-buttons">
-				<div class="nav-item dropdown">
-					<a href="#" data-toggle="dropdown" class="btn btn-primary dropdown-toggle sign-up-btn">Sign up</a>
-					<div class="dropdown-menu action-form">
-						<form action="/auth/signup/" method="POST">
-							<p class="hint-text">Fill in this form to create your account!</p>
-							<div class="form-group">
-								<input type="text" class="form-control" placeholder="Enter username" name="username" required>
-							</div>
-							<div class="form-group">
-								<input type="password" class="form-control" placeholder="password" name="password" required>
-							</div>
-							<div class="form-group">
-								<input type="password" class="form-control" placeholder="renter-password" name="psw_repeat" required>
-							</div>
-							<div class="form-group">
-								<input type="text" class="form-control" placeholder="email" name="email" required>
-							</div>
-							<p>{{msg_reg}}</p>
-							<div class="form-group">
-								<label class="form-check-label"><input type="checkbox" required="required"> I accept the
-									<a href="#">Terms &amp; Conditions</a></label>
-							</div>
-							<input type="submit" class="btn btn-primary btn-block" value="Sign up">
-						</form>
-					</div>
-				</div>
-			</div>
+			
 		</div>
 	</nav>
 
 	</div>
 	<div id="logreg-forms">
-		<form class="form-signin" action="/auth/login/" method="post">
+		
 			<h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Sign in</h1>
 			<div class="social-login">
 				<button class="btn facebook-btn social-btn" type="button"><span><i class="fab fa-facebook-f"></i> Sign
@@ -486,13 +459,7 @@
 			<button class="btn btn-success btn-block" type="submit"><i class="fas fa-sign-in-alt"></i> Sign in</button>
 			<a href="#" id="forgot_pswd">Forgot password?</a>
 			<hr>
-		</form>
-		<form action="/reset/password/" class="form-reset">
-			<input type="email" id="resetEmail" class="form-control" placeholder="Email address" required=""
-				autofocus="">
-			<button class="btn btn-primary btn-block" type="submit">Reset Password</button>
-			<a href="#" id="cancel_reset"><i class="fas fa-angle-left"></i> Back</a>
-		</form>
+		
 	</div>
 
 </body>

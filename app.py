@@ -22,24 +22,24 @@ def not_found(e):
 
 @app.before_request
 def before_user():
-  if request.path=="/":
-    return None
-  if request.path=="/auth/login/":
-    return None
-  if request.path=="/auth/signup/":
-    return None
-  if "user" not in session:
-    msg="please logged in !"
-    return render_template('home.html',msg=msg)
-
+      if request.path=="/":
+        return None
+      if request.path=="/auth/login/":
+        return None
+      if request.path=="/auth/signup/":
+        return None
+      if request.path=="/static/custom.css":
+        return None
+      if "user" not in session:
+        msg="please logged in !"
+        return render_template('home.html',msg=msg)
 
 @app.route("/")
 def home():
-  return render_template('home.html')
+      return render_template('home.html')
 
 app.register_blueprint(auth,url_prefix="/auth")
 app.register_blueprint(student,url_prefix="/student")
-
 
 if __name__=="__main__":
     app.run(debug=True)

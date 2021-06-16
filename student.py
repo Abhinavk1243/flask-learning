@@ -6,14 +6,19 @@ from flask import Blueprint,render_template,redirect,url_for,request,jsonify,fla
 from models import mysl_pool_connection,logger
 #from df_sql import csv_to_table,create_table,checkTableExists
 from werkzeug.utils import secure_filename
+
+#looger
 logger=logger()
 
+#pool connection
 pool_cnxn=mysl_pool_connection()
 mycursor=pool_cnxn.cursor()
 
+#file uplaoder
 upload_folder="flask-learning\\files"
 allowed_extension = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif','csv','docx'}
 
+#make student blueprint
 student=Blueprint("student",__name__,template_folder="templates")
 
 def allowed_file(filename):
@@ -21,10 +26,8 @@ def allowed_file(filename):
 
 
 @student.route("/",methods=['GET'])
-def student_list():
-    
-    if request.args:
-            
+def student_list():    
+    if request.args:            
         mycursor=pool_cnxn.cursor()
         query_params_dict=request.args.to_dict()
         sql="select * from  web_data.student " 
@@ -43,9 +46,6 @@ def student_list():
                     sql=sql+f" and {i}='{query_params_dict[i]}' "
                 else:
                     sql=sql+f" and {i}=int({query_params_dict[i]})"
-
-                    
-        print(sql)
         try:
             mycursor.execute(sql)
             record=mycursor.fetchall()
@@ -55,8 +55,7 @@ def student_list():
             message=f"error :'data at {query_params_dict} not found '"
             return render_template("404.html",error=message)
         else:
-            return render_template("student.html",record=record)
-            
+            return render_template("student.html",record=record)            
     else:            
         mycursor=pool_cnxn.cursor()
         sql="select * from  web_data.student "
@@ -66,10 +65,8 @@ def student_list():
     
 
 @student.route("/<data>",methods=["POST"])
-def create_student(data):
-    
-    mycursor=pool_cnxn.cursor()
-    
+def create_student(data):    
+    mycursor=pool_cnxn.cursor()    
     student_data=json.loads(data)
     student_name=student_data['student_name']
     student_age=student_data['student_age']
@@ -81,19 +78,16 @@ def create_student(data):
         pool_cnxn.commit()
         logger.debug(f"data {val} successfully inserted")
         print("data inserted")
-
     except Exception as error:
         logger.error(f"exception arise : {error}")
         print(f"Exception arise : {error}")
         return render_template("404.html",error=error)
     return redirect(url_for("student.student_list"))
 
-
 @student.route("/<int:student_id>",methods=['DELETE'])
 def remove_student(student_id):
     if request.method=='DELETE':        
         mycursor=pool_cnxn.cursor()
-
         try:
             sql=f"delete from  web_data.student where student_id={student_id} "
             mycursor.execute(sql)
@@ -102,16 +96,13 @@ def remove_student(student_id):
         except Exception as error:
             logger.error(f"exception arise : {error}")
             print(f"Exception arise : {error}")
-            return render_template("404.html",error=error)
-        
-                  
+            return render_template("404.html",error=error)                 
     return "DELETED"
 
 @student.route("/studentForm/",methods=["GET"])
 def studentForm():
     if request.args:
-        student_id=request.args.get('id')
-        
+        student_id=request.args.get('id')        
         df=pd.read_sql(con=pool_cnxn, sql=f"select * from  web_data.student where student_id={student_id}")
         record=df.to_dict('list')
         return render_template("/studentForm.html/",record=record,update=True,post=False)
@@ -121,8 +112,7 @@ def studentForm():
 
 
 @student.route("/<data>",methods=["PUT"])
-def student_update(data):
-    
+def student_update(data):    
     mycursor=pool_cnxn.cursor()
     student_data=json.loads(data)
     student_name=student_data["student_name"]
@@ -137,8 +127,6 @@ def student_update(data):
     except Exception as error:
         print(f"error arise : {error}")
         return render_template("404.html",error=error)
-    
-        
     return 'updated'
     
 

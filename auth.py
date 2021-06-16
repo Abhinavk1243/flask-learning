@@ -14,14 +14,12 @@ mycursor=mydb.cursor()
 auth=Blueprint("auth",__name__,template_folder="templates")
 
 
-@auth.route("/login/",methods=['POST'])
+@auth.route("/login/",methods=['GET','POST'])
 def login():
-    print("-----------------------------------------")
-    print("login")
     if request.method=='POST':
-        username=request.form['uname']
+        username=request.form['username']
         password=request.form['psw']
-        mycursor.execute(f"SELECT * FROM web_data.user WHERE username = '{username}'  AND user_psw='{password}' ")
+        mycursor.execute(f"select * from web_data.user WHERE username = '{username}'  and password ='{password}' ")
         account = mycursor.fetchone()
         if account:
             session['loggedin']=True
@@ -33,6 +31,8 @@ def login():
 
             msg = 'Incorrect username / password !'
             return render_template('home.html',msg=msg)
+    else:
+        return redirect(url_for("home"))
         
 @auth.route("/logout/",methods=['GET'])
 def logout():
@@ -42,7 +42,7 @@ def logout():
     
 @auth.route("/signup/",methods=['POST'])
 def regiteration():
-    msg = ''
+    msg_reg = ''
     if request.method == 'POST' :
         username = request.form['username']
         password = request.form['password']
@@ -53,23 +53,23 @@ def regiteration():
         mycursor.execute(f"SELECT * FROM web_data.user WHERE email_id= '{email_id}'")
         email_registered = mycursor.fetchone()
         if account:
-            msg = 'Account already exists !'
+            msg_reg = 'Account already exists !'
         elif email_registered:
-            msg = 'Email id already registered !'
+            msg_reg = 'Email id already registered !'
         elif not re.match(r'[^@]+@[^@]+\.[^@]+', email_id):
-            msg = 'Invalid email address !'
+            msg_reg = 'Invalid email address !'
         elif not re.match(r'[A-Za-z0-9]+', username):
-            msg = 'Username must contain only characters and numbers !'
+            msg_reg= 'Username must contain only characters and numbers !'
         elif not username or not password or not email_id:
-            msg = 'Please fill out the form !'
+            msg_reg = 'Please fill out the form !'
 
         elif password!=re_pass:
-            msg="password does not match with above"
+            msg_reg="password does not match with above"
         else:
             """val=(username,password,email_id)
             print(f'INSERT INTO web_data.user( username, user_psw, email_id) VALUES {val}')
             mycursor.execute(f'INSERT INTO web_data.user( username, user_psw, email_id) VALUES {val}')
             mydb.commit()"""
-            msg = 'You have successfully registered !'
+            msg_reg = 'You have successfully registered !'
         
-    return render_template('home.html',msg=msg)
+    return render_template('home.html',msg_reg=msg_reg)
