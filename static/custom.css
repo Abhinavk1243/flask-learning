@@ -441,3 +441,8 @@ span.psw {
     padding-top: 0;
     padding-right: 15px;
 }
+
+#message-form{
+    color:red;
+}
+

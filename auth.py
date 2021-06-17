@@ -1,9 +1,10 @@
 import json
+import hashlib
 import re
 import pandas as pd
 import os
 from datetime import datetime
-from flask import Blueprint,render_template,redirect,url_for,request,jsonify,flash,session
+from flask import Blueprint,render_template,redirect,url_for,request,jsonify,flash,session,g
 from models import mysl_pool_connection,logger
 from werkzeug.utils import secure_filename
 logger=logger()
@@ -19,11 +20,22 @@ def login():
     if request.method=='POST':
         username=request.form['username']
         password=request.form['psw']
-        mycursor.execute(f"select * from web_data.user WHERE username = '{username}'  and password ='{password}' ")
-        account = mycursor.fetchone()
+        sql=f"select user.username,user.password,roles.name,roles.id from web_data.user cross join web_data.roles on user.role=roles.id  WHERE username = '{username}'  and password =MD5('{password}') "
+        mycursor.execute(sql) 
+        account = mycursor.fetchall()
+        print(account)
+        
         if account:
+            role_list=[]
+            if len(account)>1:
+                for i in account:
+                    role_list.append(i[-2])
+                    g.role=role_list
+            else:
+                g.role=[account[0][-2]]
             session['loggedin']=True
-            session['user']=username            
+            session['user']=username  
+            #return f"hello {session['role']} "
             return redirect(url_for("student.student_list"))
         else:
             if "user" in session:
@@ -33,6 +45,7 @@ def login():
             return render_template('home.html',msg=msg)
     else:
         return redirect(url_for("home"))
+    #return f" hello {account} {account[0][-2]}"
         
 @auth.route("/logout/",methods=['GET'])
 def logout():
@@ -40,36 +53,33 @@ def logout():
     session.pop("user",None)
     return redirect(url_for("home"))
     
-@auth.route("/signup/",methods=['POST'])
+@auth.route("/signup/",methods=['POST','GET'])
 def regiteration():
-    msg_reg = ''
+    msg = ''
     if request.method == 'POST' :
         username = request.form['username']
         password = request.form['password']
-        re_pass=request.form['psw_repeat']
+        re_pass=request.form["re-password"]
         email_id = request.form['email']
         mycursor.execute(f"SELECT * FROM web_data.user WHERE username = '{username}'")
         account = mycursor.fetchone()
         mycursor.execute(f"SELECT * FROM web_data.user WHERE email_id= '{email_id}'")
         email_registered = mycursor.fetchone()
         if account:
-            msg_reg = 'Account already exists !'
+            msg = 'Account already exists !'
         elif email_registered:
-            msg_reg = 'Email id already registered !'
-        elif not re.match(r'[^@]+@[^@]+\.[^@]+', email_id):
-            msg_reg = 'Invalid email address !'
-        elif not re.match(r'[A-Za-z0-9]+', username):
-            msg_reg= 'Username must contain only characters and numbers !'
-        elif not username or not password or not email_id:
-            msg_reg = 'Please fill out the form !'
-
-        elif password!=re_pass:
-            msg_reg="password does not match with above"
+            msg = 'Email id already registered !'
         else:
             """val=(username,password,email_id)
             print(f'INSERT INTO web_data.user( username, user_psw, email_id) VALUES {val}')
             mycursor.execute(f'INSERT INTO web_data.user( username, user_psw, email_id) VALUES {val}')
             mydb.commit()"""
-            msg_reg = 'You have successfully registered !'
-        
-    return render_template('home.html',msg_reg=msg_reg)
+            msg = 'You have successfully registered !'
+        return render_template('signup.html',msg=msg)   
+    else:
+        return render_template('signup.html',msg=msg)
+
+
+"""m = hashlib.md5()
+m.update(b"abhi12")
+print (m.hexdigest())"""

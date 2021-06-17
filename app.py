@@ -1,12 +1,28 @@
 
-from flask import Flask,render_template,request,redirect,url_for,session
+from flask import Flask,render_template,request,redirect,url_for,session,g
 from models import logger
 logger=logger()
 from student import student
 from auth import auth
 from flask import Flask
+from functools import wraps
 app=Flask(__name__)
 app.secret_key="Abhinav154543"
+"""
+def get_current_user_role():
+      return g.role
+def required_roles(*roles):
+      def wrapper(f):
+            @wraps(f)
+            def wrapped(*args, **kwargs):
+                  if get_current_user_role() not in roles:
+                        flash('Authentication error, please check your details and try again','error')
+                        return redirect(url_for('index'))
+return f(*args, **kwargs)
+      return wrapped
+  return wrapper
+ 
+"""
 
 @app.errorhandler(405)
 def not_found(e):

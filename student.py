@@ -2,10 +2,11 @@ import json
 import pandas as pd
 import os
 from datetime import datetime
-from flask import Blueprint,render_template,redirect,url_for,request,jsonify,flash,session
+from flask import Blueprint,render_template,redirect,url_for,request,jsonify,flash,session,g
 from models import mysl_pool_connection,logger
 #from df_sql import csv_to_table,create_table,checkTableExists
 from werkzeug.utils import secure_filename
+from functools import wraps
 
 #looger
 logger=logger()
@@ -21,10 +22,21 @@ allowed_extension = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif','csv','docx'}
 #make student blueprint
 student=Blueprint("student",__name__,template_folder="templates")
 
+
+def required_roles(*roles):
+    def wrapper(f):
+        @wraps(f)
+        def wrapped(*args, **kwargs):
+            if g.role not in roles:
+                return redirect(url_for('home'))
+            return f(*args, **kwargs)
+        return wrapped
+    return wrapper
+
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extension
 
-
+#@required_roles("Admin")
 @student.route("/",methods=['GET'])
 def student_list():    
     if request.args:            
@@ -65,39 +77,45 @@ def student_list():
     
 
 @student.route("/<data>",methods=["POST"])
-def create_student(data):    
-    mycursor=pool_cnxn.cursor()    
-    student_data=json.loads(data)
-    student_name=student_data['student_name']
-    student_age=student_data['student_age']
-    val=(student_name,student_age)
-    
-    try:
-        sql=f"insert into web_data.student(student_name, student_age) values {val}"
-        mycursor.execute(sql)
-        pool_cnxn.commit()
-        logger.debug(f"data {val} successfully inserted")
-        print("data inserted")
-    except Exception as error:
-        logger.error(f"exception arise : {error}")
-        print(f"Exception arise : {error}")
-        return render_template("404.html",error=error)
-    return redirect(url_for("student.student_list"))
-
-@student.route("/<int:student_id>",methods=['DELETE'])
-def remove_student(student_id):
-    if request.method=='DELETE':        
-        mycursor=pool_cnxn.cursor()
+def create_student(data):   
+    if session["Admin"]: 
+        mycursor=pool_cnxn.cursor()    
+        student_data=json.loads(data)
+        student_name=student_data['student_name']
+        student_age=student_data['student_age']
+        val=(student_name,student_age)
+        
         try:
-            sql=f"delete from  web_data.student where student_id={student_id} "
+            sql=f"insert into web_data.student(student_name, student_age) values {val}"
             mycursor.execute(sql)
-            pool_cnxn.commit()            
-            logger.debug(f"record of id = {id} is deleted from the database")
+            pool_cnxn.commit()
+            logger.debug(f"data {val} successfully inserted")
+            print("data inserted")
         except Exception as error:
             logger.error(f"exception arise : {error}")
             print(f"Exception arise : {error}")
-            return render_template("404.html",error=error)                 
-    return "DELETED"
+            return render_template("404.html",error=error)
+        return redirect(url_for("student.student_list"))
+    else:
+        return redirect(url_for("student.student_list"))
+
+@student.route("/<int:student_id>",methods=['DELETE'])
+def remove_student(student_id):
+    if session["Admin"]: 
+        if request.method=='DELETE':        
+            mycursor=pool_cnxn.cursor()
+            try:
+                sql=f"delete from  web_data.student where student_id={student_id} "
+                mycursor.execute(sql)
+                pool_cnxn.commit()            
+                logger.debug(f"record of id = {id} is deleted from the database")
+            except Exception as error:
+                logger.error(f"exception arise : {error}")
+                print(f"Exception arise : {error}")
+                return render_template("404.html",error=error)                 
+        return "DELETED"
+    else:
+        return "Not authorized"
 
 @student.route("/studentForm/",methods=["GET"])
 def studentForm():
@@ -112,23 +130,25 @@ def studentForm():
 
 
 @student.route("/<data>",methods=["PUT"])
-def student_update(data):    
-    mycursor=pool_cnxn.cursor()
-    student_data=json.loads(data)
-    student_name=student_data["student_name"]
-    student_age=student_data['student_age']
-    student_id=student_data['student_id']
-    try:
-        sql=f"update web_data.student set student_name='{student_name}',\
-        student_age={student_age} where student_id={student_id}"
-        mycursor.execute(sql)
-        pool_cnxn.commit()
-        print(f"Data updatated successfully")
-    except Exception as error:
-        print(f"error arise : {error}")
-        return render_template("404.html",error=error)
-    return 'updated'
-    
+def student_update(data): 
+    if session["Admin"]:    
+        mycursor=pool_cnxn.cursor()
+        student_data=json.loads(data)
+        student_name=student_data["student_name"]
+        student_age=student_data['student_age']
+        student_id=student_data['student_id']
+        try:
+            sql=f"update web_data.student set student_name='{student_name}',\
+            student_age={student_age} where student_id={student_id}"
+            mycursor.execute(sql)
+            pool_cnxn.commit()
+            print(f"Data updatated successfully")
+        except Exception as error:
+            print(f"error arise : {error}")
+            return render_template("404.html",error=error)
+        return 'updated'
+    else:
+        return "not authorized"
 
 
 
