@@ -39,6 +39,7 @@
   <script language=javascript src="https://code.jquery.com/jquery-3.5.1.js"></script>
   <script language=javascript src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
   <link rel="stylesheet" href="/static/custom.css">
+  
 
 
   <script>
@@ -102,7 +103,9 @@
     function logout() {
       window.location.href = '/auth/logout/'
     }
-
+    function go_to_AdminPanel(){
+      window.location.href = '/admin/';
+    }
   </script>
 </head>
 
@@ -118,6 +121,9 @@
         <a href="#" onclick='go_to_homepage()' class="nav-item nav-link">Home</a>
         <a href="#" class="nav-item nav-link active">Students</a>
         <a href="#" onclick='student_form()' class="nav-item nav-link">StudentForm</a>
+        {% if admin %}
+          <a href='#' onclick="go_to_AdminPanel()" class="nav-item nav-link">Admin Panel</a>
+        {% endif %}
         <div class="nav-item dropdown">
           <a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle">Services</a>
           <div class="dropdown-menu">
@@ -127,14 +133,16 @@
             <a href="#" class="dropdown-item">Digital Marketing</a>
           </div>
         </div>
-
-
-
       </div>
-
-
-
     </div>
+    <div class="navbar-nav" style="padding-right: 23px;">
+      {% if admin %}
+        <p>Hi Admin {{user}}</p>
+      {% elif admin==False %}
+        <p>Hi  {{user}}</p>
+      {% endif %}
+    </div>
+    
     <div class="navbar-nav ml-auto action-buttons">
       <a href="#" onclick='logout()' data-toggle="dropdown"
         class="btn btn-primary dropdown-toggle sign-up-btn">logout</a>
@@ -142,6 +150,23 @@
 
 
   </nav>
+
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+      {% for category, message in messages %}
+          <div class="alert alert-danger">
+            <strong>Access Denied!</strong>
+              <span>{{ message }}</span>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true" style="font-size: 37px;color: darkred;">×</span>
+              </button>
+          </div>
+      {% endfor %}
+  {% endif %}
+{% endwith %}
+</div>
 
 
   <div class='container' id="table_cont">
@@ -183,8 +208,7 @@
         {% endfor %}
       </tbody>
     </table>
-  </div>
-
+  
 
 </body>
 

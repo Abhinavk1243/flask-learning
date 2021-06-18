@@ -14,13 +14,14 @@ mycursor=mydb.cursor()
 
 auth=Blueprint("auth",__name__,template_folder="templates")
 
-
 @auth.route("/login/",methods=['GET','POST'])
 def login():
     if request.method=='POST':
         username=request.form['username']
         password=request.form['psw']
-        sql=f"select user.username,user.password,roles.name,roles.id from web_data.user cross join web_data.roles on user.role=roles.id  WHERE username = '{username}'  and password =MD5('{password}') "
+        sql=f"select user.username,user.password,roles.name from web_data.user cross join web_data.user_roles\
+            on user.id=user_roles.user_id cross join web_data.roles on user_roles.role_id =roles.id \
+            WHERE username = '{username}'  and password =MD5('{password}') "
         mycursor.execute(sql) 
         account = mycursor.fetchall()
         print(account)
@@ -29,10 +30,10 @@ def login():
             role_list=[]
             if len(account)>1:
                 for i in account:
-                    role_list.append(i[-2])
-                    g.role=role_list
+                    role_list.append(i[-1])
+                    session['role']=role_list
             else:
-                g.role=[account[0][-2]]
+                session['role']=[account[0][-1]]
             session['loggedin']=True
             session['user']=username  
             #return f"hello {session['role']} "

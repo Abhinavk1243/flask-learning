@@ -30,9 +30,10 @@
 		function student_form() {
 			window.location.href = '/student/studentForm/';
         }
-        function signup(){
-            window.location.href = '/auth/signup/';
+        function go_to_AdminPanel(){
+            window.location.href = '/admin/';
         }
+		
 	</script>
 	
 </head>
@@ -49,6 +50,7 @@
 				<a href="#" class="nav-item nav-link active">Home</a>
 				<a href="#" onclick="student_list()" class="nav-item nav-link">Students</a>
 				<a href="#" onclick="student_form()" class="nav-item nav-link ">StudentForm</a>
+				
 				<div class="nav-item dropdown">
 					<a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle">Services</a>
 					<div class="dropdown-menu">
