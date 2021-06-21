@@ -17,7 +17,7 @@ def admin_panel():
     record=mycursor.fetchall()
     return render_template("admin.html",record=record,user=session["user"])
     
-@admin.route("/create_role/",methods=["POST"])
+@admin.route("/create_role/",methods=["GET","POST"])
 @required_roles(["Admin"])
 def create_role():
     if request.method=="POST":
@@ -28,33 +28,34 @@ def create_role():
         user_id=mycursor.fetchone() 
         if user_id==None:
             flash(f"error :'user : {username} does not exist '")
-            return redirect(url_for("admin.admin_panel"))
+            return redirect(url_for("admin.create_role"))
 
-        
         mycursor.execute(f"select id from web_data.roles where name='{role_name}' ")
         role_id=mycursor.fetchone()
         if role_id==None:
-            flash(f"error 'role : {role_name} does not exist' ")
-            return redirect(url_for("admin.admin_panel"))
+            flash(f"'role : {role_name} does not exist' ")
+            return redirect(url_for("admin.create_role"))
         
         value=(user_id[0],role_id[0])
         
         mycursor.execute(f"select * from web_data.user_roles where user_id={user_id[0]} and role_id={role_id[0]}")
         if mycursor.fetchone()!=None:
-            flash(f" error : 'User : {username} is already allowed this role : {role_name}'")
-            return redirect(url_for("admin.admin_panel"))
+            flash(f"'User : {username} is already allowed this role : {role_name}'")
+            return redirect(url_for("admin.create_role"))
 
-        """try:
+        try:
             mycursor.execute(f"insert into web_data.user_roles values {value} ")
             pool_cnxn.commit()     
         
         except Exception as error:
             flash(error)
-            return redirect(url_for("admin_panel"))"""
+            return redirect(url_for("admin_panel"))
         return redirect(url_for("admin.admin_panel"))
+    
+    else:
+        return render_template("create_user_role.html")
 
 
-    return redirect(url_for("admin.admin_panel"))
     
 
 

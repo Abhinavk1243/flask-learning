@@ -98,18 +98,34 @@
         }
 
         function go_to_homepage() {
-            window.location.href = '/'
+            window.location.href = '/';
         }
 
         function logout() {
-            window.location.href = '/auth/logout/'
+            bootbox.confirm({
+                message: " Do you really want to Logout ?",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                    console.log(result)
+                    if (result) {
+                        window.location.href = '/auth/logout/'
+                    }
+                }
+            });
         }
-        function notaccess_alert(msg) {
-            alert(msg);
+        function create_user_role_form() {
+            window.location.href = '/admin/create_role/';
         }
-        function student_list() {
-            window.location.href = '/student/';
-        }
+
     </script>
 </head>
 
@@ -125,49 +141,26 @@
                 <a href="#" onclick='go_to_homepage()' class="nav-item nav-link">Home</a>
                 <a href="#" onclick="student_list()" class="nav-item nav-link ">Students</a>
                 <a href="#" onclick='student_form()' class="nav-item nav-link">StudentForm</a>
-                <a href='#' onclick='go_to_AdminPanel()' class="nav-item nav-link active">Admin Panel</a>
+
                 <div class="nav-item dropdown">
                     <a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle">Services</a>
                     <div class="dropdown-menu">
-                        <a href="#" class="dropdown-item">Web Design</a>
-                        <a href="#" class="dropdown-item">Web Development</a>
+
+                        <a href="#" class="dropdown-item">Admin panel</a>
+                        <a href="#" onclick='create_user_role_form()' class="dropdown-item">Create user role</a>
                         <a href="#" class="dropdown-item">Graphic Design</a>
                         <a href="#" class="dropdown-item">Digital Marketing</a>
                     </div>
-                </div>
-                <div>
-                    </form>
-                    <ul class="nav navbar-nav navbar-right" style="padding-right: 30px;">
-                        <li>
-                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">Create user role</a>
-                            <ul class="dropdown-menu login-form">
-                                <li>
-                                    <form action="/admin/create_role/" method="post">
-
-                                        <div class="form-group">
-                                            <label>Username</label>
-                                            <input type="text" name="username" class="form-control" required="required">
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="clearfix">
-                                                <label>role</label>
-                                            </div>
-
-                                            <input type="role" name="role" class="form-control" required="required">
-                                        </div>
-                                        <input type="submit" class="btn btn-primary btn-block" value="create">
-                                    </form>
                 </div>
             </div>
         </div>
         <div class="navbar-nav" style="padding-right: 23px;">
             <p>Hi Admin {{user}}</p>
         </div>
-
-
-        <div class="navbar-nav ml-auto action-buttons">
-            <a href="#" onclick='logout()' data-toggle="dropdown"
-                class="btn btn-primary dropdown-toggle sign-up-btn">logout</a>
+        <p data-placement="top" onclick='logout()' data-toggle="tooltip" title="Delete"><button
+                style=" padding: 5px 10px;font-size: 16px; " class="btn btn-danger btn-xs" data-title="Logout"
+                data-toggle="modal" data-target="#exampleModal"><span class="glyphicon glyphicon-log-out"> Logout
+                </span></button></p>
         </div>
     </nav>
     </div>
@@ -194,7 +187,7 @@
                     <th>EMAIL</th>
                     <th>ROLES</th>
                     <!--<th>Delete</th>
-          <th>Edit</th>-->
+                    <th>Edit</th>-->
                 </tr>
             </thead>
             <tbody>
@@ -212,7 +205,6 @@
                   class="glyphicon glyphicon-trash">
                 </span></button></p>
 
-
           </td>
 
           <td>
@@ -226,4 +218,5 @@
         </table>
 
 </body>
+
 </html>

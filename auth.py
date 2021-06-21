@@ -36,17 +36,15 @@ def login():
                 session['role']=[account[0][-1]]
             session['loggedin']=True
             session['user']=username  
-            #return f"hello {session['role']} "
+            flash("Logged in success fully")
             return redirect(url_for("student.student_list"))
         else:
             if "user" in session:
-                return redirect(url_for('student.student_list'))
-
-            msg = 'Incorrect username / password !'
-            return render_template('home.html',msg=msg)
+                return redirect(url_for('student.student_list'))     
+            return render_template('home.html')
     else:
         return redirect(url_for("home"))
-    #return f" hello {account} {account[0][-2]}"
+    
         
 @auth.route("/logout/",methods=['GET'])
 def logout():

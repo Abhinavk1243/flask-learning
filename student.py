@@ -29,6 +29,7 @@ def allowed_file(filename):
 
 @student.route("/",methods=['GET'])
 @required_roles(["Admin","teacher","user"])
+
 def student_list():    
     if request.args:            
         mycursor=pool_cnxn.cursor()
@@ -95,7 +96,7 @@ def create_student(data):
 def remove_student(student_id):
     
     if request.method=='DELETE':        
-        mycursor=pool_cnxn.cursor()
+        """mycursor=pool_cnxn.cursor()
         try:
             sql=f"delete from  web_data.student where student_id={student_id} "
             mycursor.execute(sql)
@@ -104,7 +105,7 @@ def remove_student(student_id):
         except Exception as error:
             logger.error(f"exception arise : {error}")
             print(f"Exception arise : {error}")
-            return render_template("404.html",error=error)                 
+            return render_template("404.html",error=error) """                
     return "DELETED"
     
 @student.route("/studentForm/",methods=["GET"])

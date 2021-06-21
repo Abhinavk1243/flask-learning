@@ -10,7 +10,6 @@ from functools import wraps
 app=Flask(__name__)
 app.secret_key="Abhinav154543"
 
-
 @app.errorhandler(405)
 def not_found(e):
   return render_template("405.html",error=e)

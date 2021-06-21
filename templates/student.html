@@ -21,9 +21,6 @@
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
     integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-  <!--<link rel="stylesheet" href="/style.css">-->
-
-
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -39,13 +36,24 @@
   <script language=javascript src="https://code.jquery.com/jquery-3.5.1.js"></script>
   <script language=javascript src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
   <link rel="stylesheet" href="/static/custom.css">
-  
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+  <script src="'https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js'"></script>
+  <!--
+  -->
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+
+
 
 
   <script>
     $(document).ready(function () {
       $('#example').DataTable();
+
     });
+
     function delete_student(student_id) {
       bootbox.confirm({
         message: " Do you really want to delete?",
@@ -68,15 +76,15 @@
                   url: '/student/' + student_id,
                   type: 'DELETE',
                   success: function (result) {
-                    window.location.reload();
-
+                    toastr.success("deleted successfully");
+                    setTimeout(window.location.reload(), 60000)
                   },
                   error: function (response) {
-                    console.log(response)
+                    toastr.error("Not deleted ")
                   }
                 }
               );
-          } 
+          }
         }
       });
     };
@@ -93,7 +101,8 @@
     }
 
     function student_list() {
-      window.location.reload();
+      setTimeout(window.location.reload(), 200000000)
+
     }
 
     function go_to_homepage() {
@@ -101,10 +110,37 @@
     }
 
     function logout() {
-      window.location.href = '/auth/logout/'
+      bootbox.confirm({
+        message: " Do you really want to Logout ?",
+        buttons: {
+          confirm: {
+            label: 'Yes',
+            className: 'btn-success'
+          },
+          cancel: {
+            label: 'No',
+            className: 'btn-danger'
+          }
+        },
+        callback: function (result) {
+          console.log(result)
+          if (result) {
+            window.location.href = '/auth/logout/';
+            toastr.success("Logged out successfully")
+          }
+        }
+      });
     }
-    function go_to_AdminPanel(){
+
+    function go_to_AdminPanel() {
       window.location.href = '/admin/';
+    }
+    function create_user_role_form() {
+      window.location.href = '/admin/create_role/';
+    }
+
+    function alert_user() {
+      toastr.warning("could'nt use this option because you don't have access");
     }
   </script>
 </head>
@@ -120,15 +156,18 @@
       <div class="navbar-nav">
         <a href="#" onclick='go_to_homepage()' class="nav-item nav-link">Home</a>
         <a href="#" class="nav-item nav-link active">Students</a>
-        <a href="#" onclick='student_form()' class="nav-item nav-link">StudentForm</a>
         {% if admin %}
-          <a href='#' onclick="go_to_AdminPanel()" class="nav-item nav-link">Admin Panel</a>
+        <a href="#" onclick='student_form()' class="nav-item nav-link">StudentForm</a>
+        {% elif admin==False %}
+        <a href="#" onclick='alert_user()' class="nav-item nav-link">StudentForm</a>
         {% endif %}
         <div class="nav-item dropdown">
           <a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle">Services</a>
           <div class="dropdown-menu">
-            <a href="#" class="dropdown-item">Web Design</a>
-            <a href="#" class="dropdown-item">Web Development</a>
+            {% if admin %}
+            <a href="#" onclick="go_to_AdminPanel()" class="dropdown-item">Admin panel</a>
+            <a href="#" onclick='create_user_role_form()' class="dropdown-item">Create user role</a>
+            {% endif %}
             <a href="#" class="dropdown-item">Graphic Design</a>
             <a href="#" class="dropdown-item">Digital Marketing</a>
           </div>
@@ -137,36 +176,25 @@
     </div>
     <div class="navbar-nav" style="padding-right: 23px;">
       {% if admin %}
-        <p>Hi Admin {{user}}</p>
+      <p>Hi Admin {{user}}</p>
       {% elif admin==False %}
-        <p>Hi  {{user}}</p>
+      <p>Hi {{user}}</p>
       {% endif %}
     </div>
-    
+
     <div class="navbar-nav ml-auto action-buttons">
-      <a href="#" onclick='logout()' data-toggle="dropdown"
-        class="btn btn-primary dropdown-toggle sign-up-btn">logout</a>
+
+      <p data-placement="top" onclick='logout()' data-toggle="tooltip" title="Delete"><button
+          style=" padding: 5px 10px;font-size: 16px; " class="btn btn-danger btn-xs" data-title="Logout"
+          data-toggle="modal" data-target="#exampleModal"><span class="glyphicon glyphicon-log-out"> Logout
+          </span></button></p>
+
     </div>
-
-
   </nav>
 
-</div>
+  </div>
 
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-      {% for category, message in messages %}
-          <div class="alert alert-danger">
-            <strong>Access Denied!</strong>
-              <span>{{ message }}</span>
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true" style="font-size: 37px;color: darkred;">×</span>
-              </button>
-          </div>
-      {% endfor %}
-  {% endif %}
-{% endwith %}
-</div>
+  </div>
 
 
   <div class='container' id="table_cont">
@@ -191,24 +219,40 @@
 
 
           <td>
+            {% if admin %}
             <p data-placement="top" onclick='delete_student("{{i[1]}}")' data-toggle="tooltip" title="Delete"><button
                 class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#exampleModal"><span
                   class="glyphicon glyphicon-trash">
                 </span></button></p>
 
-
+            {% elif admin==False %}
+            <p data-placement="top" onclick='alert_user()' data-toggle="tooltip" title="Delete"><button
+                class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#exampleModal"><span
+                  class="glyphicon glyphicon-trash">
+                </span></button></p>
+            {% endif %}
+            <!--<p data-placement="top" onclick='delete_student("{{i[1]}}")' data-toggle="tooltip" title="Delete"><button
+                class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#exampleModal"><span
+                  class="glyphicon glyphicon-trash">
+                </span></button></p>-->
           </td>
 
           <td>
+            {% if admin %}
             <p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs"
                 data-title="Edit" onclick='update_form("{{i[1]}}")'><span class="glyphicon glyphicon-pencil">
                 </span></button></p>
+            {% elif admin==False %}
+            <p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs"
+                data-title="Edit" onclick='alert_user()'><span class="glyphicon glyphicon-pencil">
+                </span></button></p>
+            {% endif %}
           </td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
-  
+
 
 </body>
 
