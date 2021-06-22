@@ -30,9 +30,10 @@
   <script src="'https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js'"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-
+  <script type='text/javascript' src='/static/custom.js'></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
 </head>
-
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a href="#" class="navbar-brand">Brand<b>Name</b></a>
@@ -67,11 +68,12 @@
 
         </div>
         <div class="navbar-nav ml-auto action-buttons">
-            <p data-placement="top" onclick='logout()' data-toggle="tooltip" title="Delete"><button
-                style=" padding: 5px 10px;font-size: 16px; " class="btn btn-danger btn-xs" data-title="Logout"
-                data-toggle="modal" data-target="#exampleModal"><span class="glyphicon glyphicon-log-out"> Logout
-                </span></button></p>
-        </div>
+            <p data-placement="top" onclick='logout()' data-toggle="tooltip" title="Delete"><button 
+              style=" padding: 5px 10px;font-size: 16px; " class="btn btn-danger btn-xs" data-title="Logout"
+              data-toggle="modal" data-target="#exampleModal"><span class="glyphicon glyphicon-log-out"> Logout
+              </span></button>
+            </p>
+          </div>
     </nav>
 
     <h1>student</h1>
@@ -84,7 +86,7 @@
             <p>AGE</p>
             <input id="age" value="{{record['student_age'][0]}}" type="number" name="age" />
             {% if update == True %}
-            <button id="save_button" onclick="update_student()">save</button>
+            <button id="save_button" onclick="update_student('{{id}}')">save</button>
             {% endif %}
             {% if post == True %}
             <button id="save_button" onclick="save_student()">save</button>
@@ -92,87 +94,7 @@
         </div>
     </div>
 
-    <script>
-        function save_student() {
-            var student_name = document.getElementById("name").value;
-            var student_age = Number(document.getElementById("age").value);
-            var student_obj = { student_name: student_name, student_age: student_age };
-            var student = JSON.stringify(student_obj);
-            $.ajax({
-                url: '/student/' + student,
-                type: 'POST',
-                success: function (response) {
-                    toastr.success("Data saves successfully")
-                    window.location.href = '/student/'
-                },
-                error: function (error) {
-                    toastr.error("data not saved");
-                }
-            });
-        }
-
-        function update_student() {
-            var student_name = document.getElementById("name").value;
-            var student_age = Number(document.getElementById("age").value);
-            var student_id = Number("{{record['student_id'][0]}}");
-            if (student_age == 0) {
-                student_age = Number("{{record['student_age'][0]}}");
-            }
-            if (student_name == "") {
-                student_name = "{{record['student_name'][0]}}";
-            }
-            var obj = { student_name: student_name, student_age: student_age, student_id: student_id };
-            var json = JSON.stringify(obj);
-            $.ajax({
-                url: '/student/' + json,
-                type: 'PUT',
-                success: function (response) {
-                    toastr.success("Data updated successfully");
-                    setTimeout(window.location.href = '/student/', 200000000)
-                    
-                },
-                error: function (error) {
-                    toastr.error("data updation failed");
-                }
-            });
-        }
-
-        function student_list() {
-            window.location.href = '/student/';
-        }
-
-        function logout() {
-            bootbox.confirm({
-                message: " Do you really want to Logout ?",
-                buttons: {
-                    confirm: {
-                        label: 'Yes',
-                        className: 'btn-success'
-                    },
-                    cancel: {
-                        label: 'No',
-                        className: 'btn-danger'
-                    }
-                },
-                callback: function (result) {
-                    console.log(result)
-                    if (result) {
-                        window.location.href = '/auth/logout/'
-                    }
-                }
-            });
-        }
-
-        function go_to_homepage() {
-            window.location.href = '/';
-        }
-        function go_to_AdminPanel() {
-            window.location.href = '/admin/';
-        }
-        function create_user_role_form() {
-            window.location.href = '/admin/create_role/';
-        }
-    </script>
+    
 
 </body>
 

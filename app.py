@@ -32,6 +32,8 @@ def before_user():
         return None
       if request.path=="/static/custom.css":
         return None
+      if request.path=='/static/custom.js':
+        return None
       if "user" not in session:
         msg="please logged in !"
         return render_template('home.html',msg=msg)

@@ -24,7 +24,6 @@ def login():
             WHERE username = '{username}'  and password =MD5('{password}') "
         mycursor.execute(sql) 
         account = mycursor.fetchall()
-        print(account)
         
         if account:
             role_list=[]
@@ -36,12 +35,13 @@ def login():
                 session['role']=[account[0][-1]]
             session['loggedin']=True
             session['user']=username  
-            flash("Logged in success fully")
+            
             return redirect(url_for("student.student_list"))
         else:
             if "user" in session:
                 return redirect(url_for('student.student_list'))     
-            return render_template('home.html')
+            msg="invalid login credential"
+            return render_template('home.html',msg=msg)
     else:
         return redirect(url_for("home"))
     
@@ -50,10 +50,11 @@ def login():
 def logout():
     session.pop('loggedin', None)
     session.pop("user",None)
+    flash("Logged out success fully")
     return redirect(url_for("home"))
     
 @auth.route("/signup/",methods=['POST','GET'])
-def regiteration():
+def signup():
     msg = ''
     if request.method == 'POST' :
         username = request.form['username']

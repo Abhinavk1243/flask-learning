@@ -21,45 +21,7 @@
 		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
 		integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-
-	<script>
-		function student_list() {
-            window.location.href = '/student/'
-        }
-
-		function student_form() {
-			window.location.href = '/student/studentForm/';
-        }
-
-        function go_to_homepage() {
-            window.location.href = '/'
-        }
-
-        function validation(){
-            var email=document.getElementById("email_id").value;
-            var password=document.getElementById("password").value;
-            var repassword=document.getElementById("re-password").value;
-            var isvalid ;
-            
-            if(password==repassword){
-                console.log(" pass word not match");
-            }else{
-                document.getElementById("password").style.borderColor="red";
-                document.getElementById("re-password").style.borderColor="red";
-                document.getElementById("message-form").innerHTML="confirm password does not match with above password";
-                return false
-            }
-            if((email.match('[^@]+@[^@]+\.[^@]+'))){               
-                return true;
-            }else{
-                document.getElementById("email_id").style.borderColor="red";
-                document.getElementById("message-form").innerHTML="invalid Email";
-                return false
-            }
-        }
-            
-
-	</script>
+	<script type='text/javascript' src='/static/custom.js'></script>
 	
 </head>
 

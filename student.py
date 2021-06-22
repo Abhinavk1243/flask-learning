@@ -77,7 +77,7 @@ def create_student(data):
     student_name=student_data['student_name']
     student_age=student_data['student_age']
     val=(student_name,student_age)
-        
+    print(val)
     try:
         sql=f"insert into web_data.student(student_name, student_age) values {val}"
         mycursor.execute(sql)
@@ -115,12 +115,11 @@ def studentForm():
         student_id=request.args.get('id')        
         df=pd.read_sql(con=pool_cnxn, sql=f"select * from  web_data.student where student_id={student_id}")
         record=df.to_dict('list')
-        
-        
-        return render_template("/studentForm.html/",record=record,update=True,post=False,user=session["user"],admin=get_roles(["Admin"]))
+        student_id=record['student_id'][0]
+        return render_template("/studentForm.html/",id=student_id,record=record,update=True,post=False,user=session["user"],admin=get_roles(["Admin"]))
     else:
         record={'student_name':"",'student_age':0,"student_id":0}
-        return render_template("/studentForm.html/",record=record,update=True,post=False,user=session["user"],admin=get_roles(["Admin"]))
+        return render_template("/studentForm.html/",record=record,post=True,update=False,user=session["user"],admin=get_roles(["Admin"]))
 
 @student.route("/<data>",methods=["PUT"])
 @required_roles(["Admin"])
@@ -128,9 +127,11 @@ def student_update(data):
       
     mycursor=pool_cnxn.cursor()
     student_data=json.loads(data)
+    
     student_name=student_data["student_name"]
     student_age=student_data['student_age']
     student_id=student_data['student_id']
+    print(student_data)
     try:
         sql=f"update web_data.student set student_name='{student_name}',\
         student_age={student_age} where student_id={student_id}"
