@@ -1,6 +1,6 @@
 
 from flask import Flask,render_template,request,redirect,url_for,session,g
-from models import logger
+from models import mysl_pool_connection,logger
 logger=logger()
 from student import student
 from auth import auth
@@ -9,6 +9,9 @@ from flask import Flask
 from functools import wraps
 app=Flask(__name__)
 app.secret_key="Abhinav154543"
+
+pool_cnxn=mysl_pool_connection()
+mycursor=pool_cnxn.cursor()
 
 @app.errorhandler(405)
 def not_found(e):
@@ -34,13 +37,31 @@ def before_user():
         return None
       if request.path=='/static/custom.js':
         return None
+      if request.path=='/test/':
+            return None
       if "user" not in session:
         msg="please logged in !"
         return render_template('home.html',msg=msg)
 
 @app.route("/")
 def home():
-      return render_template('home.html')
+    
+    return render_template('home.html')
+
+@app.route("/test/",methods=["GET","POST"])
+def test():
+      if request.method=="POST":
+        print("------------------------------")
+        csv=request.form.getlist("select")
+        for i in csv :
+              print(i)
+          
+        return str(csv)
+      else:
+        sql="select roles.name from web_data.roles"
+        mycursor.execute(sql)
+        roles=mycursor.fetchall()
+        return render_template("test.html",roles=roles)
 
 app.register_blueprint(auth,url_prefix="/auth")
 app.register_blueprint(admin,url_prefix="/admin")

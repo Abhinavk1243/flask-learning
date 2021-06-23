@@ -85,6 +85,7 @@
             <input id="name" value="{{record['student_name'][0]}}" type="text" name="name" />
             <p>AGE</p>
             <input id="age" value="{{record['student_age'][0]}}" type="number" name="age" />
+            
             {% if update == True %}
             <button id="save_button" onclick="update_student('{{id}}')">save</button>
             {% endif %}

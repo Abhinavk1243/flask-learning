@@ -12,7 +12,7 @@ function go_to_AdminPanel() {
     window.location.href = '/admin/';
 }
 function create_user_role_form() {
-    window.location.href = '/admin/create_role/';
+    window.location.href = '/admin/user_role_form/';
 }
 
 function update_form(id) {
@@ -48,7 +48,7 @@ function logout() {
 }
 $(document).ready(function () {
     $('#example').DataTable();
-
+    $('select').selectpicker();
   });
 
 function delete_student(student_id) {
@@ -157,4 +157,40 @@ function validation(){
 
 function signup(){
     window.location.href="/auth/signup/";
+}
+
+function create_user_role(){
+  var username = document.getElementById("username").value;
+  var role = $('#select').val().join(',');
+  var new_role = { username: username, role: role };
+  
+  var new_role_1 = JSON.stringify(new_role);
+  console.log(new_role_1);
+  
+  $.ajax({
+  url: '/admin/create_role/' + new_role_1,
+  type: 'POST',
+  success: function (response) {
+      response=JSON.parse(response);
+      console.log(response);
+      if(response.status==false){
+
+          toastr.error(response.error);
+          
+      }else{
+          window.location.href="/admin/";
+      }
+      
+      
+      /*window.location.href="/admin/";*/
+  },
+  error: function (error) {
+      console.log(error);
+      
+  }
+});
+}
+
+function edit_role(user_id){
+  window.location.href="/admin/user_role_form/?user_id="+user_id;
 }
