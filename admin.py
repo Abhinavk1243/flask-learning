@@ -91,7 +91,7 @@ def create_role(new_role):
         return json.dumps({'status': False,'error':error})
     """
     
-    return json.dumps({'status': True})
+    return json.dumps({'status': True,"user_role":values})
     
     
 

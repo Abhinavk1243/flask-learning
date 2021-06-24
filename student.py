@@ -29,7 +29,6 @@ def allowed_file(filename):
 
 @student.route("/",methods=['GET'])
 @required_roles(["Admin","teacher","user"])
-
 def student_list():    
     if request.args:            
         mycursor=pool_cnxn.cursor()
@@ -60,25 +59,24 @@ def student_list():
             return render_template("404.html",error=message)
         else:
             return render_template("student.html",record=record,user=session["user"],admin=get_roles(["Admin"]))         
-    else:            
+    else:                
         mycursor=pool_cnxn.cursor()
         sql="select * from  web_data.student "
         mycursor.execute(sql)
         record=mycursor.fetchall()
         return render_template("student.html",record=record,user=session["user"],admin=get_roles(["Admin"]))
-    
+        
 
-@student.route("/<data>",methods=["POST"])
+@student.route("/",methods=["POST"])
 @required_roles(["Admin"])
-def create_student(data):   
-    
+def create_student():  
+    data_1=request.get_json(force=True)
     mycursor=pool_cnxn.cursor()    
-    student_data=json.loads(data)
+    student_data=json.loads(data_1)
     student_name=student_data['student_name']
     student_age=student_data['student_age']
     val=(student_name,student_age)
-    print(val)
-    try:
+    """try:
         sql=f"insert into web_data.student(student_name, student_age) values {val}"
         mycursor.execute(sql)
         pool_cnxn.commit()
@@ -87,16 +85,18 @@ def create_student(data):
     except Exception as error:
         logger.error(f"exception arise : {error}")
         print(f"Exception arise : {error}")
-        return render_template("404.html",error=error)
-    return redirect(url_for("student.student_list"))
+        return render_template("404.html",error=error)"""
+    return json.dumps({student_data})
+    #return redirect(url_for("student.student_list"))
     
 
 @student.route("/<int:student_id>",methods=['DELETE'])
 @required_roles(["Admin"])
 def remove_student(student_id):
-    
     if request.method=='DELETE':        
-        """mycursor=pool_cnxn.cursor()
+        mycursor=pool_cnxn.cursor()
+        mycursor.execute(f"select student_id,student_name,student_age from web_data.student  where student_id={student_id}")
+        student=mycursor.fetchone()
         try:
             sql=f"delete from  web_data.student where student_id={student_id} "
             mycursor.execute(sql)
@@ -105,8 +105,8 @@ def remove_student(student_id):
         except Exception as error:
             logger.error(f"exception arise : {error}")
             print(f"Exception arise : {error}")
-            return render_template("404.html",error=error) """                
-    return "DELETED"
+            return render_template("404.html",error=error)                 
+    return json.dumps({"id":student[0],"name":student[1],"age":student[2]})
     
 @student.route("/studentForm/",methods=["GET"])
 @required_roles(["Admin"])
@@ -131,7 +131,6 @@ def student_update(data):
     student_name=student_data["student_name"]
     student_age=student_data['student_age']
     student_id=student_data['student_id']
-    print(student_data)
     try:
         sql=f"update web_data.student set student_name='{student_name}',\
         student_age={student_age} where student_id={student_id}"
@@ -141,7 +140,7 @@ def student_update(data):
     except Exception as error:
         print(f"error arise : {error}")
         return render_template("404.html",error=error)
-    return 'updated'
+    return json.dumps({"student_id":student_id,"student_age":student_age,"student_name":student_name})
     
 
 

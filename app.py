@@ -45,23 +45,9 @@ def before_user():
 
 @app.route("/")
 def home():
-    
     return render_template('home.html')
 
-@app.route("/test/",methods=["GET","POST"])
-def test():
-      if request.method=="POST":
-        print("------------------------------")
-        csv=request.form.getlist("select")
-        for i in csv :
-              print(i)
-          
-        return str(csv)
-      else:
-        sql="select roles.name from web_data.roles"
-        mycursor.execute(sql)
-        roles=mycursor.fetchall()
-        return render_template("test.html",roles=roles)
+
 
 app.register_blueprint(auth,url_prefix="/auth")
 app.register_blueprint(admin,url_prefix="/admin")

@@ -89,11 +89,15 @@ function delete_student(student_id) {
 function save_student() {
     var student_name = document.getElementById("name").value;
     var student_age = Number(document.getElementById("age").value);
-    var student_obj = { student_name: student_name, student_age: student_age };
-    var student = JSON.stringify(student_obj);
+    var student = { student_name: student_name, student_age: student_age };
+    var student_age = JSON.stringify(student);
+    console.log(student);
     $.ajax({
-        url: '/student/' + student,
+        url: '/student/' ,
         type: 'POST',
+        dataType: 'json',
+        data: student,
+
         success: function (response) {
             toastr.success("Data saves successfully")
             window.location.href = '/student/'
@@ -122,7 +126,8 @@ function update_student(student_id) {
         url: '/student/' + json,
         type: 'PUT',
         success: function (response) {
-            toastr.success("Data updated successfully");
+            
+            console.log(respone)
             window.location.href = '/student/'
             
         },
