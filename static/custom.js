@@ -178,17 +178,14 @@ function create_user_role(){
           toastr.error(response.error);
           
       }else{
-          window.location.href="/admin/";
+        console.log("Status : ok")
+        window.location.href="/admin/";
       }
-      
-      
-      /*window.location.href="/admin/";*/
   },
   error: function (error) {
-      console.log(error);
-      
-  }
-});
+      toastr.error(error);   
+    }
+ });
 }
 
 function edit_role(user_id){
