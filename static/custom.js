@@ -1,5 +1,16 @@
 function student_list() {
-    window.location.href = '/student/'
+  window.location.href = '/student/' ; 
+   /*$.ajax({
+              url: '/student/' ,
+              type: 'GET',
+              success: function(response) {
+               
+              },
+              error: function (error) {
+                console.log(error)
+              }
+          });*/
+
 }
 
 function student_form() {
@@ -70,14 +81,16 @@ function delete_student(student_id) {
           $.ajax
             (
               {
-                url: '/student/' + student_id,
+                url: '/student/' ,
                 type: 'DELETE',
+                dataType: 'json',
+                data:JSON.stringify({student_id : student_id}),
                 success: function (result) {
                   toastr.success("deleted successfully");
                   setTimeout(window.location.reload(), 60000)
                 },
-                error: function (response) {
-                  toastr.error("Not deleted ")
+                error: function (error) {
+                  toastr.error(error)
                 }
               }
             );
@@ -90,7 +103,7 @@ function save_student() {
     var student_name = document.getElementById("name").value;
     var student_age = Number(document.getElementById("age").value);
     var student = { student_name: student_name, student_age: student_age };
-    var student_age = JSON.stringify(student);
+    var student = JSON.stringify(student);
     console.log(student);
     $.ajax({
         url: '/student/' ,
@@ -119,12 +132,14 @@ function update_student(student_id) {
         student_name = "{{record['student_name'][0]}}";
     }
     console.log(student_id);
-    var obj = { student_name: student_name, student_age: student_age, student_id: student_id };
-    var json = JSON.stringify(obj);
+    var student = { student_name: student_name, student_age: student_age, student_id: student_id };
+    var student = JSON.stringify(obj);
     console.log(json);
     $.ajax({
-        url: '/student/' + json,
+        url: '/student/' ,
         type: 'PUT',
+        dataType: 'json',
+        data: student,
         success: function (response) {
             
             console.log(respone)
@@ -167,21 +182,19 @@ function signup(){
 function create_user_role(){
   var username = document.getElementById("username").value;
   var role = $('#select').val().join(',');
-  var new_role = { username: username, role: role };
+  var user_new_role = { username: username, role: role };
   
-  var new_role_1 = JSON.stringify(new_role);
-  console.log(new_role_1);
-  
+  var user_new_role = JSON.stringify(user_new_role);
   $.ajax({
-  url: '/admin/create_role/' + new_role_1,
+  url: '/admin/create_role/',
   type: 'POST',
+  dataType: 'json',
+  data: user_new_role,
   success: function (response) {
       response=JSON.parse(response);
       console.log(response);
-      if(response.status==false){
-
-          toastr.error(response.error);
-          
+      if(response.error==true){
+        toastr.error(response.message);  
       }else{
         console.log("Status : ok")
         window.location.href="/admin/";

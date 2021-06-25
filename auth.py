@@ -18,7 +18,7 @@ auth=Blueprint("auth",__name__,template_folder="templates")
 def login():
     if request.method=='POST':
         username=request.form['username']
-        password=request.form['psw']
+        password=request.form['password']
         sql=f"select user.username,user.password,roles.name from web_data.user cross join web_data.user_roles\
             on user.id=user_roles.user_id cross join web_data.roles on user_roles.role_id =roles.id \
             WHERE username = '{username}'  and password =MD5('{password}') "
@@ -70,8 +70,8 @@ def signup():
         elif email_registered:
             msg = 'Email id already registered !'
         else:
-            """val=(username,password,email_id)
-            print(f'INSERT INTO web_data.user( username, user_psw, email_id) VALUES {val}')
+            val=(username,password,email_id)
+            """print(f'INSERT INTO web_data.user( username, user_psw, email_id) VALUES {val}')
             mycursor.execute(f'INSERT INTO web_data.user( username, user_psw, email_id) VALUES {val}')
             mydb.commit()"""
             msg = 'You have successfully registered !'
