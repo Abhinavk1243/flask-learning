@@ -1,15 +1,6 @@
 function student_list() {
   window.location.href = '/student/' ; 
-   /*$.ajax({
-              url: '/student/' ,
-              type: 'GET',
-              success: function(response) {
-               
-              },
-              error: function (error) {
-                console.log(error)
-              }
-          });*/
+   
 
 }
 
@@ -133,18 +124,15 @@ function update_student(student_id) {
     }
     console.log(student_id);
     var student = { student_name: student_name, student_age: student_age, student_id: student_id };
-    var student = JSON.stringify(obj);
-    console.log(json);
+    var student = JSON.stringify(student);
+    console.log(student);
     $.ajax({
         url: '/student/' ,
         type: 'PUT',
         dataType: 'json',
         data: student,
         success: function (response) {
-            
-            console.log(respone)
             window.location.href = '/student/'
-            
         },
         error: function (error) {
             toastr.error("data updation failed");
@@ -180,23 +168,23 @@ function signup(){
 }
 
 function create_user_role(){
-  var username = document.getElementById("username").value;
-  var role = $('#select').val().join(',');
-  var user_new_role = { username: username, role: role };
+  var username =$('#username').val();
+  var roles = $('#select').val().join(',');
+  var user_new_role = { username: username, roles: roles };
   
   var user_new_role = JSON.stringify(user_new_role);
+  console.log(user_new_role);
+  
   $.ajax({
   url: '/admin/create_role/',
   type: 'POST',
   dataType: 'json',
   data: user_new_role,
   success: function (response) {
-      response=JSON.parse(response);
-      console.log(response);
       if(response.error==true){
         toastr.error(response.message);  
       }else{
-        console.log("Status : ok")
+        console.log("Status : ok");
         window.location.href="/admin/";
       }
   },

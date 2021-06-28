@@ -35,7 +35,6 @@ def login():
                 session['role']=[account[0][-1]]
             session['loggedin']=True
             session['user']=username  
-            
             return redirect(url_for("student.student_list"))
         else:
             if "user" in session:

@@ -29,6 +29,8 @@ def allowed_file(filename):
 @student.route("/",methods=['GET'])
 @required_roles(["Admin","teacher","user"])
 def student_list():    
+    user=session["user"]
+    admin=get_roles(["Admin"])
     if request.args:            
         mycursor=pool_cnxn.cursor()
         query_params_dict=request.args.to_dict()
@@ -41,7 +43,6 @@ def student_list():
                     sql=sql+f"  where {i}='{query_params_dict[i]}' "
                 else:
                     sql=sql+f" and {i}=int({query_params_dict[i]})"
-
                 no_of_cond=1
             else:
                 if (query_params_dict[i]).isalpha:
@@ -57,20 +58,22 @@ def student_list():
             message=f"error :'data at {query_params_dict} not found '"
             return jsonify({"error":message})
         else:
-            return render_template("student.html",record=record,user=session["user"],admin=get_roles(["Admin"]))         
+            if request.content_type=="application/json":
+                df=pd.read_sql(con=pool_cnxn, sql=sql)
+                student = [{col:getattr(row, col) for col in df} for row in df.itertuples()]
+                return jsonify(student)   
+            return render_template("student.html",**locals())         
     else:
+        sql="select * from  web_data.student "
         if request.content_type=="application/json":
-            df=pd.read_sql(con=pool_cnxn, sql='SELECT * FROM web_data.student ')
-            student=df.to_dict('r')
+            df=pd.read_sql(con=pool_cnxn, sql=sql)
+            student = [{col:getattr(row, col) for col in df} for row in df.itertuples()]
             return jsonify(student)   
-        else:
-            mycursor=pool_cnxn.cursor()
-            sql="select * from  web_data.student "
-            mycursor.execute(sql)
-            record=mycursor.fetchall()
-            return render_template("student.html",record=record,user=session["user"],admin=get_roles(["Admin"]))
+        mycursor=pool_cnxn.cursor()
+        mycursor.execute(sql)
+        record=mycursor.fetchall()
+        return render_template("student.html",**locals())
             
-        
 @student.route("/",methods=["POST"])
 @required_roles(["Admin"])
 def create_student():  
@@ -94,8 +97,8 @@ def create_student():
         print(f"Exception arise : {error}")
         return jsonify({"error":error})
     df=pd.read_sql(con=pool_cnxn, sql='SELECT * FROM web_data.student ORDER BY student_id DESC LIMIT 1')
-    new_student=df.to_dict('r')
-    return jsonify(new_student)
+    student = [{col:getattr(row, col) for col in df} for row in df.itertuples()]
+    return jsonify(student[0])
    
 @student.route("/",methods=['DELETE'])
 @required_roles(["Admin"])
@@ -105,9 +108,9 @@ def remove_student():
         student_data=request.get_json(force=True)
         student_id=student_data["student_id"]
         sql=f"""select student_id,student_name,student_age from web_data.student where student_id={student_id}"""
-        mycursor.execute(sql)
-        student=mycursor.fetchone()
-        if student==None:
+        df=pd.read_sql(con=pool_cnxn, sql=sql)
+        student = [{col:getattr(row, col) for col in df} for row in df.itertuples()]
+        if student==[]:
             error=f"student with id {student_id} not exist"
             return jsonify({"error":error})
         try:
@@ -119,20 +122,24 @@ def remove_student():
             logger.error(f"exception arise : {error}")
             print(f"Exception arise : {error}")
             return jsonify({"error":error})             
-    return jsonify({"id":student[0],"name":student[1],"age":student[2]})
+    return jsonify(student)
     
 @student.route("/studentForm/",methods=["GET"])
 @required_roles(["Admin"])
 def studentForm():
+    user=session["user"]
+    admin=get_roles(["Admin"])
     if request.args:
         student_id=request.args.get('id')        
         df=pd.read_sql(con=pool_cnxn, sql=f"select * from  web_data.student where student_id={student_id}")
         record=df.to_dict('list')
         student_id=record['student_id'][0]
-        return render_template("/studentForm.html/",id=student_id,record=record,update=True,post=False,user=session["user"],admin=get_roles(["Admin"]))
+        update=True
+        return render_template("/studentForm.html/",**locals())
     else:
+        update=False
         record={'student_name':"",'student_age':0,"student_id":0}
-        return render_template("/studentForm.html/",record=record,post=True,update=False,user=session["user"],admin=get_roles(["Admin"]))
+        return render_template("/studentForm.html/",**locals())
 
 @student.route("/",methods=["PUT"])
 @required_roles(["Admin"])
@@ -159,5 +166,5 @@ def student_update():
         print(f"error arise : {error}")
         return jsonify({"error":error})
     df=pd.read_sql(con=pool_cnxn, sql=f'SELECT * FROM web_data.student where student_id={student_id}')
-    student=df.to_dict('r')
-    return jsonify(student)
+    student = [{col:getattr(row, col) for col in df} for row in df.itertuples()]
+    return jsonify(student[0])
