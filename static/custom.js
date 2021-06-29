@@ -113,6 +113,7 @@ function save_student() {
 }
 
 function update_student(student_id) {
+    
     var student_name = document.getElementById("name").value;
     var student_age = Number(document.getElementById("age").value);
     student_id = Number(student_id);

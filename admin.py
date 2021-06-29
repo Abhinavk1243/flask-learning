@@ -1,4 +1,6 @@
+from configparser import MAX_INTERPOLATION_DEPTH
 from flask import Blueprint,render_template,redirect,url_for,request,jsonify,flash,session
+import smtplib
 import json
 import pandas as pd
 from models import mysl_pool_connection,logger
@@ -97,16 +99,21 @@ def create_role():
         logger.error(f"error arise : {error}")
         return json.dumps({'error': True,'message':error})
     df=pd.read_sql(con=pool_cnxn, sql=f"""SELECT user.Id,user.username,user.email_id, group_concat(roles.name 
-    SEPARATOR "," )roles FROM web_data.user cross join web_data.user_roles  ON user.id = user_roles.user_id 
-    cross join web_data.roles on user_roles.role_id=roles.id where user.id={user_id[0]}""")
+    SEPARATOR "," )roles FROM web_data.user left join web_data.user_roles  ON user.id = user_roles.user_id 
+    left join web_data.roles on user_roles.role_id=roles.id where user.id={user_id[0]}""")
     user=[{col:getattr(row, col) for col in df} for row in df.itertuples()]
     
     return json.dumps({'error':False ,"user":user[0]})
     
-@admin.route("/",methods=["PUT"])
-@required_roles(["Admin"])
-def edit_user_role():
-    return "pass"
+@admin.route("/sendmail/",methods=["GET"])
+def send_mail():
+    mail = smtplib.SMTP('smtp.gmail.com', 587)
+    mail.starttls()
+    mail.login("abhinavflasklearning@gmail.com", "abhinav@12")
+    message = "testing message , this ,message is sent by using python"
+    mail.sendmail("abhinavflasklearning@gmail.com", "abhinavkumar1243@gmail.com", message)
+    mail.quit()
+    return jsonify({"sender":"abhinavflasklearning","receiver":"abhinavkumar1243"})
 
 
 

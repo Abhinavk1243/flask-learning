@@ -130,7 +130,8 @@ def studentForm():
     user=session["user"]
     admin=get_roles(["Admin"])
     if request.args:
-        student_id=request.args.get('id')        
+        student_id=request.args.get('id') 
+        print(student_id)       
         df=pd.read_sql(con=pool_cnxn, sql=f"select * from  web_data.student where student_id={student_id}")
         record=df.to_dict('list')
         student_id=record['student_id'][0]
