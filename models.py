@@ -2,7 +2,7 @@ import mysql.connector as msc
 from mysql.connector import pooling
 import logging as lg 
 import configparser
-
+import os
 def getconfig(section,key):
     """Method use to read the value of key in congfig file i.e .cfg extension file
 
@@ -14,7 +14,7 @@ def getconfig(section,key):
         string: value of corresonding section key
     """
     parser = configparser.ConfigParser()
-    parser.read('credential.cfg')
+    parser.read(os.path.join(os.path.expanduser("~"),'config\\sqlcred.cfg'))
     return parser.get(section,key)  
 
 def mysl_pool_connection():
@@ -23,20 +23,14 @@ def mysl_pool_connection():
     Returns:
         connection : myslconnection
     """
-    dbconfig ={ 'host' : getconfig("mysql","host"),
-                'user' : getconfig("mysql","user"),
-                'database':getconfig("mysql","database"),
-                'password' :getconfig("mysql","password")
+    dbconfig ={ 'host' : getconfig("mysql_web_data","host"),
+                'user' : getconfig("mysql_web_data","user"),
+                'database':getconfig("mysql_web_data","database"),
+                'password' :getconfig("mysql_web_data","password")
                }
+    
     cnxn = pooling.MySQLConnectionPool(pool_name = "student",**dbconfig)
     pool_cnxn=cnxn.get_connection()
-    
-       
-
-    """mydb=msc.connect(host=getconfig("mysql","host"),
-                    user=getconfig("mysql","user"),
-                    database=getconfig("mysql","database"),
-                    password=getconfig("mysql","password"))"""
     return pool_cnxn
 
 def logger():

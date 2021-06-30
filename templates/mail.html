@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+#students{
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#students td, #students th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+.body{
+  display: flexbox;
+}
+#students tr:nth-child(even){background-color: #f2f2f2;}
+
+#students tr:hover {background-color: #ddd;}
+
+#students th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #04AA6D;
+  color: black;
+  
+}
+
+
+.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: mediumturquoise;
+   color: white;
+   text-align: center;
+   padding: 10px 16px;
+}
+.header {
+  padding: 10px 16px;
+  background: mediumturquoise;
+  color: #f1f1f1;
+  size:6px;
+  text-align: center;
+}
+
+</style>
+</head>
+<body>
+  <div class="header" id="myHeader">
+    <h2 style="color: maroon;">Selcted student</h2>
+  </div>
+<p></p>
+<p></p>
+<br>
+<br>
+<table id="students">
+  <tr>
+    {% for col in content_data["columns"] %}
+        <th >{{col}}</th>
+    {% endfor %}
+    
+    
+  </tr>
+  {% for row in content_data["student_data"]: %}
+      <tr>
+        {% for col,val in row.items() %}
+        <td>{{val}}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+</table>
+<h3><strong>For further information </strong></h3>
+<p><strong>Contact Details</strong> </p>
+<p><strong>email</strong>: email123@gmail.com</p>
+<p><strong>Ph.no</strong>: 430924032</p>
+<p><strong>Site</strong>: <a href="sharecare.com">sharecare.com</a></p>
+<p></p>
+<div class="footer">
+  <p style="color: maroon;">@sharecare</p>
+</div>
+
+</body>
+</html>
+
+
+

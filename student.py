@@ -51,10 +51,10 @@ def student_list():
                     sql=sql+f" and {i}=int({query_params_dict[i]})"
         try:
             mycursor.execute(sql)
-            record=mycursor.fetchall()
+            student=mycursor.fetchall()
         except Exception as error:
             return jsonify({"error":error})
-        if record==[]:
+        if student==[]:
             message=f"error :'data at {query_params_dict} not found '"
             return jsonify({"error":message})
         else:
@@ -71,7 +71,7 @@ def student_list():
             return jsonify(student)   
         mycursor=pool_cnxn.cursor()
         mycursor.execute(sql)
-        record=mycursor.fetchall()
+        student=mycursor.fetchall()
         return render_template("student.html",**locals())
             
 @student.route("/",methods=["POST"])
