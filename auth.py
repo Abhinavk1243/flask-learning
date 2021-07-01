@@ -18,7 +18,6 @@ def allowed_file(filename):
 pool_cnxn=mysl_pool_connection()
 mycursor=pool_cnxn.cursor()
 
-
 auth=Blueprint("auth",__name__,template_folder="templates")
 
 @auth.route("/login/",methods=['GET','POST'])
@@ -26,20 +25,15 @@ def login():
     if request.method=='POST':
         username=request.form['username']
         password=request.form['password']
-        sql=f"select user.username,user.password,roles.name from web_data.user left join web_data.user_roles\
-            on user.id=user_roles.user_id left join web_data.roles on user_roles.role_id =roles.id \
-            WHERE username = '{username}'  and password =MD5('{password}') "
+        sql=f"""select user.username,user.password,group_concat(roles.name SEPARATOR "," )
+        roles FROM web_data.user left join web_data.user_roles  ON user.id = user_roles.user_id 
+        left join web_data.roles on user_roles.role_id=roles.id  WHERE username = '{username}' 
+        and password =MD5('{password}') """
         mycursor.execute(sql) 
         account = mycursor.fetchall()
-        
-        if account:
-            role_list=[]
-            if len(account)>1:
-                for i in account:
-                    role_list.append(i[-1])
-                    session['role']=role_list
-            else:
-                session['role']=[account[0][-1]]
+       
+        if None in account:
+            session['role']=account[2].split(",")
             session['loggedin']=True
             session['user']=username  
             return redirect(url_for("student.student_list"))
