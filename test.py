@@ -1,2 +1,7 @@
-dict_1={"a":1,"b":2}
-print(dict_1.items())
+from flask import Flask
+
+app=Flask(__name__)
+
+@app.route("/")
+def test():
+    return 'hello world'

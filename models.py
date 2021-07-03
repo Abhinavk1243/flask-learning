@@ -26,7 +26,8 @@ def mysl_pool_connection():
     dbconfig ={ 'host' : getconfig("mysql_web_data","host"),
                 'user' : getconfig("mysql_web_data","user"),
                 'database':getconfig("mysql_web_data","database"),
-                'password' :getconfig("mysql_web_data","password")
+                'password' :getconfig("mysql_web_data","password"),
+                
                }
     
     cnxn = pooling.MySQLConnectionPool(pool_name = "student",**dbconfig)
@@ -38,7 +39,7 @@ def logger():
     logger.setLevel(lg.DEBUG)
     formatter = lg.Formatter('%(asctime)s : %(name)s : %(filename)s : %(levelname)s\
                              :%(funcName)s :%(lineno)d : %(message)s ')
-    file_handler =lg.FileHandler("D:/ashu\GitHub/python-learning/scripts/loggers_files/logsfile.log")
+    file_handler =lg.FileHandler("D:/Abhinav\GitHub/python-learning/scripts/loggers_files/logsfile.log")
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)
     return logger

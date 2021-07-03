@@ -30,9 +30,9 @@ def login():
         left join web_data.roles on user_roles.role_id=roles.id  WHERE username = '{username}' 
         and password =MD5('{password}') """
         mycursor.execute(sql) 
-        account = mycursor.fetchall()
-       
-        if None in account:
+        account = mycursor.fetchone()
+        print(account)
+        if None not in account:
             session['role']=account[2].split(",")
             session['loggedin']=True
             session['user']=username  
