@@ -1,7 +1,6 @@
-from flask import Flask
-
-app=Flask(__name__)
-
-@app.route("/")
-def test():
-    return 'hello world'
+import hashlib
+a=hashlib.md5()
+b=b"abhi1243"
+a.update(b)
+password=a.hexdigest()
+print(password)

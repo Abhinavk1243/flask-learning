@@ -11,7 +11,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
     <script src="'https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js'"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-
+    <script  type='text/javascript' src='/static/custom.js'> </script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
@@ -52,7 +52,7 @@
         </div>
         <div class="navbar-nav" style="padding-right: 23px;">
             {% if admin %}
-            <p style="font-size: medium;font-style: normal;color: darkred;">Hi Admin {{user}}</p>
+            <p style="font-size: medium;font-style: normal;color: darkred;">Hi Admin </p>
             {% elif admin==False %}
             Hi {{user}}</p>
             {% endif %}
