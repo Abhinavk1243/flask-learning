@@ -28,14 +28,15 @@ def send_mail(receivers_email,mail_content,subject=None,files_name=None,data=Non
     message['To'] = ",".join([str(i) for i in receivers_email])
     message['Subject'] = subject
     message.attach(MIMEText(mail_content, 'plain'))
-    img_file_path=os.path.expanduser("~")+f"\\flask-learning\\files\\{image}"
-    img = open(img_file_path, 'rb')
-    msgImage = MIMEImage(img.read())
-    img.close()
-    msgImage.add_header('Content-ID', f'<{image}>')
-    msgText = MIMEText(f"<br><img src='{img_file_path}'><br>", 'html')
-    message.attach(msgText)
-    message.attach(msgImage)
+    if image is not None:
+        img_file_path=os.path.expanduser("~")+f"\\flask-learning\\files\\{image}"
+        img = open(img_file_path, 'rb')
+        msgImage = MIMEImage(img.read())
+        img.close()
+        msgImage.add_header('Content-ID', f'<{image}>')
+        msgText = MIMEText(f"<br><img src='{img_file_path}'><br>", 'html')
+        message.attach(msgText)
+        message.attach(msgImage)
     
     if files_name is not None:
         
@@ -91,9 +92,9 @@ def main():
                 
         }
     html_template="mail"
-    files_name=["1_KtWwvLK-jpGPSnj3tStg-Q.png","Navigator.pdf"]
+    # files_name=["1_KtWwvLK-jpGPSnj3tStg-Q.png","Navigator.pdf"]
     receivers_email=["abhinavk1236@gmail.com"]
-    image="sharecare.png"
-    send_mail(receivers_email,mail_content,subject=subject,image=image)
+    # image="sharecare.png"
+    send_mail(receivers_email,mail_content,subject=subject,html_template=html_template,data=data)
 if __name__=="__main__":
     main()

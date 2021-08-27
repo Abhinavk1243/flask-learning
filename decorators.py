@@ -24,4 +24,10 @@ def required_roles(*roles):
         return wrapped
     return wrapper
 
-
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if "user" in session:
+            return redirect(url_for('home'))
+        return f(*args, **kwargs)
+    return decorated_function

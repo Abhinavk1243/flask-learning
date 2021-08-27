@@ -1,0 +1,102 @@
+<h5>DAG completed notification:</h5>
+<br>
+To checkstatus DAG, Please login to <a style="color: #00bfa5" href="LINK">DataOps Dashboard</a><br>
+<br>
+
+<b>Environment:</b> {{content_data.content_data.execenviron}}<br>
+
+<b>Dag:</b> <a style="color: #00bfa5" href='https://{{content_data.content_data.serverurl}}.sc1dw.sharecare.com/airflowdagsdashboard/{{content_data.content_data.dag_id}}/'>{{content_data.content_data.dag_id}}</a> completed successfully<br>
+
+<b>Current Duration:</b> 
+{% if content_data.content_data.current_duration.seconds > (content_data.content_data.average_execution.seconds)*1.2 %}
+<span style="color:red ">&#8593</span>
+{% elif content_data.content_data.current_duration.seconds < (content_data.content_data.average_execution.seconds)*0.8 %}
+<span style="color:green ">&#8595</span>
+{% endif %}
+{{(content_data.content_data.current_duration|string).split(".")[0]}}<br>
+<b>Average Duration:</b> {{((content_data.content_data.average_execution)|string).split(".")[0]}}<br>
+
+<br><b>Counts summary:</b>
+<table class="styled-table">
+    <caption style="text-align:left;caption-side:bottom;margin:5px 0"><b>Counts display format:</b> source_count - target_count - error_count</caption>
+    <thead>
+        <tr>
+            {% for column in content_data.content_data.columns %}
+                <th style="text-align: {{'left' if column == 'Task Id' else 'center'}};">{{column}}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in content_data.content_data.counts_data %}
+        <tr>
+            {% for col,col_value in row.items() %}
+            <td style="text-align: {{'left' if col == 'Task Id' else 'center'}};">{{col_value}}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% if content_data.content_data.retries_data|length > 0 %}
+<br><b>Retries:</b>
+<table class="styled-table">
+    <thead>
+        <tr>
+            <th>Task Id</th>
+            <th>Start Time</th>
+            <th>Error</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for task in content_data.content_data.retries_data %}
+        <tr>
+            <td style="color:#f55f5f">{{task.task_id}}</td>
+            <td>{{task.start_time}}</td>
+            <td>{{task.status_reason}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<br>
+{% endif %}
+
+<br><br>
+Automated email sent by internal Data Team.
+
+<style>
+    .styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+.styled-table thead tr {
+    background-color: #00bfa5;
+    color: #ffffff;
+    text-align: left;
+}
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+.styled-table tbody tr {
+    border-bottom: thin solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #00bfa5;
+}
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: #00bfa5;
+}
+
+</style>

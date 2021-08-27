@@ -23,12 +23,12 @@ def mysl_pool_connection():
     Returns:
         connection : myslconnection
     """
-    dbconfig ={ 'host' : getconfig("mysql_web_data","host"),
-                'user' : getconfig("mysql_web_data","user"),
-                'database':getconfig("mysql_web_data","database"),
-                'password' :getconfig("mysql_web_data","password"),
-                
-               }
+    dbconfig={ 
+              'host' : getconfig("mysql_web_data","host"),
+              'user' : getconfig("mysql_web_data","user"),
+              'database' : getconfig("mysql_web_data","database"),
+              'password' : getconfig("mysql_web_data","password"),  
+            }
     
     cnxn = pooling.MySQLConnectionPool(pool_name = "student",**dbconfig)
     pool_cnxn=cnxn.get_connection()

@@ -31,7 +31,7 @@ def login():
         and password =MD5('{password}') """
         mycursor.execute(sql) 
         account = mycursor.fetchone()
-        print(account)
+        
         if None not in account:
             session['role']=account[2].split(",")
             session['loggedin']=True
