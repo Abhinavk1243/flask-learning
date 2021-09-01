@@ -1,148 +1,172 @@
-from flask import Blueprint,render_template,redirect,url_for,request,jsonify
 import json
-from models import read_configconnection,logger
+import pandas as pd
+import os
+from datetime import datetime
+from flask import Blueprint,render_template,redirect,url_for,request,jsonify,flash,session
+from models import mysl_pool_connection,logger
+#from df_sql import csv_to_table,create_table,checkTableExists
+from werkzeug.utils import secure_filename
+from functools import wraps
+from decorators import required_roles,get_roles
+
+#looger
 logger=logger()
+
+#pool connection
+pool_cnxn=mysl_pool_connection()
+mycursor=pool_cnxn.cursor()
+
+#file uplaoder
+upload_folder="flask-learning\\files"
+allowed_extension = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif','csv','docx'}
+
+#make student blueprint
 student=Blueprint("student",__name__,template_folder="templates")
 
-@student.route("/submit_form/")
-def submit_form():
-    return render_template("student_create.html")
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extension
 
 @student.route("/",methods=['GET'])
-def student_list():
-    
-    if request.args:
-        mydb=read_configconnection()
-        mycursor=mydb.cursor()
-        dict_1=request.args.to_dict()
+
+@required_roles(["Admin","teacher","user"])
+def student_list():    
+    user=session["user"]
+    admin=get_roles(["Admin"])
+    if request.args:            
+        mycursor=pool_cnxn.cursor()
+        query_params_dict=request.args.to_dict()
         sql="select * from  web_data.student " 
         no_of_cond=0
-        for i in list(dict_1.keys()):
+        print(query_params_dict)
+        for i in list(query_params_dict.keys()):
             if no_of_cond==0:
-                sql=sql+f"  where {i}={dict_1[i]}"
+                if (query_params_dict[i]).isalpha:
+                    sql=sql+f"  where {i}='{query_params_dict[i]}' "
+                else:
+                    sql=sql+f" and {i}=int({query_params_dict[i]})"
                 no_of_cond=1
             else:
-                sql=sql+f" and {i}={dict_1[i]}"
-                
-        print(sql)
+                if (query_params_dict[i]).isalpha:
+                    sql=sql+f" and {i}='{query_params_dict[i]}' "
+                else:
+                    sql=sql+f" and {i}=int({query_params_dict[i]})"
         try:
             mycursor.execute(sql)
-            record=mycursor.fetchall()
+            student=mycursor.fetchall()
         except Exception as error:
-            return render_template("404.html",error=error)
-        if record==[]:
-            message=f"error :'data at {dict_1} not found '"
-            return render_template("404.html",error=message)
+            return jsonify({"error":error})
+        if student==[]:
+            message=f"error :'data at {query_params_dict} not found '"
+            return jsonify({"error":message})
         else:
-            return render_template("student.html",record=record)
-        
+            if request.content_type=="application/json":
+                df=pd.read_sql(con=pool_cnxn, sql=sql)
+                student = [{col:getattr(row, col) for col in df} for row in df.itertuples()]
+                return jsonify(student)   
+            return render_template("student.html",**locals())         
     else:
-        mydb=read_configconnection()
-        mycursor=mydb.cursor()
         sql="select * from  web_data.student "
+        if request.content_type=="application/json":
+            df=pd.read_sql(con=pool_cnxn, sql=sql)
+            student = [{col:getattr(row, col) for col in df} for row in df.itertuples()]
+            return jsonify(student)   
+        mycursor=pool_cnxn.cursor()
         mycursor.execute(sql)
-        record=mycursor.fetchall()
-        return render_template("student.html",record=record)
-
+        student=mycursor.fetchall()
+        return render_template("student.html",**locals())
+            
 @student.route("/",methods=["POST"])
-def create_student():
-    mydb=read_configconnection()
-    mycursor=mydb.cursor()
-    if request.method=='POST':
-        print(request.form["name"])
-        
-        name=request.form["name"]
-        
-        if (request.form["age"]).isdigit:
-            age=int(request.form["age"])
+@required_roles(["Admin"])
+def create_student():  
+    student_data=request.get_json(force=True)
+    mycursor=pool_cnxn.cursor()    
+    try:
+        student_name=student_data['student_name']
+        student_age=student_data['student_age']
+    except Exception as error:
+        return jsonify({"error":error})
 
-        else:
-            return render_template("404.html",error="Feild age should  be a digit or numeric value not  alpa value")
-        
-        
-        val=(name,age)
-    
+    val=(student_name,student_age)
     try:
         sql=f"insert into web_data.student(student_name, student_age) values {val}"
         mycursor.execute(sql)
-        mydb.commit()
+        pool_cnxn.commit()
         logger.debug(f"data {val} successfully inserted")
         print("data inserted")
-
     except Exception as error:
         logger.error(f"exception arise : {error}")
         print(f"Exception arise : {error}")
-        return render_template("404.html",error=error)
-
-    finally:
-        mydb.close()
-    
-    return redirect(url_for("student.student_list"))
-
-
-@student.route("/<int:id>",methods=['DELETE'])
-def remove_student(id):
-    if request.method=='DELETE':
-        mydb=read_configconnection()
-        mycursor=mydb.cursor()
-
-
+        return jsonify({"error":error})
+    df=pd.read_sql(con=pool_cnxn, sql='SELECT * FROM web_data.student ORDER BY student_id DESC LIMIT 1')
+    student = [{col:getattr(row, col) for col in df} for row in df.itertuples()]
+    return jsonify(student[0])
+   
+@student.route("/",methods=['DELETE'])
+@required_roles(["Admin"])
+def remove_student():
+    if request.method=='DELETE':        
+        mycursor=pool_cnxn.cursor()
+        student_data=request.get_json(force=True)
+        student_id=student_data["student_id"]
+        sql=f"""select student_id,student_name,student_age from web_data.student where student_id={student_id}"""
+        df=pd.read_sql(con=pool_cnxn, sql=sql)
+        student = [{col:getattr(row, col) for col in df} for row in df.itertuples()]
+        if student==[]:
+            error=f"student with id {student_id} not exist"
+            return jsonify({"error":error})
         try:
-            sql=f"delete from  web_data.student where student_id={id} "
+            sql=f"delete from  web_data.student where student_id={student_id} "
             mycursor.execute(sql)
-            mydb.commit()
-            
+            pool_cnxn.commit()            
             logger.debug(f"record of id = {id} is deleted from the database")
-
         except Exception as error:
             logger.error(f"exception arise : {error}")
             print(f"Exception arise : {error}")
-            return render_template("404.html",error=error)
-
-        finally:
-            mydb.close()
-        
-    return "OK"
-
-@student.route("/update_form/<data>")
-def update_form(data):
-    print("----------------------------")
-    print("----------------------------")
-    data=json.loads(data)
-    name=data['name']
-    age=data['age']
-    id=data['id']
+            return jsonify({"error":error})             
+    return jsonify(student)
     
-    return render_template("/update_form.html/",name=name,id=id,age=age)
+@student.route("/studentForm/",methods=["GET"])
+@required_roles(["Admin"])
+def studentForm():
+    user=session["user"]
+    admin=get_roles(["Admin"])
+    if request.args:
+        student_id=request.args.get('id') 
+        print(student_id)       
+        df=pd.read_sql(con=pool_cnxn, sql=f"select * from  web_data.student where student_id={student_id}")
+        record=df.to_dict('list')
+        student_id=record['student_id'][0]
+        update=True
+        return render_template("/studentForm.html/",**locals())
+    else:
+        update=False
+        record={'student_name':"",'student_age':0,"student_id":0}
+        return render_template("/studentForm.html/",**locals())
 
-
-@student.route("/<data>",methods=["PUT"])
-def student_update(data):
-    mydb=read_configconnection()
-    mycursor=mydb.cursor()
-    data=json.loads(data)
-    s_name=data["s_name"]
-    age=data['age']
-    student_id=data['id']
-
-    
-    
+@student.route("/",methods=["PUT"])
+@required_roles(["Admin"])
+def student_update(): 
+    mycursor=pool_cnxn.cursor()
+    student_data=request.get_json(force=True)
     try:
-        sql=f"update web_data.student set student_name='{s_name}',\
-        student_age={age} where student_id={student_id}"
+        student_name=student_data["student_name"]
+        student_age=student_data['student_age']
+        student_id=student_data['student_id']
+    except Exception as error:
+        return jsonify({"error":error})
+    mycursor.execute(f"select student_id from web_data.student where student_id={student_id}")
+    if mycursor.fetchone()==None:
+        error=f"student with id {student_id} not exist"
+        return jsonify({"error":error})
+    try:
+        sql=f"""update web_data.student set student_name='{student_name}',
+        student_age={student_age} where student_id={student_id}"""
         mycursor.execute(sql)
-        mydb.commit()
+        pool_cnxn.commit()
         print(f"Data updatated successfully")
     except Exception as error:
         print(f"error arise : {error}")
-        return render_template("404.html",error=error)
-    finally:
-        mydb.close()
-    
-    
-    return 'updated'
-    
-
-
-
-
+        return jsonify({"error":error})
+    df=pd.read_sql(con=pool_cnxn, sql=f'SELECT * FROM web_data.student where student_id={student_id}')
+    student = [{col:getattr(row, col) for col in df} for row in df.itertuples()]
+    return jsonify(student[0])

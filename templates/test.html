@@ -42,9 +42,36 @@
   
   <script type="text/javascript"
     src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    <script  type='text/javascript' src='/static/custom.js'> </script>
+    <!--<script  type='text/javascript' src='/static/custom.js'> </script>-->
+   <script>
+    function student_list() {
+      /*window.location.href = '/student/';*/  
+       $.ajax({
+                  url: '/student/' ,
+                  type: 'GET',
+                  success: function(response) {
+                    $.getJSON(response, function(data){
+                        var student_data='';
+                        $.each(data, function(key, value){
+                          
+                          student_data+='<tr>';
+                          student_data+='<td>'+value.date_created+'</td>';
+                          student_data+='<td>'+value.student_id+'</td>';
+                          student_data+='<td>'+value.student_name+'</td>';
+                          student_data+='<td>'+value.student_age+'</td>';
+                          student_data+='</tr>';
+                        });
+                        $('#example').append(student_data);
 
-  
+                      });
+                  },
+                  error: function (error) {
+                    console.log(error)
+                  }
+                });
+    
+    }
+    </script>
 </head>
 
 <body onload='toastr.success("Logged in")'>
@@ -78,7 +105,7 @@
     </div>
     <div class="navbar-nav" style="padding-right: 23px;">
       {% if admin %}
-      <p>Hi Admin</p>
+      <p>Hi Admin {{user}}</p>
       {% elif admin==False %}
       <p>Hi {{user}}</p>
       {% endif %}
@@ -105,8 +132,8 @@
           <th>Edit</th>
         </tr>
       </thead>
-      <tbody>
-        {% for i in student: %}
+      <!--<tbody>
+        {% for i in record: %}
         <tr>
           <td>{{i[0]}}</td>
           <td>{{i[1]}}</td>
@@ -134,7 +161,8 @@
           </td>
         </tr>
         {% endfor %}
-      </tbody>
+      </tbody>--->
     </table>
+    <button onclick="student_list()" > get</button>
 </body>
 </html>
