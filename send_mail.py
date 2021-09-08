@@ -91,10 +91,10 @@ def main():
                 ],
                 
         }
-    html_template="mail"
-    # files_name=["1_KtWwvLK-jpGPSnj3tStg-Q.png","Navigator.pdf"]
+    # html_template="mail"
+    files_name=["log_file.log"]
     receivers_email=["abhinavk1236@gmail.com"]
     # image="sharecare.png"
-    send_mail(receivers_email,mail_content,subject=subject,html_template=html_template,data=data)
+    send_mail(receivers_email,mail_content,subject=subject,html_template=None,files_name=files_name,data=data)
 if __name__=="__main__":
     main()

@@ -11,7 +11,7 @@ from functools import wraps
 app=Flask(__name__)
 app.secret_key="Abhinav154543"
 
-pool_cnxn=mysl_pool_connection()
+pool_cnxn=mysl_pool_connection("mysql_web_data")
 mycursor=pool_cnxn.cursor()
 
 @app.errorhandler(405)

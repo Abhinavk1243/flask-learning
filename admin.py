@@ -7,7 +7,7 @@ from models import mysl_pool_connection,logger
 from werkzeug.utils import secure_filename
 from decorators import required_roles
 logger=logger()
-pool_cnxn=mysl_pool_connection()
+pool_cnxn=mysl_pool_connection("mysql_web_data")
 mycursor=pool_cnxn.cursor()
 admin=Blueprint("admin",__name__,template_folder="templates")
 

@@ -15,7 +15,7 @@ allowed_extension = {'png', 'jpg', 'jpeg'}
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extension
 
-pool_cnxn=mysl_pool_connection()
+pool_cnxn=mysl_pool_connection("mysql_web_data")
 mycursor=pool_cnxn.cursor()
 
 auth=Blueprint("auth",__name__,template_folder="templates")
