@@ -14,20 +14,20 @@ def getconfig(section,key):
         string: value of corresonding section key
     """
     parser = configparser.ConfigParser()
-    parser.read(os.path.join(os.path.expanduser("~"),'config\\sqlcred.cfg'))
+    parser.read(os.path.join(os.path.expanduser("~"),'config/sqlcred.cfg'))
     return parser.get(section,key)  
 
-def mysl_pool_connection():
+def mysl_pool_connection(section):
     """Metod is use to connect database with python 
 
     Returns:
         connection : myslconnection
     """
     dbconfig={ 
-              'host' : getconfig("mysql_web_data","host"),
-              'user' : getconfig("mysql_web_data","user"),
-              'database' : getconfig("mysql_web_data","database"),
-              'password' : getconfig("mysql_web_data","password"),  
+              'host' : getconfig(section,"host"),
+              'user' : getconfig(section,"user"),
+              'database' : getconfig(section,"database"),
+              'password' : getconfig(section,"password"),  
             }
     
     cnxn = pooling.MySQLConnectionPool(pool_name = "student",**dbconfig)
