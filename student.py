@@ -152,6 +152,7 @@ def student_update():
         student_name=student_data["student_name"]
         student_age=student_data['student_age']
         student_id=student_data['student_id']
+        logger.debug(student_id)
     except Exception as error:
         logger.error(error)
         return jsonify({"error":error})
