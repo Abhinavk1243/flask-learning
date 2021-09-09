@@ -153,6 +153,7 @@ def student_update():
         student_age=student_data['student_age']
         student_id=student_data['student_id']
     except Exception as error:
+        logger.error(error)
         return jsonify({"error":error})
     mycursor.execute(f"select student_id from web_data.student where student_id={student_id}")
     if mycursor.fetchone()==None:
