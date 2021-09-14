@@ -36,11 +36,17 @@ def login():
             session['role']=account[2].split(",")
             session['loggedin']=True
             session['user']=username  
+            if request.content_type=="application/json":
+                return jsonify({"response":"user logged in !"})
+            flash("user logged in !")
             return redirect(url_for("student.student_list"))
         else:
             if "user" in session:
                 return redirect(url_for('student.student_list'))     
+            if request.content_type=="application/json":
+                return jsonify({"response":"invalid login credentials !"})
             msg="invalid login credential"
+            
             return render_template('home.html',msg=msg)
     else:
         return redirect(url_for("home"))

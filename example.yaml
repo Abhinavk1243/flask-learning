@@ -1,0 +1,179 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Simple student API
+  description: A simple API to understand the Swagger Specification in greater detail
+schemes: 
+- https
+host: example.io
+basePath: /v1
+# securityDefinitions:
+#   UserSecurity:
+#     type: basic
+# security:
+#   - UserSecurity: [] 
+paths:
+  /students:
+    get:
+      description: Returns a list of students 
+      parameters:
+        - $ref: '#/parameters/PageLimit'
+        - $ref: '#/parameters/PageNumber'
+        
+      responses:
+        200:
+          description: Successfully returned a list of students 
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/student'
+                  
+        400:
+          #  ----- Added line  ----------------------------------------
+          $ref: '#/responses/400Error'
+          #  ---- /Added line  ----------------------------------------
+            
+    post:
+      description: Lets a user post a new student
+      parameters:
+        - name: student
+          in: body
+          description: creates a new student in our database
+          schema:
+            type: object
+            required:
+                  - username
+            properties:
+              student_name:
+                type: string
+              student_age:
+                type: integer
+                
+      responses:
+        200:
+          description: Successfully created a new student
+          
+        400:
+          #  ----- Added line  ----------------------------------------
+          $ref: '#/responses/400Error'
+          #  ---- /Added line  ----------------------------------------
+    
+    put:
+      description: Lets update the record of student
+      parameters:
+        - name: student
+          in: body
+          description: update student in our database
+          schema:
+            type: object
+            required:
+                  - username
+            properties:
+              student_name:
+                type: string
+              student_age:
+                type: integer
+                
+      responses:
+        200:
+          description: Successfully updated student record
+          
+        400:
+          #  ----- Added line  ----------------------------------------
+          $ref: '#/responses/400Error'
+          #  ---- /Added line  ----------------------------------------
+
+    delete:
+        description: Lets delete the record of student
+        parameters:
+          - name: student
+            in: body
+            description: delete student in our database
+            schema:
+              type: object
+              required:
+                    - username
+              properties:
+                student_id:
+                  type: integer
+                  
+        responses:
+          200:
+            description: Successfully delete student record
+            
+          400:
+            #  ----- Added line  ----------------------------------------
+            $ref: '#/responses/400Error'
+            #  ---- /Added line  ----------------------------------------
+    
+      
+  /students/{username}:
+    get:
+      description: Obtain information about an student from his or her unique username
+      parameters:
+        - name: username
+          in: path 
+          type: string
+          required: true 
+          
+      responses:
+        200:
+          description: Successfully returned an student
+          schema:
+            type: object
+            properties:
+              date_created:
+                type: string
+                format: date
+              student_id:
+                  type: integer
+              student_name:
+                  type: string
+              student_age:
+                  type: integer
+                
+        400:
+          #  ----- Added line  ----------------------------------------
+          $ref: '#/responses/400Error'
+          #  ---- /Added line  ----------------------------------------                
+                
+definitions:
+  student:
+    type: object
+    required:
+      - username
+    properties:
+      date_created:
+        type: string
+        format: date
+      student_id:
+          type: integer
+      student_name:
+          type: string
+      student_age:
+          type: integer
+
+
+    
+#  ----- Added lines  ----------------------------------------
+parameters:
+  PageLimit:
+    name: limit
+    in: query
+    type: integer
+    description: Limits the number of student on a page
+    
+  PageNumber:
+    name: offset
+    in: query
+    type: integer
+    description: Specifies the page number of the students to be displayed
+responses:
+  400Error:
+    description: Not found
+    schema:
+      type: object 
+      properties:
+        message:
+          type: string
+#  ---- /Added lines  ----------------------------------------
