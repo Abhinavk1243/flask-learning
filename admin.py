@@ -105,15 +105,15 @@ def create_role():
     
     return json.dumps({'error':False ,"user":user[0]})
     
-@admin.route("/sendmail/",methods=["GET"])
-def send_mail():
-    mail = smtplib.SMTP('smtp.gmail.com', 587)
-    mail.starttls()
-    mail.login("abhinavflasklearning@gmail.com", "abhinav@12")
-    message = "testing message , this ,message is sent by using python"
-    mail.sendmail("abhinavflasklearning@gmail.com", "abhinavkumar1243@gmail.com", message)
-    mail.quit()
-    return jsonify({"sender":"abhinavflasklearning","receiver":"abhinavkumar1243"})
+# @admin.route("/sendmail/",methods=["GET"])
+# def send_mail():
+#     mail = smtplib.SMTP('smtp.gmail.com', 587)
+#     mail.starttls()
+#     mail.login("abhinavflasklearning@gmail.com", "abhinav@12")
+#     message = "testing message , this ,message is sent by using python"
+#     mail.sendmail("abhinavflasklearning@gmail.com", "abhinavkumar1243@gmail.com", message)
+#     mail.quit()
+#     return jsonify({"sender":"abhinavflasklearning","receiver":"abhinavkumar1243"})
 
 
 

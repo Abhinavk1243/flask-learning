@@ -1,0 +1,164 @@
+import math
+from pandas.io.pytables import DataIndexableCol
+import py
+import pytest
+import json
+import pytest_mock
+
+# @pytest.mark.parametrize("num1,num2,output",[(1,2,3),(4,3,6),(23,564,587),(456,654,1110)])
+# def test_mod(num1,num2,output):
+#     assert decode.add(num1,num2)==output
+# @pytest.fixture
+# def input_value():
+#     input=39
+#     return input
+# @pytest.mark.skip
+# def test_sqrt():
+#    num = 25
+#    assert math.sqrt(num) == 5
+
+# @pytest.mark.skip
+# def testsquare():
+#    num = 7
+#    assert 7*7 == 40
+
+# @pytest.mark.skip
+# def testquality():
+#    assert 10 <= 11
+   
+# @pytest.mark.skip
+# def test_greater():
+#     num1=23
+#     num2=24
+#     assert num1>num2
+
+# @pytest.mark.skip
+# def test_greater_equal():
+#     num1=23
+#     num2=23
+#     assert num1>=num2
+    
+# def test_divisible_by_3(input_value):
+#     assert input_value % 3 == 0
+
+# def test_divisible_by_6(input_value):
+#     assert input_value % 6 == 0
+
+
+# @pytest.mark.parametrize('input',[5,13,225,546,4545245] )
+# def test_div_by_5(input):
+#     assert input%5==0
+
+# @pytest.mark.parametrize("num, output",[(1,11),(2,22),(3,35),(4,44)])
+# def test_multiplication_11(num, output):
+#    assert 11*num == output
+
+
+
+# API TESTING
+# import requests
+# import json
+# @pytest.fixture
+# def supply_url():
+# 	return "http://127.0.0.1:5000/"
+
+
+# @pytest.mark.parametrize("id,name",[(10,"Anurag singh"),(14,"Arpit"),(15,"Arpan tyagi"),(24,"Anuj")])
+# def test_getAPI(supply_url,id,name):
+#     url=f"{supply_url}"
+#     res=requests.get(url)
+#     res_json = json.loads(res.text)["data"]
+#     data=res_json[0]
+#     # print(data["student_name"])
+#     assert data["student_name"]==name
+#     assert data["student_id"]==id
+    
+#     assert res.status_code == 200, res.text
+#     assert (res_json[0])['student_id'] == id, res.text
+#     assert (res_json[0])['student_name'] ==name, res.text
+
+
+
+# import pytest
+
+# from rest_api import app
+# from unittest.mock import patch
+# import mock
+# import os
+
+# class FakedResponse:
+#     """Fake Response2."""
+
+#     status_code = 200
+
+#     @staticmethod
+#     def json():
+#         """Json Response."""
+#         return "response"
+
+# @pytest.fixture
+# def client():
+#     """Provide the client session used by tests."""
+#     with app.test_client() as client:
+#         yield client
+
+# @mock.patch('rest_api.student', side_effect=None, return_result=None)
+# def test_recommendation_api_endpoint(_mock_object, client):
+#     """Check the /recommender REST API endpoint."""
+#     cursor = FakedResponse()
+
+#     rec_resp = client.post(api_route_for("get"),
+#                            data=json.dumps(payload), content_type='application/json')
+
+
+import os
+from rest_api import get_student,app
+from decode import get_user
+from student import student_list
+import decode
+import pytest_mock
+import json
+import requests_mock
+# @pytest.fixture()
+# def fake_user_info():
+#     data=decode.get_user_data()
+#     return data
+
+def test_student_list(mocker,requests_mock):
+    print("======================================>")
+    fake_resp=mocker.Mock()
+    
+    data={"date_created": "2021-09-09", "student_id": 52, "student_name": "rohan", "student_age": 23}
+    # data=json.dumps(data)
+    fake_resp.json=mocker.Mock(return_value=data)
+    print(fake_resp.json)
+    fake_resp.status_code=200
+    mocker.patch("student.student_list",return_value=data)
+    # print("======================================")
+    # print(type(fake_resp.json))
+    assert "date_created" in data
+    assert "student_id" in data
+    assert "student_name" in data
+    assert "student_age" in data
+    
+    
+def test_create_student(mocker,requests_mock):
+    
+    req = mocker.Mock()
+    req.method = 'POST'
+    req.POST = {'username': 'uname', 'password': 'pass12343#12'}
+    req.status_code=201
+    fake_res={"response":"user logged in !"}
+    req.json=mocker.Mock(return_value=fake_res)
+    mocker.patch("student.create_student",return_value=fake_res)
+    assert fake_res["response"]=="user logged in !"
+# @responses.activate
+# def test_retrieve_weather_using_responses(fake_weather_info):
+#     """Given a city name, test that a HTML report about the weather is generated
+#     correctly."""
+#     data={'ID': 2, 'registered_on': '2021-06-16', 'username': 'abhinav1243', 'email_id': 'abhi123@gmail.com'}
+#     api_uri = "/student/"
+#     responses.add(responses.GET, api_uri, json=fake_weather_info, status=HTTPStatus.OK)
+
+#     weather_info = retrieve_weather(city="London")
+#     assert weather_info == WeatherInfo.from_dict(fake_weather_info)
