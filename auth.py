@@ -103,8 +103,11 @@ def signup():
                 df=pd.read_sql(con=pool_cnxn, sql=f"""SELECT user.Id,user.username,user.email_id, group_concat(roles.name 
                 SEPARATOR "," )roles FROM web_data.user left join web_data.user_roles  ON user.id = user_roles.user_id 
                 left join web_data.roles on user_roles.role_id=roles.id where user.username='{username}' """)
-                user=[{col:getattr(row, col) for col in df} for row in df.itertuples()]
-                return jsonify(user)
+                user=df.to_dict(orient="records")
+                user_detail=user[0]
+                user_detail["file_name"]==filename
+                response={"message":"you are successfull registered !","user_detail":user}
+                return jsonify(response)
             return redirect(url_for('student.student_list'))   
         return render_template('signup.html',msg=msg)
     else:

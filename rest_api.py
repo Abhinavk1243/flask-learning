@@ -3,9 +3,9 @@ from flask_restful import Resource, Api
 from models import mysl_pool_connection,logger
 import pandas as pd
 
-pool_cnxn=mysl_pool_connection("mysql_web_data")
-mycursor=pool_cnxn.cursor()
-logger=logger()
+# pool_cnxn=mysl_pool_connection("mysql_web_data")
+# mycursor=pool_cnxn.cursor()
+# logger=logger()
 
 app = Flask(__name__)
 # api = Api(app)
@@ -112,6 +112,6 @@ def get_student():
   
   
 # driver function
-if __name__ == '__main__':
+# if __name__ == '__main__':
   
-    app.run(debug = True)
+#     app.run(debug = True)
