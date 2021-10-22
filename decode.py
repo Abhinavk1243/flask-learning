@@ -1,29 +1,41 @@
-# def add(num1,num2):
-#     return num1+num2
+class rectangle():
+    def __init__(self,side1,side2):
+        self.__side1=side1
+        self.__side2=side2
+        
 
-from models import mysl_pool_connection
-import pandas as pd
-import json
-import requests
-
-conn=mysl_pool_connection("mysql_web_data")
-
-def get_user():
-    res=requests.get("https://reqres.in/api/users")
-    return res.json
-
-
-
-def get_user_data():
-    sql="""select * from web_data.student"""
-    user_df=pd.read_sql(sql=sql,con=conn)
-    user_df["date_created"]= pd.to_datetime(user_df["date_created"]) 
-    user_df["date_created"]=user_df["date_created"].dt.strftime('%Y-%m-%d')
-    user_json=user_df.to_dict("records")
-    # return user_json
+    @property
+    def length(self):
+        print("Getting length...")
+        return self.__side1
     
-    return json.dumps(user_json)
+    @property   
+    def breadth(self):
+        print("Getting breadth...")
+        return self.__side2
+    
+    @length.setter
+    def length(self,side1):
+        print("setting value...")
+        self.__side1=side1
+    
+    @breadth.setter
+    def breadth(self,side2):
+        print("setting value...")
+        self.__side1=side2
+    
+    def perimeter(self):
+        return 2 * (self.__side1 + self.__side2)
+    
+    def area(self):
+        return self.__side1 * self.__side2
     
     
     
-# print(get_user_data())
+shape=rectangle(2,3)
+# shape.length=12
+# print(shape.length)
+
+print(shape.area())
+
+    

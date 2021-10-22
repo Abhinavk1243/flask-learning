@@ -10,7 +10,7 @@ To checkstatus DAG, Please login to <a style="color: #00bfa5" href="LINK">DataOp
 <b>Current Duration:</b> 
 {% if content_data.content_data.current_duration.seconds > (content_data.content_data.average_execution.seconds)*1.2 %}
 <span style="color:red ">&#8593</span>
-{% elif content_data.content_data.current_duration.seconds < (content_data.content_data.average_execution.seconds)*0.8 %}
+{% elif content_data.content_data.current_duration.seconds <= (content_data.content_data.average_execution.seconds)*0.8 %}
 <span style="color:green ">&#8595</span>
 {% endif %}
 {{(content_data.content_data.current_duration|string).split(".")[0]}}<br>

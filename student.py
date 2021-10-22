@@ -78,6 +78,7 @@ def student_list():
         return render_template("student.html",**locals())
             
 @student.route("/",methods=["POST"])
+
 @required_roles(["Admin"])
 def create_student():  
     student_data=request.get_json(force=True)

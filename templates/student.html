@@ -3,6 +3,38 @@
 
 <head>
   <title>Student</title>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-33KY3Q436J"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-33KY3Q436J',{'linker': {
+    'domains': null
+  }});
+</script> -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WQ3DK518NT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-WQ3DK518NT',{'linker': {
+        'domains': null
+      }});
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-W5VZJNB');</script>
+  <!-- End Google Tag Manager -->
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -47,7 +79,14 @@
   
 </head>
 
+
 <body onload='toastr.success("Logged in")'>
+
+  <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W5VZJNB"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a href="#" class="navbar-brand">Brand<b>Name</b></a>
     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
@@ -59,7 +98,7 @@
         <a href="#" onclick='go_to_homepage()' class="nav-item nav-link">Home</a>
         <a href="#" class="nav-item nav-link active">Students</a>
         {% if admin %}
-        <a href="#" onclick='student_form()' class="nav-item nav-link">StudentForm</a>
+        <a href="#" onclick='student_form()' id = "student_form1" class="nav-item nav-link">StudentForm</a>
         {% elif admin==False %}
         <a href="#" onclick='show_alert_user()' class="nav-item nav-link">StudentForm</a>
         {% endif %}

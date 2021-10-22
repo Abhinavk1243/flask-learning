@@ -5,6 +5,7 @@ from models import mysl_pool_connection,logger
 logger=logger()
 from student import student
 from auth import auth
+from flask_sqlalchemy import SQLAlchemy
 from admin import admin
 from flask import Flask
 from functools import wraps
