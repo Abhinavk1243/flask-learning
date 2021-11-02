@@ -31,6 +31,7 @@ def allowed_file(filename):
 @required_roles(["Admin","teacher","user"])
 def student_list():    
     user=session["user"]
+    sso_id = session["sso_id"]
     admin=get_roles(["Admin"])
     if request.args:            
         mycursor=pool_cnxn.cursor()
@@ -64,6 +65,8 @@ def student_list():
                 student = [{col:getattr(row, col) for col in df} for row in df.itertuples()]
                 response={"response":{"method":"GET","Status_Code":200,"description":"return record of student","student":student}}
                 return jsonify(response)   
+            print("===========================")
+            print(sso_id)
             return render_template("student.html",**locals())         
     else:
         sql="select * from  web_data.student "
@@ -75,6 +78,7 @@ def student_list():
         mycursor=pool_cnxn.cursor()
         mycursor.execute(sql)
         student=mycursor.fetchall()
+        
         return render_template("student.html",**locals())
             
 @student.route("/",methods=["POST"])
@@ -136,8 +140,9 @@ def remove_student():
 @student.route("/studentForm/",methods=["GET"])
 @required_roles(["Admin"])
 def studentForm():
-    user=session["user"]
-    admin=get_roles(["Admin"])
+    user = session["user"]
+    admin = get_roles(["Admin"])
+    sso_id = session["sso_id"]
     if request.args:
         student_id=request.args.get('id') 
         print(student_id)       

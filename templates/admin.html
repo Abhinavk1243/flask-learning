@@ -14,27 +14,72 @@
     </script> -->
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-WQ3DK518NT"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WQ3DK518NT"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
 
-  gtag('config', 'G-WQ3DK518NT',{'linker': {
-        'domains': null
-      }});
-</script>
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
 
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-W5VZJNB');</script>
+        gtag('config', 'G-WQ3DK518NT', {
+            'user_id': 'Admin'
+        }, {
+            'linker': {
+                'domains': null
+            }
+        });
+        gtag('set', 'user_properties', {
+            'crm_id': 'Admin'
+        });
+        gtag('set', 'dimension1', '{{user}}');
+        ga('set', 'dimension1', '{{user}}');
+        gtag('set', 'dimension2', '{{sso_id}}');
+        ga('set', 'dimension2', '{{sso_id}}');
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-210773024-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'UA-210773024-1');
+        // gtag('config', 'UA-210773024-1', {
+        //   'custom_map': {'dimension2': '{{sso_id}}'}});
+        gtag('create', 'UA-210773024-1', {
+            'userID': "{{user}}"
+        });
+        gtag('set', 'dimension1', '{{user}}');
+        gtag('set', 'dimension2', '{{sso_id}}');
+    </script>
+
+
+    <!-- Google Tag Manager -->
+    <script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime(),
+                event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-W5VZJNB');
+    </script>
     <!-- End Google Tag Manager -->
     <title>Admin Dashboard</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" >
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Varela+Round">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
@@ -65,22 +110,22 @@
 
     <meta charset="utf-8">
 
-    
+
     <link rel="stylesheet" href="/static/custom.css">
-     
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
-   <script language=javascript src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script language=javascript src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script language=javascript src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
     <script type='text/javascript' src='/static/custom.js'></script>
 </head>
 
 <body>
     <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W5VZJNB"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W5VZJNB" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a href="#" class="navbar-brand">Brand<b>Name</b></a>
@@ -92,14 +137,15 @@
             <div class="navbar-nav">
                 <a href="#" onclick='go_to_homepage()' class="nav-item nav-link">Home</a>
                 <a href="#" onclick="student_list()" class="nav-item nav-link ">Students</a>
-                <a href="#" onclick='student_form()' class="nav-item nav-link">StudentForm</a>
+                <a href="#" id="student_form1" onclick='student_form()' class="nav-item nav-link-form">StudentForm</a>
 
                 <div class="nav-item dropdown">
                     <a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle">Services</a>
                     <div class="dropdown-menu">
 
-                        <a href="#" class="dropdown-item acive" >Admin panel</a>
-                        <a href="#" onclick='create_user_role_form()' class="dropdown-item">Create user role</a>
+                        <a href="#" class="dropdown-item acive" id="admin">Admin panel</a>
+                        <a href="#" id="userrole-nav" onclick='create_user_role_form()' class="dropdown-item">Create
+                            user role</a>
                         <a href="#" class="dropdown-item">Graphic Design</a>
                         <a href="#" class="dropdown-item">Digital Marketing</a>
                     </div>
@@ -116,7 +162,7 @@
         </div>
     </nav>
     </div>
-    
+
     </div>
     <div class='container' id="table_cont">
         <table id="example" class="table table-striped table-bordered" style="width:100%">
@@ -153,4 +199,5 @@
             </tbody>
         </table>
 </body>
+
 </html>

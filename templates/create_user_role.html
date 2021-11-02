@@ -22,49 +22,88 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
-    integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+        integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
 
 
-     <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-WQ3DK518NT"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-WQ3DK518NT',{'linker': {
-        'domains': null
-      }});
-</script>
-
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-W5VZJNB');</script>
-    <!-- End Google Tag Manager -->
-    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-33KY3Q436J"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WQ3DK518NT"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-    
-      gtag('config', 'G-33KY3Q436J',{'linker': {
-        'domains': null
-      }});
-    </script> -->
-  <title>User role</title>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'G-WQ3DK518NT', {
+            'user_id': 'Admin'
+        }, {
+            'linker': {
+                'domains': null
+            }
+        });
+        //   gtag('set', {'user_id': '{{user}}'});
+        gtag('set', 'user_properties', {
+            'crm_id': 'Admin'
+        });
+        gtag('set', 'dimension1', '{{user}}');
+        ga('set', 'dimension1', '{{user}}');
+        gtag('set', 'dimension2', '{{sso_id}}');
+        ga('set', 'dimension2', '{{sso_id}}');
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-210773024-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'UA-210773024-1');
+        // gtag('config', 'UA-210773024-1', {
+        //   'custom_map': {'dimension2': '{{sso_id}}'}});
+        gtag('create', 'UA-210773024-1', {
+            'userID': "{{user}}"
+        });
+        gtag('set', 'dimension1', '{{user}}');
+        gtag('set', 'dimension2', '{{sso_id}}');
+    </script>
+
+
+
+    <!-- Google Tag Manager -->
+    <script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime(),
+                event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-W5VZJNB');
+    </script>
+    <!-- End Google Tag Manager -->
+
+    <title>User role</title>
+
+
 </head>
 
 <body>
     <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W5VZJNB"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W5VZJNB" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a href="#" class="navbar-brand">Brand<b>Name</b></a>
@@ -75,12 +114,12 @@
             <div class="navbar-nav">
                 <a href="#" onclick='go_to_homepage()' class="nav-item nav-link">Home</a>
                 <a href="#" onclick='student_list()' class="nav-item nav-link">Students</a>
-                <a href="#" onclick='student_form()' class="nav-item nav-link ">StudentForm</a>
+                <a href="#" id="student_form1" onclick='student_form()' class="nav-item nav-link-form">StudentForm</a>
                 <div class="nav-item dropdown">
                     <a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle">Services</a>
                     <div class="dropdown-menu">
-                        <a href="#" onclick="go_to_AdminPanel()" class="dropdown-item">Admin panel</a>
-                        <a href="#" class="dropdown-item">Create user role</a>
+                        <a href="#" onclick="go_to_AdminPanel()" id="admin" class="dropdown-item">Admin panel</a>
+                        <a href="#" id="userrole-nav" class="dropdown-item">Create user role</a>
                         <a href="#" class="dropdown-item">Graphic Design</a>
                         <a href="#" class="dropdown-item ">Digital Marketing</a>
                     </div>
@@ -106,17 +145,18 @@
     </div>
 
     <div id="logreg-forms">
-        
+
         <h1 class="h3 mb-3 font-weight-normal" style="text-align: center; color:blue"> Create User Role</h1>
         <hr>
         <p></p>
-        <select  id="username" name="username" placeholder="{{username}}" class="selectpicker" data-live-search="true">
+        <select id="username" name="username" placeholder="{{username}}" class="selectpicker" data-live-search="true">
             {% for i in users : %}
-                <option value="{{i[1]}}">{{i[1]}}</option>
+            <option value="{{i[1]}}">{{i[1]}}</option>
             {% endfor %}
         </select>
 
-        <select multiple id="select" name="select" placeholder='{{user_role}}' class="selectpicker" multiple data-live-search="true">
+        <select multiple id="select" name="select" placeholder='{{user_role}}' class="selectpicker" multiple
+            data-live-search="true">
             {% for i in roles : %}
             <option value="{{i[0]}}">{{i[0]}}</option>
             {% endfor %}
@@ -128,9 +168,9 @@
         <button style=" padding: 8px 16px;font-size: 16px; " class="btn btn-success btn-block"
             onclick="create_user_role()"><i class="fas fa-sign-in-alt"></i> create role</button>
         {% else %}
-        <button style=" padding: 8px 26px;font-size: 16px; " class="btn btn-success btn-block"
+        <button style=" padding: 8px 26px;font-size: 16px; " id="userrole" class="btn btn-success btn-block"
             onclick="create_user_role()"><i class="fas fa-sign-in-alt"></i> edit role</button>
-        {% endif %} 
+        {% endif %}
     </div>
 
 

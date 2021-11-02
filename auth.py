@@ -25,7 +25,7 @@ def login():
     if request.method=='POST':
         username=request.form['username']
         password=request.form['password']
-        sql=f"""select user.username,user.password,group_concat(roles.name SEPARATOR "," )
+        sql=f"""select user.ID,user.username,user.password,group_concat(roles.name SEPARATOR "," )
         roles FROM web_data.user left join web_data.user_roles  ON user.id = user_roles.user_id 
         left join web_data.roles on user_roles.role_id=roles.id  WHERE username = '{username}' 
         and password =MD5('{password}') """
@@ -33,9 +33,10 @@ def login():
         account = mycursor.fetchone()
         
         if None not in account:
-            session['role']=account[2].split(",")
+            session['role']=account[3].split(",")
             session['loggedin']=True
             session['user']=username  
+            session["sso_id"] = account[0]
             if request.content_type=="application/json":
                 return jsonify({"response":"user logged in !"})
             flash("user logged in !")
@@ -45,9 +46,9 @@ def login():
                 return redirect(url_for('student.student_list'))     
             if request.content_type=="application/json":
                 return jsonify({"response":"invalid login credentials !"})
-            msg="invalid login credential"
+            flash("invalid login credential")
             
-            return render_template('home.html',msg=msg)
+            return redirect(url_for("home"))
     else:
         return redirect(url_for("home"))
     
@@ -56,7 +57,7 @@ def login():
 def logout():
     session.pop('loggedin', None)
     session.pop("user",None)
-    flash("Logged out success fully")
+    # flash("Logged out successfully")
     return redirect(url_for("home"))
     
 @auth.route("/signup/",methods=['POST','GET'])
@@ -108,8 +109,8 @@ def signup():
                 user_detail["file_name"]==filename
                 response={"message":"you are successfull registered !","user_detail":user}
                 return jsonify(response)
+            signup = True
             return redirect(url_for('student.student_list'))   
         return render_template('signup.html',msg=msg)
     else:
         return render_template('signup.html',msg=msg)
-

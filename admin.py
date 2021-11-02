@@ -24,6 +24,7 @@ def admin_panel():
     else:
         user=session["user"]
         mycursor.execute(sql)
+        sso_id = session["sso_id"]
         record=mycursor.fetchall()
         return render_template("admin.html",**locals())
 
@@ -31,6 +32,7 @@ def admin_panel():
 @required_roles(["Admin"])
 def user_role_form():
     user=session["user"]
+    sso_id = session["sso_id"]
     sql="select roles.name from web_data.roles"
     mycursor.execute(sql)
     roles=mycursor.fetchall()

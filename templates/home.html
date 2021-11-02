@@ -70,7 +70,7 @@
 			<div class="navbar-nav">
 				<a href="#" class="nav-item nav-link active">Home</a>
 				<a href="#" onclick="student_list()" class="nav-item nav-link">Students</a>
-				<a href="#" onclick="student_form()" class="nav-item nav-link ">StudentForm</a>
+				<a href="#" id = "student_form1" onclick="student_form()" class="nav-item nav-link-form">StudentForm</a>
 				<div class="nav-item dropdown">
 					<a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle">Services</a>
 					<div class="dropdown-menu">
@@ -98,7 +98,7 @@
 		</div>
 	</nav>
 
-	{% with messages = get_flashed_messages(with_categories=true) %}
+	<!-- {% with messages = get_flashed_messages(with_categories=true) %}
 	{% if messages %}
 	{% for category, message in messages %}
 	<div class="alert alert-success">
@@ -106,7 +106,7 @@
 	</div>
 	{% endfor %}
 	{% endif %}
-	{% endwith %}
+	{% endwith %} -->
 
 	</div>
 	<div id="logreg-forms">
@@ -123,9 +123,17 @@
 			<input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
 			<p></p>
 			<p id="message-form">{{msg}}</p>
-			<button class="btn btn-success btn-block" type="submit"><i class="fas fa-sign-in-alt"></i> Sign in</button>
+			{% with messages = get_flashed_messages(with_categories=true) %}
+				{% if messages %}
+				{% for category, message in messages %}
+					<p id="invalid-cred"  style="color: kred;">{{message}}</p>
+				{% endfor %}
+				{% endif %}
+				{% endwith %}
+			<button class="btn btn-success btn-block" id="login" type="submit"><i class="fas fa-sign-in-alt"></i> Sign in</button>
 			<a href="#" id="forgot_pswd">Forgot password?</a>
 			<hr>
+			
 		</form>
 		
 	</div>
