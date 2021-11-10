@@ -4,71 +4,74 @@
 <head>
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-WQ3DK518NT"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
+  <script>
+    window.dataLayer = window.dataLayer || [];
 
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
 
-        gtag('config', 'G-WQ3DK518NT', {
-            'user_id': '{{user}}'
-        }, {
-            'linker': {
-                'domains': null
-            }
-        });
-        gtag('set', 'user_properties', {
-            'crm_id': '{{user}}'
-        });
-        gtag('set', 'dimension1', '{{user}}');
-        ga('set', 'dimension1', '{{user}}');
-        gtag('set', 'dimension2', '{{sso_id}}');
-        ga('set', 'dimension2', '{{sso_id}}');
-        //   gtag('set', {'user_id': '{{user}}'}); // Set the user ID using signed-in user_id.
-    </script>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-210773024-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
+    gtag('config', 'G-WQ3DK518NT', {
+      'user_id': '{{user}}'
+    }, {
+      'linker': {
+        'domains': null
+      }
+    });
+    gtag('set', 'user_properties', {
+      'crm_id': '{{user}}'
+    });
+    gtag('set', 'dimension1', '{{user}}');
+    ga('set', 'dimension1', '{{user}}');
+    gtag('set', 'dimension2', '{{sso_id}}');
+    ga('set', 'dimension2', '{{sso_id}}');
+    // ga('set', 'userId', '{{user}}')
+    // gtag('set', {'user_id': '{{user}}'});
+  </script>
 
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
+  <!-- Google Tag Manager -->
+  <script>
+    (function (w, d, s, l, i) {
+      w[l] = w[l] || [];
+      w[l].push({
+        'gtm.start': new Date().getTime(),
+        event: 'gtm.js'
+      });
+      var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s),
+        dl = l != 'dataLayer' ? '&l=' + l : '';
+      j.async = true;
+      j.src =
+        'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-W5VZJNB');
+  </script>
+  <!-- End Google Tag Manager -->
 
-        gtag('config', 'UA-210773024-1');
-        // gtag('config', 'UA-210773024-1', {
-        //   'custom_map': {'dimension2': '{{sso_id}}'}});
-        gtag('create', 'UA-210773024-1', {
-            'userID': "{{user}}"
-        });
-        gtag('set', 'dimension1', '{{user}}');
-        gtag('set', 'dimension2', '{{sso_id}}');
-        ga('set', 'dimension2', '{{sso_id}}');
-    </script>
-
-
-
-    <!-- Google Tag Manager -->
-    <script>
-        (function (w, d, s, l, i) {
-            w[l] = w[l] || [];
-            w[l].push({
-                'gtm.start': new Date().getTime(),
-                event: 'gtm.js'
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-210773024-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+            "Username":"{{user}}"
             });
-            var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s),
-                dl = l != 'dataLayer' ? '&l=' + l : '';
-            j.async = true;
-            j.src =
-                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-            f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-W5VZJNB');
-    </script>
-    <!-- End Google Tag Manager -->
+
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-210773024-1');
+    // gtag('config', 'UA-210773024-1', {
+    //       'custom_map': {'dimension2': '{{sso_id}}'}});
+    gtag('create', 'UA-210773024-1', {
+      'userID': "{{user}}"
+    });
+    gtag('set', 'dimension1', '{{user}}');
+    gtag('set', 'dimension2', '{{sso_id}}');
+  </script>
 
     <title>student form</title>
     <link rel="stylesheet" href="/static/custom.css">
@@ -121,7 +124,7 @@
                         <a href="#" id="userrole-nav" onclick='create_user_role_form()' class="dropdown-item">Create
                             user role</a>
                         {% endif %}
-                        <a href="#" class="dropdown-item">Graphic Design</a>
+                        <a href="/graphic_designing/" class="dropdown-item">Graphic Design</a>
                         <a href="#" class="dropdown-item">Digital Marketing</a>
                     </div>
                 </div>
@@ -145,7 +148,7 @@
         </div>
     </nav>
 
-    <h1>student</h1>
+    <h1>Student Form</h1>
 
     <div class="square" id="form">
 

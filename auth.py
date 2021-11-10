@@ -108,8 +108,10 @@ def signup():
                 user_detail=user[0]
                 user_detail["file_name"]==filename
                 response={"message":"you are successfull registered !","user_detail":user}
+                # flash("user successfully registered !")
                 return jsonify(response)
             signup = True
+            
             return redirect(url_for('student.student_list'))   
         return render_template('signup.html',msg=msg)
     else:

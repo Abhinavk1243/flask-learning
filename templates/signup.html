@@ -26,6 +26,25 @@
       }});
 </script>
 
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-210773024-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-210773024-1');
+    // gtag('config', 'UA-210773024-1', {
+    //       'custom_map': {'dimension2': '{{sso_id}}'}});
+    gtag('create', 'UA-210773024-1', {
+      'userID': "{{user}}"
+    });
+
+  </script>
+
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -116,7 +135,7 @@
 			<div class="form-group">
                 <input type="file" id="profile" class="form-control" placeholder="choose profile pic" name="profile_pic" required>
             </div>
-            <p id="message-form" >{{msg}}</p>
+            <p id="sign-up-failed" >{{msg}}</p>
             <div class="form-group">
                 <label class="form-check-label"><input type="checkbox" required="required"> I accept the
                     <a href="#">Terms &amp; Conditions</a></label>

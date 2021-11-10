@@ -48,6 +48,13 @@ def before_user():
 @app.route("/")
 def home():
     return render_template('home.html')
+  
+@app.route("/graphic_designing/" ,methods = ["GET"])
+def graphic_design():
+  
+  user=session["user"]
+  sso_id = session["sso_id"]
+  return render_template("graphic_design.html",**locals())
 
 
 

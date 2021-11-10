@@ -4,17 +4,99 @@
 <head>
 
 
-<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-33KY3Q436J"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+	
+<style>
+    #invalid-cred {
+      color: red;
+    }
 
-  gtag('config', 'G-33KY3Q436J',{'linker': {
-    'domains': null
-  }});
-</script> -->
+    #invalid-cred {
+      -moz-animation: cssAnimation 2s ease-in;
+      /* Firefox */
+      -webkit-animation: cssAnimation 6s ease-in;
+      /* Safari and Chrome */
+      -o-animation: cssAnimation 6s ease-in;
+      /* Opera */
+      animation: cssAnimation 6s ease-in;
+      -webkit-animation-fill-mode: forwards;
+      animation-fill-mode: forwards;
+    }
 
+    @keyframes cssAnimation {
+      0% {
+        opacity: 0;
+        display: none;
+      }
+
+      /* 2 sec : start fading in*/
+      30% {
+        opacity: 0;
+        display: block;
+      }
+
+      /* 2.5 sec : visible */
+      40% {
+        opacity: 1;
+        display: block;
+      }
+
+      /* 4.5 sec : start fading out */
+      70% {
+        opacity: 1;
+        display: block;
+      }
+
+      /* 5 sec : not visible */
+      80% {
+        opacity: 0;
+        display: block;
+      }
+
+      /* 6 sec */
+      100% {
+        opacity: 0;
+        display: none;
+      }
+    }
+
+    @-webkit-keyframes cssAnimation {
+      0% {
+        opacity: 0;
+        display: none;
+      }
+
+      /* 2 sec : start fading in*/
+      30% {
+        opacity: 0;
+        display: block;
+      }
+
+      /* 2.5 sec : visible */
+      40% {
+        opacity: 1;
+        display: block;
+      }
+
+      /* 4.5 sec : start fading out */
+      70% {
+        opacity: 1;
+        display: block;
+      }
+
+      /* 5 sec : not visible */
+      80% {
+        opacity: 0;
+        display: block;
+      }
+
+      /* 6 sec */
+      100% {
+        opacity: 0;
+        display: none;
+      }
+    }
+  </style>
+</style>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-WQ3DK518NT"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -24,8 +106,27 @@
   gtag('config', 'G-WQ3DK518NT',{'linker': {
         'domains': null
       }});
+	  
 </script>
-
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-210773024-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+  
+	  function gtag() {
+		dataLayer.push(arguments);
+	  }
+	  gtag('js', new Date());
+  
+	  gtag('config', 'UA-210773024-1');
+	  // gtag('config', 'UA-210773024-1', {
+	  //       'custom_map': {'dimension2': '{{sso_id}}'}});
+	  gtag('create', 'UA-210773024-1', {
+		'userID': "{{user}}"
+	  });
+	  gtag('set', 'dimension3', "Web");
+	  ga('set', 'dimension3', "Web")
+	
+	</script>
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -122,11 +223,11 @@
 			<input type="text" id="username" name="username" class="form-control" placeholder="Username" required>
 			<input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
 			<p></p>
-			<p id="message-form">{{msg}}</p>
+			<!-- <p id="sign-up-failed">{{msg}}</p> -->
 			{% with messages = get_flashed_messages(with_categories=true) %}
 				{% if messages %}
 				{% for category, message in messages %}
-					<p id="invalid-cred"  style="color: kred;">{{message}}</p>
+					<p id="invalid-cred">{{message}}</p>
 				{% endfor %}
 				{% endif %}
 				{% endwith %}

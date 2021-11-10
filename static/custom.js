@@ -152,14 +152,14 @@ function validation(){
     }else{
         document.getElementById("password").style.borderColor="red";
         document.getElementById("re-password").style.borderColor="red";
-        document.getElementById("message-form").innerHTML="confirm password does not match with above password";
+        document.getElementById("sign-up-failed").innerHTML="confirm password does not match with above password";
         return false
     }
     if((email.match('[^@]+@[^@]+\.[^@]+'))){               
         return true;
     }else{
         document.getElementById("email_id").style.borderColor="red";
-        document.getElementById("message-form").innerHTML="invalid Email";
+        document.getElementById("sign-up-failed").innerHTML="invalid Email";
         return false
     }
 }
