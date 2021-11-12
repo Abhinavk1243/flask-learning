@@ -7,6 +7,7 @@ from datetime import datetime
 from flask import Blueprint,render_template,redirect,url_for,request,jsonify,flash,session,g
 from models import mysl_pool_connection,logger
 from werkzeug.utils import secure_filename
+from decorators import *
 logger=logger()
 
 upload_folder="flask-learning\\files"
@@ -62,6 +63,9 @@ def logout():
     
 @auth.route("/signup/",methods=['POST','GET'])
 def signup():
+    user=session["user"]
+    sso_id = session["sso_id"]
+    admin=get_roles(["Admin"])
     msg = ''
     if request.method == 'POST' :
         username = request.form['username']
@@ -113,6 +117,6 @@ def signup():
             signup = True
             
             return redirect(url_for('student.student_list'))   
-        return render_template('signup.html',msg=msg)
+        return render_template('signup.html',msg=msg,**locals())
     else:
-        return render_template('signup.html',msg=msg)
+        return render_template('signup.html',**locals())

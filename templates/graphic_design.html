@@ -54,10 +54,10 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-210773024-1"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-   
-        window.dataLayer.push({
-            "Username":"{{user}}"
-            });
+
+    window.dataLayer.push({
+      "Username": "{{user}}"
+    });
 
     function gtag() {
       dataLayer.push(arguments);
@@ -133,12 +133,13 @@
     <!-- Collection of nav links, forms, and other content for toggling -->
     <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
       <div class="navbar-nav">
-        <a href="#" onclick='go_to_homepage()' class="nav-item nav-link">Home</a>
-        <a href="#" class="nav-item nav-link active">Students</a>
+        <a href="#" id='home' onclick='go_to_homepage()' class="nav-item nav-link">Home</a>
+        <a href="#" id='student_list' onclick="student_list()" class="nav-item nav-link">Students</a>
+
         {% if admin %}
-        <a href="#" onclick='student_form()' id="student_form1" class="nav-item nav-link">StudentForm</a>
+        <a href="#" id="student_form" onclick='student_form()' class="nav-item nav-link">StudentForm</a>
         {% elif admin==False %}
-        <a href="#" onclick='show_alert_user()' class="nav-item nav-link-form">StudentForm</a>
+        <a href="#" onclick='show_alert_user()' class="nav-item nav-link">StudentForm</a>
         {% endif %}
         <div class="nav-item dropdown">
           <a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle">Services</a>
@@ -147,8 +148,8 @@
             <a href="#" onclick="go_to_AdminPanel()" id="admin" class="dropdown-item">Admin panel</a>
             <a href="#" id="userrole-nav" onclick='create_user_role_form()' class="dropdown-item">Create user role</a>
             {% endif %}
-            <a href="#" class="dropdown-item">Graphic Design</a>
-            <a href="#" class="dropdown-item">Digital Marketing</a>
+            <a href="/graphic_designing/" id="graphic_design" class="dropdown-item">Graphic Design</a>
+            <a href="/digital_marketing/" id="digital_marketing" class="dropdown-item">Digital Marketing</a>
           </div>
         </div>
       </div>
@@ -172,11 +173,13 @@
   <h2>GRAPHIC DESIGN</h2>
   <br>
   <br>
-  <p>To better understand the meaning of graphic design, it is important to be aware of the elements and principles that make up design.
-     Elements are used in conjunction or opposition with each other to create visually striking and impactful designs.</p>
+  <p>To better understand the meaning of graphic design, it is important to be aware of the elements and principles that
+    make up design.
+    Elements are used in conjunction or opposition with each other to create visually striking and impactful designs.
+  </p>
 
-    <iframe id="graphic-design-video" width="420" height="345" src="https://www.youtube.com/embed/tgbNymZ7vqY?controls=0">
-</iframe>
+  <iframe id="graphic-design-video" width="420" height="345" src="https://www.youtube.com/embed/tgbNymZ7vqY?controls=0">
+  </iframe>
 </body>
 
 </html>

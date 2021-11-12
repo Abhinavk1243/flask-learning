@@ -1,5 +1,9 @@
+window.dataLayer = window.dataLayer || [];
 function student_list() {
   window.location.href = '/student/' ; 
+  // window.dataLayer.push({
+  //   "test_var":"button"
+  //   });
    
 
 }
@@ -28,6 +32,7 @@ function go_to_homepage() {
 }
 
 function logout() {
+  console.log(hello);
     bootbox.confirm({
       message: " Do you really want to Logout ?",
       buttons: {
@@ -55,7 +60,7 @@ $(document).ready(function () {
 
 function delete_student(student_id) {
     bootbox.confirm({
-      message: " Do you really want to delete?",
+      message: " Do you really want to delete, delete cause the data to be permanently deleted?",
       buttons: {
         confirm: {
           label: 'Yes',
@@ -89,6 +94,8 @@ function delete_student(student_id) {
       }
     });
 };
+
+
 
 function save_student() {
     var student_name = document.getElementById("name").value;
@@ -126,19 +133,50 @@ function update_student(student_id) {
     console.log(student_id);
     var student = { student_name: student_name, student_age: student_age, student_id: student_id };
     var student = JSON.stringify(student);
-    console.log(student);
-    $.ajax({
-        url: '/student/' ,
-        type: 'PUT',
-        dataType: 'json',
-        data: student,
-        success: function (response) {
-            window.location.href = '/student/'
+    bootbox.confirm({
+      message: " Do you really want to update, ?",
+      buttons: {
+        confirm: {
+          label: 'Yes',
+          className: 'btn-success'
         },
-        error: function (error) {
-            toastr.error("data updation failed");
+        cancel: {
+          label: 'No',
+          className: 'btn-danger'
         }
+      },
+      callback: function (result) {
+        console.log(result)
+        if (result) {
+          $.ajax({
+            url: '/student/' ,
+            type: 'PUT',
+            dataType: 'json',
+            data: student,
+            success: function (response) {
+                window.location.href = '/student/'
+            },
+            error: function (error) {
+                toastr.error("data updation failed");
+            }
+        });
+        }
+      }
     });
+
+
+    // $.ajax({
+    //     url: '/student/' ,
+    //     type: 'PUT',
+    //     dataType: 'json',
+    //     data: student,
+    //     success: function (response) {
+    //         window.location.href = '/student/'
+    //     },
+    //     error: function (error) {
+    //         toastr.error("data updation failed");
+    //     }
+    // });
 }
 
 function validation(){

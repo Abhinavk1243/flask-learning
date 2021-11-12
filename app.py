@@ -1,6 +1,6 @@
 
 from flask import Flask,render_template,request,redirect,url_for,session,g
-
+from decorators import *
 from models import mysl_pool_connection,logger
 logger=logger()
 from student import student
@@ -47,14 +47,27 @@ def before_user():
 
 @app.route("/")
 def home():
+    if "user" in session:
+      user=session["user"]
+      sso_id = session["sso_id"]
+      admin=get_roles(["Admin"])
     return render_template('home.html')
   
 @app.route("/graphic_designing/" ,methods = ["GET"])
 def graphic_design():
-  
+  admin=get_roles(["Admin"])
   user=session["user"]
   sso_id = session["sso_id"]
   return render_template("graphic_design.html",**locals())
+
+@app.route("/digital_marketing/" ,methods = ["GET","POST"])
+def digital_marketing():
+  admin=get_roles(["Admin"])
+  user=session["user"]
+  sso_id = session["sso_id"]
+  return render_template("digital_marketing.html",**locals())
+
+    
 
 
 

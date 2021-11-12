@@ -271,6 +271,18 @@ body {
     border-top-right-radius: 0;
 }
 
+
+#logreg-forms .form-signup input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+#logreg-forms .form-signup input[type="password"] {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
 #logreg-forms .social-login {
     width: 390px;
     margin: 0 auto;
@@ -421,7 +433,8 @@ input[type=number] {
     border: 1px solid #ccc;
     box-sizing: border-box;
 }
-#save_button {
+
+#CreateStudentRecord {
     background-color: #8ebf42;
     color: white;
     padding: 14px 0;
@@ -430,44 +443,19 @@ input[type=number] {
     cursor: grabbing;
     width: 100%;
 }
-#saave_button:hover {
+#CreateStudentRecord:hover {
     opacity: 0.8;
 }
 
-#id {
-    display: flex;
-}
-span.psw {
-    float: right;
-    padding-top: 0;
-    padding-right: 15px;
-}
-
-#sign-up-failed{
-    color:red;
-}
-
-.alert {
-    padding: 20px;
-    background-color: #f44336;
+#UpdateStudentRecord {
+    background-color: #8ebf42;
     color: white;
-    opacity: 1;
-    transition: opacity 0.6s;
-    margin-bottom: 15px;
-  }
-  
-  .alert.success {background-color: #04AA6D;}
-  .alert.info {background-color: #2196F3;}
-  .alert.warning {background-color: #ff9800;}
-  
-  .closebtn {
-    margin-left: 15px;
-    color: white;
-    font-weight: bold;
-    float: right;
-    font-size: 22px;
-    line-height: 20px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  
+    padding: 14px 0;
+    margin: 10px 0;
+    border: none;
+    cursor: grabbing;
+    width: 100%;
+}
+#UpdateStudentRecord:hover {
+    opacity: 0.8;
+}
