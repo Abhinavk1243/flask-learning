@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
 
@@ -97,7 +97,7 @@
 		}
 	</style>
 	</style>
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-WQ3DK518NT"></script>
+	<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-WQ3DK518NT"></script>
 	<script>
 		window.dataLayer = window.dataLayer || [];
 
@@ -111,10 +111,16 @@
 				'domains': null
 			}
 		});
-	</script>
+		gtag('set', 'dimension3', "web");
+
+	</script> -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-210773024-1"></script>
 	<script>
 		window.dataLayer = window.dataLayer || [];
+		window.dataLayer.push({
+    
+				"platform_dv":"web"
+			});
 
 		function gtag() {
 			dataLayer.push(arguments);
@@ -127,8 +133,8 @@
 		gtag('create', 'UA-210773024-1', {
 			'userID': "{{user}}"
 		});
-		gtag('set', 'dimension3', "Web");
-		ga('set', 'dimension3', "Web")
+		gtag('set', 'dimension3', 'web');
+
 	</script>
 	<!-- Google Tag Manager -->
 	<script>

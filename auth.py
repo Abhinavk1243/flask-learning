@@ -13,6 +13,18 @@ logger=logger()
 upload_folder="flask-learning\\files"
 allowed_extension = {'png', 'jpg', 'jpeg'}
 
+
+def get_user(username):
+    sql=f"""select user.ID,user.username,user.password,group_concat(roles.name SEPARATOR "," )
+            roles FROM web_data.user left join web_data.user_roles  ON user.id = user_roles.user_id 
+            left join web_data.roles on user_roles.role_id=roles.id  WHERE username = '{username}'  """
+    mycursor.execute(sql) 
+    account = mycursor.fetchone()
+    session['role']=account[3].split(",")
+    session['loggedin']=True
+    session['user']=username  
+    session["sso_id"] = account[0]
+
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extension
 
@@ -63,9 +75,11 @@ def logout():
     
 @auth.route("/signup/",methods=['POST','GET'])
 def signup():
-    user=session["user"]
-    sso_id = session["sso_id"]
-    admin=get_roles(["Admin"])
+    if "user" in session:
+        
+        user=session["user"]
+        get_user(user)
+        # admin=get_roles(["Admin"])
     msg = ''
     if request.method == 'POST' :
         username = request.form['username']
@@ -115,6 +129,17 @@ def signup():
                 # flash("user successfully registered !")
                 return jsonify(response)
             signup = True
+            
+            sql=f"""select user.ID,user.username,user.password,group_concat(roles.name SEPARATOR "," )
+            roles FROM web_data.user left join web_data.user_roles  ON user.id = user_roles.user_id 
+            left join web_data.roles on user_roles.role_id=roles.id  WHERE username = '{username}' 
+            """
+            mycursor.execute(sql) 
+            account = mycursor.fetchone()
+            session['role']=account[3].split(",")
+            session['loggedin']=True
+            session['user']=username  
+            session["sso_id"] = account[0]
             
             return redirect(url_for('student.student_list'))   
         return render_template('signup.html',msg=msg,**locals())

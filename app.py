@@ -47,11 +47,12 @@ def before_user():
 
 @app.route("/")
 def home():
-    if "user" in session:
+    session["platform"]="web"
+    if "user" in session and "sso_id" in session:
       user=session["user"]
       sso_id = session["sso_id"]
       admin=get_roles(["Admin"])
-    return render_template('home.html')
+    return render_template('home.html',**locals())
   
 @app.route("/graphic_designing/" ,methods = ["GET"])
 def graphic_design():

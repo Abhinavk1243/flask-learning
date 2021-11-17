@@ -1,40 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-33KY3Q436J"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-33KY3Q436J',{'linker': {
-    'domains': null
-  }});
-</script> -->
-
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-WQ3DK518NT"></script>
-	<script>
-		window.dataLayer = window.dataLayer || [];
-
-		function gtag() {
-			dataLayer.push(arguments);
-		}
-		gtag('js', new Date());
-
-		gtag('config', 'G-WQ3DK518NT', {
-			'linker': {
-				'domains': null
-			}
-		});
-	</script>
-
-
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-210773024-1"></script>
 	<script>
 		window.dataLayer = window.dataLayer || [];
+		window.dataLayer.push({
+			
+			"platform_dv":"web"
+			});
 
 		function gtag() {
 			dataLayer.push(arguments);
@@ -42,11 +16,9 @@
 		gtag('js', new Date());
 
 		gtag('config', 'UA-210773024-1');
-		// gtag('config', 'UA-210773024-1', {
-		//       'custom_map': {'dimension2': '{{sso_id}}'}});
-		gtag('create', 'UA-210773024-1', {
-			'userID': "{{user}}"
-		});
+	
+		gtag('set', 'dimension3', 'web');
+ 
 	</script>
 
 	<!-- Google Tag Manager -->

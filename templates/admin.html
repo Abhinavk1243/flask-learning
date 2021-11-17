@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WQ3DK518NT"></script>
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-WQ3DK518NT"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
 
@@ -24,12 +24,12 @@
       'crm_id': '{{user}}'
     });
     gtag('set', 'dimension1', '{{user}}');
-    ga('set', 'dimension1', '{{user}}');
-    gtag('set', 'dimension2', '{{sso_id}}');
-    ga('set', 'dimension2', '{{sso_id}}');
+    // ga('set', 'dimension1', '{{user}}');
+    gtag('set', 'dimension3', "web");
+    // ga('set', 'dimension3', "web");
     // ga('set', 'userId', '{{user}}')
     // gtag('set', {'user_id': '{{user}}'});
-  </script>
+  </script> -->
 
   <!-- Google Tag Manager -->
   <script>
@@ -56,7 +56,8 @@
     window.dataLayer = window.dataLayer || [];
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
-      "Username": "{{user}}"
+      "Username": "{{user}}",
+      "platform_dv":"web"
     });
 
     function gtag() {
@@ -71,7 +72,9 @@
       'userID': "{{user}}"
     });
     gtag('set', 'dimension1', '{{user}}');
-    gtag('set', 'dimension2', '{{sso_id}}');
+
+    gtag('set', 'dimension3', 'web');
+    
   </script>
   <!-- End Google Tag Manager -->
   <title>Admin Dashboard</title>

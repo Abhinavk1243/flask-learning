@@ -3,7 +3,7 @@
 
 <head>
 
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WQ3DK518NT"></script>
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-WQ3DK518NT"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
 
@@ -23,12 +23,12 @@
       'crm_id': '{{user}}'
     });
     gtag('set', 'dimension1', '{{user}}');
-    ga('set', 'dimension1', '{{user}}');
-    gtag('set', 'dimension2', '{{sso_id}}');
-    ga('set', 'dimension2', '{{sso_id}}');
-    // ga('set', 'userId', '{{user}}')
-    // gtag('set', {'user_id': '{{user}}'});
-  </script>
+    // ga('set', 'dimension1', '{{user}}');
+   
+    gtag('set', 'dimension3', "web");
+    // ga('set', 'dimension3', "web");
+  
+  </script> -->
 
   <!-- Google Tag Manager -->
   <script>
@@ -54,7 +54,8 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
-      "Username": "{{user}}"
+      "Username": "{{user}}",
+      "platform_dv":"web"
     });
 
 
@@ -70,7 +71,9 @@
       'userID': "{{user}}"
     });
     gtag('set', 'dimension1', '{{user}}');
-    gtag('set', 'dimension2', '{{sso_id}}');
+    // gtag('set', 'dimension2', '{{sso_id}}');
+    gtag('set', 'dimension3', 'web');
+    // ga('set', 'dimension3', "web");
   </script>
 
   <title>student form</title>

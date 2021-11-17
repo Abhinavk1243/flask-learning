@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
   <title>graphic design</title>
 
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WQ3DK518NT"></script>
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-WQ3DK518NT"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
 
@@ -24,12 +24,12 @@
       'crm_id': '{{user}}'
     });
     gtag('set', 'dimension1', '{{user}}');
-    ga('set', 'dimension1', '{{user}}');
-    gtag('set', 'dimension2', '{{sso_id}}');
-    ga('set', 'dimension2', '{{sso_id}}');
+    // ga('set', 'dimension1', '{{user}}');
+    // gtag('set', 'dimension2', '{{sso_id}}');
+    // ga('set', 'dimension2', '{{sso_id}}');
     // ga('set', 'userId', '{{user}}')
     // gtag('set', {'user_id': '{{user}}'});
-  </script>
+  </script> -->
 
   <!-- Google Tag Manager -->
   <script>
@@ -56,7 +56,8 @@
     window.dataLayer = window.dataLayer || [];
 
     window.dataLayer.push({
-      "Username": "{{user}}"
+      "Username": "{{user}}",
+      "platform_dv":"web"
     });
 
     function gtag() {
@@ -67,11 +68,11 @@
     gtag('config', 'UA-210773024-1');
     // gtag('config', 'UA-210773024-1', {
     //       'custom_map': {'dimension2': '{{sso_id}}'}});
-    gtag('create', 'UA-210773024-1', {
-      'userID': "{{user}}"
-    });
+ 
     gtag('set', 'dimension1', '{{user}}');
-    gtag('set', 'dimension2', '{{sso_id}}');
+    // gtag('set', 'dimension2', '{{sso_id}}');
+    gtag('set', 'dimension3', 'web');
+    // ga('set', 'dimension3', "web");
   </script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -180,6 +181,8 @@
 
   <iframe id="graphic-design-video" width="420" height="345" src="https://www.youtube.com/embed/tgbNymZ7vqY?controls=0">
   </iframe>
+
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/FW1LOP09RM8"></iframe>
 </body>
 
 </html>

@@ -32,7 +32,7 @@ function go_to_homepage() {
 }
 
 function logout() {
-  console.log(hello);
+  // console.log(hello);
     bootbox.confirm({
       message: " Do you really want to Logout ?",
       buttons: {
@@ -235,4 +235,9 @@ function create_user_role(){
 
 function edit_role(user_id){
   window.location.href="/admin/user_role_form/?user_id="+user_id;
+}
+
+
+function go_back(){
+  history.back();
 }
