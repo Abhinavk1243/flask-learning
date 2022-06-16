@@ -1,0 +1,54 @@
+
+from rest_api import get_student,app
+from decode import get_user
+from student import student_list,student
+import pytest_mock
+import json
+import requests_mock
+from auth import login
+# def get_data():
+#     data={"date_created": "2021-09-09", "student_id": 52, "student_name": "rohan", "student_age": 23}
+# def test_success_student_list(mocker,requests_mock):
+#     print("======================================>")
+#     fake_resp=mocker.Mock()
+    
+#     data={"date_created": "2021-09-09", "student_id": 52, "student_name": "rohan", "student_age": 23}
+#     fake_resp.json=mocker.Mock(return_value=data)
+#     fake_resp.status_code=200
+#     mocker.patch("student.student_list",return_value=data)
+#     assert data["date_created"] == "2021-09-09"
+#     assert data["student_id"] ==52
+#     assert data["student_name"] =="rohan"
+#     assert data["student_age"] ==23
+    
+def test_failure_student_list(mocker):
+    fake_resp=mocker.Mock()
+    params={"student_id":1}
+    fake_resp.query_param=params
+    fake_resp.status_code=400
+    resp={"error":f"record at {list(params.keys())[0]}={params[list(params.keys())[0]]} not found"}
+    mocker.patch("student.student_list.mycursor",return_value=resp)
+    assert resp["error"]=="record at student_id=1 not found"
+    
+# def test_login_successfull(mocker,requests_mock):
+    
+#     req = mocker.Mock()
+#     req.method = 'POST'
+#     req.POST = {'username': 'uname', 'password': 'pass12343#12'}
+#     req.status_code=201
+#     fake_res={"response":"user logged in !"}
+#     req.json=mocker.Mock(return_value=fake_res)
+#     mocker.patch("auth.login",return_value=fake_res)
+#     assert fake_res["response"]=="user logged in !"
+    
+# def test_login_failed(mocker):
+#     req = mocker.Mock()
+#     req.method = 'POST'
+#     req.POST = {'username': 'uname', 'password': 'wrongpass'}
+#     req.status_code=201
+#     fake_res={"response":"invalid login credentials !"}
+#     req.json=mocker.Mock(return_value=fake_res)
+#     mocker.patch("auth.login",return_value=fake_res)
+#     assert fake_res["response"]=="invalid login credentials !"
+    
+    

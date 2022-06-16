@@ -1,5 +1,5 @@
 from functools import wraps
-from flask import session,render_template,flash
+from flask import session,render_template,flash,request
 from flask.helpers import url_for
 from werkzeug.utils import redirect
 
@@ -27,7 +27,7 @@ def required_roles(*roles):
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if "user" in session:
-            return redirect(url_for('home'))
+        if "user" not in session and session["user"] is None:
+            return redirect(url_for('auth.login'))
         return f(*args, **kwargs)
     return decorated_function

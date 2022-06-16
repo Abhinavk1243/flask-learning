@@ -5,7 +5,7 @@ import json
 import pandas as pd
 from models import mysl_pool_connection,logger
 from werkzeug.utils import secure_filename
-from decorators import required_roles
+from decorators import required_roles,get_roles
 logger=logger()
 pool_cnxn=mysl_pool_connection("mysql_web_data")
 mycursor=pool_cnxn.cursor()
@@ -14,6 +14,7 @@ admin=Blueprint("admin",__name__,template_folder="templates")
 @admin.route("/",methods=["GET"])
 @required_roles(["Admin"])
 def admin_panel():   
+    admin=get_roles(["Admin"])
     sql="""SELECT user.Id,user.username,user.email_id, group_concat(roles.name SEPARATOR "," )
     roles FROM web_data.user left join web_data.user_roles  ON user.id = user_roles.user_id 
     left join web_data.roles on user_roles.role_id=roles.id GROUP BY  user.username"""
@@ -24,13 +25,16 @@ def admin_panel():
     else:
         user=session["user"]
         mycursor.execute(sql)
+        sso_id = session["sso_id"]
         record=mycursor.fetchall()
         return render_template("admin.html",**locals())
 
 @admin.route("/user_role_form/",methods=["GET"])
 @required_roles(["Admin"])
 def user_role_form():
+    admin=get_roles(["Admin"])
     user=session["user"]
+    sso_id = session["sso_id"]
     sql="select roles.name from web_data.roles"
     mycursor.execute(sql)
     roles=mycursor.fetchall()
@@ -105,15 +109,15 @@ def create_role():
     
     return json.dumps({'error':False ,"user":user[0]})
     
-@admin.route("/sendmail/",methods=["GET"])
-def send_mail():
-    mail = smtplib.SMTP('smtp.gmail.com', 587)
-    mail.starttls()
-    mail.login("abhinavflasklearning@gmail.com", "abhinav@12")
-    message = "testing message , this ,message is sent by using python"
-    mail.sendmail("abhinavflasklearning@gmail.com", "abhinavkumar1243@gmail.com", message)
-    mail.quit()
-    return jsonify({"sender":"abhinavflasklearning","receiver":"abhinavkumar1243"})
+# @admin.route("/sendmail/",methods=["GET"])
+# def send_mail():
+#     mail = smtplib.SMTP('smtp.gmail.com', 587)
+#     mail.starttls()
+#     mail.login("abhinavflasklearning@gmail.com", "abhinav@12")
+#     message = "testing message , this ,message is sent by using python"
+#     mail.sendmail("abhinavflasklearning@gmail.com", "abhinavkumar1243@gmail.com", message)
+#     mail.quit()
+#     return jsonify({"sender":"abhinavflasklearning","receiver":"abhinavkumar1243"})
 
 
 

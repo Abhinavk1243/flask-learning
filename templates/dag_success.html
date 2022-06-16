@@ -5,12 +5,14 @@ To checkstatus DAG, Please login to <a style="color: #00bfa5" href="LINK">DataOp
 
 <b>Environment:</b> {{content_data.content_data.execenviron}}<br>
 
-<b>Dag:</b> <a style="color: #00bfa5" href='https://{{content_data.content_data.serverurl}}.sc1dw.sharecare.com/airflowdagsdashboard/{{content_data.content_data.dag_id}}/'>{{content_data.content_data.dag_id}}</a> completed successfully<br>
+<b>Dag:</b> <a style="color: #00bfa5"
+    href='https://{{content_data.content_data.serverurl}}.sc1dw.sharecare.com/airflowdagsdashboard/{{content_data.content_data.dag_id}}/'>{{content_data.content_data.dag_id}}</a>
+completed successfully<br>
 
-<b>Current Duration:</b> 
+<b>Current Duration:</b>
 {% if content_data.content_data.current_duration.seconds > (content_data.content_data.average_execution.seconds)*1.2 %}
 <span style="color:red ">&#8593</span>
-{% elif content_data.content_data.current_duration.seconds < (content_data.content_data.average_execution.seconds)*0.8 %}
+{% elif content_data.content_data.current_duration.seconds <= (content_data.content_data.average_execution.seconds)*0.8 %}
 <span style="color:green ">&#8595</span>
 {% endif %}
 {{(content_data.content_data.current_duration|string).split(".")[0]}}<br>
@@ -18,11 +20,12 @@ To checkstatus DAG, Please login to <a style="color: #00bfa5" href="LINK">DataOp
 
 <br><b>Counts summary:</b>
 <table class="styled-table">
-    <caption style="text-align:left;caption-side:bottom;margin:5px 0"><b>Counts display format:</b> source_count - target_count - error_count</caption>
+    <caption style="text-align:left;caption-side:bottom;margin:5px 0"><b>Counts display format:</b> source_count -
+        target_count - error_count</caption>
     <thead>
         <tr>
             {% for column in content_data.content_data.columns %}
-                <th style="text-align: {{'left' if column == 'Task Id' else 'center'}};">{{column}}</th>
+            <th style="text-align: {{'left' if column == 'Task Id' else 'center'}};">{{column}}</th>
             {% endfor %}
         </tr>
     </thead>
@@ -65,38 +68,41 @@ Automated email sent by internal Data Team.
 
 <style>
     .styled-table {
-    border-collapse: collapse;
-    margin: 25px 0;
-    font-size: 0.9em;
-    font-family: sans-serif;
-    min-width: 400px;
-    border-radius: 5px 5px 0 0;
-    overflow: hidden;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-}
-.styled-table thead tr {
-    background-color: #00bfa5;
-    color: #ffffff;
-    text-align: left;
-}
-.styled-table th,
-.styled-table td {
-    padding: 12px 15px;
-}
-.styled-table tbody tr {
-    border-bottom: thin solid #dddddd;
-}
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 400px;
+        border-radius: 5px 5px 0 0;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
 
-.styled-table tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
-}
+    .styled-table thead tr {
+        background-color: #00bfa5;
+        color: #ffffff;
+        text-align: left;
+    }
 
-.styled-table tbody tr:last-of-type {
-    border-bottom: 2px solid #00bfa5;
-}
-.styled-table tbody tr.active-row {
-    font-weight: bold;
-    color: #00bfa5;
-}
+    .styled-table th,
+    .styled-table td {
+        padding: 12px 15px;
+    }
 
+    .styled-table tbody tr {
+        border-bottom: thin solid #dddddd;
+    }
+
+    .styled-table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+
+    .styled-table tbody tr:last-of-type {
+        border-bottom: 2px solid #00bfa5;
+    }
+
+    .styled-table tbody tr.active-row {
+        font-weight: bold;
+        color: #00bfa5;
+    }
 </style>

@@ -7,10 +7,23 @@ from datetime import datetime
 from flask import Blueprint,render_template,redirect,url_for,request,jsonify,flash,session,g
 from models import mysl_pool_connection,logger
 from werkzeug.utils import secure_filename
+from decorators import *
 logger=logger()
 
 upload_folder="flask-learning\\files"
 allowed_extension = {'png', 'jpg', 'jpeg'}
+
+
+def get_user(username):
+    sql=f"""select user.ID,user.username,user.password,group_concat(roles.name SEPARATOR "," )
+            roles FROM web_data.user left join web_data.user_roles  ON user.id = user_roles.user_id 
+            left join web_data.roles on user_roles.role_id=roles.id  WHERE username = '{username}'  """
+    mycursor.execute(sql) 
+    account = mycursor.fetchone()
+    session['role']=account[3].split(",")
+    session['loggedin']=True
+    session['user']=username  
+    session["sso_id"] = account[0]
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extension
@@ -25,7 +38,7 @@ def login():
     if request.method=='POST':
         username=request.form['username']
         password=request.form['password']
-        sql=f"""select user.username,user.password,group_concat(roles.name SEPARATOR "," )
+        sql=f"""select user.ID,user.username,user.password,group_concat(roles.name SEPARATOR "," )
         roles FROM web_data.user left join web_data.user_roles  ON user.id = user_roles.user_id 
         left join web_data.roles on user_roles.role_id=roles.id  WHERE username = '{username}' 
         and password =MD5('{password}') """
@@ -33,15 +46,22 @@ def login():
         account = mycursor.fetchone()
         
         if None not in account:
-            session['role']=account[2].split(",")
+            session['role']=account[3].split(",")
             session['loggedin']=True
             session['user']=username  
+            session["sso_id"] = account[0]
+            if request.content_type=="application/json":
+                return jsonify({"response":"user logged in !"})
+            flash("user logged in !")
             return redirect(url_for("student.student_list"))
         else:
             if "user" in session:
                 return redirect(url_for('student.student_list'))     
-            msg="invalid login credential"
-            return render_template('home.html',msg=msg)
+            if request.content_type=="application/json":
+                return jsonify({"response":"invalid login credentials !"})
+            flash("invalid login credential")
+            
+            return redirect(url_for("home"))
     else:
         return redirect(url_for("home"))
     
@@ -50,11 +70,16 @@ def login():
 def logout():
     session.pop('loggedin', None)
     session.pop("user",None)
-    flash("Logged out success fully")
+    # flash("Logged out successfully")
     return redirect(url_for("home"))
     
 @auth.route("/signup/",methods=['POST','GET'])
 def signup():
+    if "user" in session:
+        
+        user=session["user"]
+        get_user(user)
+        # admin=get_roles(["Admin"])
     msg = ''
     if request.method == 'POST' :
         username = request.form['username']
@@ -97,10 +122,26 @@ def signup():
                 df=pd.read_sql(con=pool_cnxn, sql=f"""SELECT user.Id,user.username,user.email_id, group_concat(roles.name 
                 SEPARATOR "," )roles FROM web_data.user left join web_data.user_roles  ON user.id = user_roles.user_id 
                 left join web_data.roles on user_roles.role_id=roles.id where user.username='{username}' """)
-                user=[{col:getattr(row, col) for col in df} for row in df.itertuples()]
-                return jsonify(user)
+                user=df.to_dict(orient="records")
+                user_detail=user[0]
+                user_detail["file_name"]==filename
+                response={"message":"you are successfull registered !","user_detail":user}
+                # flash("user successfully registered !")
+                return jsonify(response)
+            signup = True
+            
+            sql=f"""select user.ID,user.username,user.password,group_concat(roles.name SEPARATOR "," )
+            roles FROM web_data.user left join web_data.user_roles  ON user.id = user_roles.user_id 
+            left join web_data.roles on user_roles.role_id=roles.id  WHERE username = '{username}' 
+            """
+            mycursor.execute(sql) 
+            account = mycursor.fetchone()
+            session['role']=account[3].split(",")
+            session['loggedin']=True
+            session['user']=username  
+            session["sso_id"] = account[0]
+            
             return redirect(url_for('student.student_list'))   
-        return render_template('signup.html',msg=msg)
+        return render_template('signup.html',msg=msg,**locals())
     else:
-        return render_template('signup.html',msg=msg)
-
+        return render_template('signup.html',**locals())

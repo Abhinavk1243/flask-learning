@@ -1,7 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-210773024-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		window.dataLayer.push({
+			
+			"platform_dv":"web"
+			});
+
+		function gtag() {
+			dataLayer.push(arguments);
+		}
+		gtag('js', new Date());
+
+		gtag('config', 'UA-210773024-1');
+	
+		gtag('set', 'dimension3', 'web');
+ 
+	</script>
+
+	<!-- Google Tag Manager -->
+	<script>
+		(function (w, d, s, l, i) {
+			w[l] = w[l] || [];
+			w[l].push({
+				'gtm.start': new Date().getTime(),
+				event: 'gtm.js'
+			});
+			var f = d.getElementsByTagName(s)[0],
+				j = d.createElement(s),
+				dl = l != 'dataLayer' ? '&l=' + l : '';
+			j.async = true;
+			j.src =
+				'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+			f.parentNode.insertBefore(j, f);
+		})(window, document, 'script', 'dataLayer', 'GTM-W5VZJNB');
+	</script>
+	<!-- End Google Tag Manager -->
 	<title>sign up</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -22,10 +59,14 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
 		integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 	<script type='text/javascript' src='/static/custom.js'></script>
-	
+
 </head>
 
 <body>
+	<!-- Google Tag Manager (noscript) -->
+	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W5VZJNB" height="0" width="0"
+			style="display:none;visibility:hidden"></iframe></noscript>
+	<!-- End Google Tag Manager (noscript) -->
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<a href="#" class="navbar-brand">Brand<b>Name</b></a>
 		<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
@@ -33,61 +74,73 @@
 		</button>
 		<!-- Collection of nav links, forms, and other content for toggling -->
 		<div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
-			<div class="navbar-nav">
-				<a href="#" onclick="go_to_homepage()" class="nav-item nav-link active">Home</a>
-				<a href="#" onclick="student_list()" class="nav-item nav-link">Students</a>
-				<a href="#" onclick="student_form()" class="nav-item nav-link ">StudentForm</a>
-				<div class="nav-item dropdown">
-					<a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle">Services</a>
-					<div class="dropdown-menu">
-						<a href="#" class="dropdown-item">Web Design</a>
-						<a href="#" class="dropdown-item">Web Development</a>
-						<a href="#" class="dropdown-item">Graphic Design</a>
-						<a href="#" class="dropdown-item">Digital Marketing</a>
-					</div>
+			<a href="#" id='home' onclick='go_to_homepage()' class="nav-item nav-link">Home</a>
+        <a href="#" id='student_list' onclick="student_list()" class="nav-item nav-link">Students</a>
+       
+        {% if admin %}
+		<a href="#" id="student_form" onclick='student_form()' class="nav-item nav-link">StudentForm</a>
+			{% elif admin==False %}
+			<a href="#" onclick='show_alert_user()' class="nav-item nav-link">StudentForm</a>
+			{% endif %}
+			<div class="nav-item dropdown">
+				<a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle">Services</a>
+				<div class="dropdown-menu">
+					{% if admin %}
+					<a href="#" onclick="go_to_AdminPanel()" id="admin" class="dropdown-item">Admin panel</a>
+					<a href="#" id="userrole-nav" onclick='create_user_role_form()' class="dropdown-item">Create user
+						role</a>
+					{% endif %}
+					<a href="/graphic_designing/" id="graphic_design" class="dropdown-item">Graphic Design</a>
+					<a href="/digital_marketing/" id="digital_marketing" class="dropdown-item">Digital Marketing</a>
 				</div>
 			</div>
-			<form class="navbar-form form-inline">
-				<div class="input-group search-box">
-					<input type="text" id="search" class="form-control" placeholder="Search here...">
-					<div class="input-group-append">
-						<span class="input-group-text">
-							<i class="material-icons">&#xE8B6;</i>
-						</span>
-					</div>
+		</div>
+		<form class="navbar-form form-inline">
+			<div class="input-group search-box">
+				<input type="text" id="search" class="form-control" placeholder="Search here...">
+				<div class="input-group-append">
+					<span class="input-group-text">
+						<i class="material-icons">&#xE8B6;</i>
+					</span>
 				</div>
-			</form>
-			
+			</div>
+		</form>
+
 		</div>
 	</nav>
 
 	</div>
 	<div id="logreg-forms">
-		<form class="form-signin" onsubmit="return (validation())" action="/auth/signup/" method="post" enctype='multipart/form-data' >
+		<form class="form-signin" onsubmit="return (validation())" action="/auth/signup/" method="post"
+			enctype='multipart/form-data'>
 			<h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Sign up</h1>
-			
+
 			<div class="form-group">
-                <input type="text" id="username" class="form-control" placeholder="Enter username" name="username" required>
-            </div>
-            <div class="form-group">
-                <input type="password"id="password" class="form-control" placeholder="password" name="password" required>
-            </div>
-            <div class="form-group">
-                <input type="password" id="re-password" class="form-control" placeholder="renter-password" name="re-password" required>
-            </div>
-            <div class="form-group">
-                <input type="text" id="email_id" class="form-control" placeholder="email" name="email" required>
-            </div>
+				<input type="text" id="username" class="form-control" placeholder="Enter username" name="username"
+					required>
+			</div>
 			<div class="form-group">
-                <input type="file" id="profile" class="form-control" placeholder="choose profile pic" name="profile_pic" required>
-            </div>
-            <p id="message-form" >{{msg}}</p>
-            <div class="form-group">
-                <label class="form-check-label"><input type="checkbox" required="required"> I accept the
-                    <a href="#">Terms &amp; Conditions</a></label>
-            </div>
-            <input type="submit" class="btn btn-primary btn-block" value="Sign up">
-		</form>		
+				<input type="password" id="password" class="form-control" placeholder="password" name="password"
+					required>
+			</div>
+			<div class="form-group">
+				<input type="password" id="re-password" class="form-control" placeholder="renter-password"
+					name="re-password" required>
+			</div>
+			<div class="form-group">
+				<input type="text" id="email_id" class="form-control" placeholder="email" name="email" required>
+			</div>
+			<div class="form-group">
+				<input type="file" id="profile" class="form-control" placeholder="choose profile pic" name="profile_pic"
+					required>
+			</div>
+			<p id="sign-up-failed">{{msg}}</p>
+			<div class="form-group">
+				<label class="form-check-label"><input type="checkbox" required="required"> I accept the
+					<a href="#">Terms &amp; Conditions</a></label>
+			</div>
+			<input type="submit" class="btn btn-primary btn-block" value="Sign up">
+		</form>
 	</div>
 
 </body>

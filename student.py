@@ -27,10 +27,10 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extension
 
 @student.route("/",methods=['GET'])
-
 @required_roles(["Admin","teacher","user"])
 def student_list():    
     user=session["user"]
+    sso_id = session["sso_id"]
     admin=get_roles(["Admin"])
     if request.args:            
         mycursor=pool_cnxn.cursor()
@@ -54,37 +54,45 @@ def student_list():
             mycursor.execute(sql)
             student=mycursor.fetchall()
         except Exception as error:
-            return jsonify({"error":error})
+            return jsonify({"error":"internal server error"}),500
         if student==[]:
-            message=f"error :'data at {query_params_dict} not found '"
-            return jsonify({"error":message})
+            message=f"error :'record at {query_params_dict} not found '"
+            return jsonify({"error":message}),400
         else:
             if request.content_type=="application/json":
                 df=pd.read_sql(con=pool_cnxn, sql=sql)
                 student = [{col:getattr(row, col) for col in df} for row in df.itertuples()]
-                return jsonify(student)   
+                response={"response":{"method":"GET","Status_Code":200,"description":"return record of student","student":student}}
+                return jsonify(response)   
+            print("===========================")
+            print(sso_id)
             return render_template("student.html",**locals())         
     else:
         sql="select * from  web_data.student "
         if request.content_type=="application/json":
             df=pd.read_sql(con=pool_cnxn, sql=sql)
             student = [{col:getattr(row, col) for col in df} for row in df.itertuples()]
-            return jsonify(student)   
+            response={"response":{"method":"GET","Status_Code":200,"description":"return record of student","student":student}}
+            return jsonify(response)  ,200
         mycursor=pool_cnxn.cursor()
         mycursor.execute(sql)
         student=mycursor.fetchall()
+        
         return render_template("student.html",**locals())
             
 @student.route("/",methods=["POST"])
+
 @required_roles(["Admin"])
 def create_student():  
     student_data=request.get_json(force=True)
-    mycursor=pool_cnxn.cursor()    
+    mycursor=pool_cnxn.cursor()  
     try:
+        
         student_name=student_data['student_name']
         student_age=student_data['student_age']
-    except Exception as error:
-        return jsonify({"error":error})
+    except KeyError as error:
+        example_data={"student_name":"name","student_age":54}
+        return jsonify({"error":"data contain wrong keys","sample_data":example_data}),400
 
     val=(student_name,student_age)
     try:
@@ -95,8 +103,8 @@ def create_student():
         print("data inserted")
     except Exception as error:
         logger.error(f"exception arise : {error}")
-        print(f"Exception arise : {error}")
-        return jsonify({"error":error})
+        # print(f"Exception arise : {error}")
+        return jsonify({"error":"internal server error"}),500
     df=pd.read_sql(con=pool_cnxn, sql='SELECT * FROM web_data.student ORDER BY student_id DESC LIMIT 1')
     student = [{col:getattr(row, col) for col in df} for row in df.itertuples()]
     return jsonify(student[0])
@@ -106,14 +114,17 @@ def create_student():
 def remove_student():
     if request.method=='DELETE':        
         mycursor=pool_cnxn.cursor()
-        student_data=request.get_json(force=True)
-        student_id=student_data["student_id"]
+        try:
+            student_data=request.get_json(force=True)
+            student_id=student_data["student_id"]
+        except KeyError as error:
+            return jsonify({"error":"key error in data","sample_data":{"student_id":34}}),500
         sql=f"""select student_id,student_name,student_age from web_data.student where student_id={student_id}"""
         df=pd.read_sql(con=pool_cnxn, sql=sql)
         student = [{col:getattr(row, col) for col in df} for row in df.itertuples()]
         if student==[]:
             error=f"student with id {student_id} not exist"
-            return jsonify({"error":error})
+            return jsonify({"error":error}),400
         try:
             sql=f"delete from  web_data.student where student_id={student_id} "
             mycursor.execute(sql)
@@ -122,14 +133,15 @@ def remove_student():
         except Exception as error:
             logger.error(f"exception arise : {error}")
             print(f"Exception arise : {error}")
-            return jsonify({"error":error})             
-    return jsonify(student)
+            return jsonify({"error":"internal server error"}),500             
+    return jsonify({"response":"student is successfully removed from database","removed_student_record":student})
     
 @student.route("/studentForm/",methods=["GET"])
 @required_roles(["Admin"])
 def studentForm():
-    user=session["user"]
-    admin=get_roles(["Admin"])
+    user = session["user"]
+    admin = get_roles(["Admin"])
+    sso_id = session["sso_id"]
     if request.args:
         student_id=request.args.get('id') 
         print(student_id)       
@@ -152,12 +164,14 @@ def student_update():
         student_name=student_data["student_name"]
         student_age=student_data['student_age']
         student_id=student_data['student_id']
+        logger.debug(student_id)
     except Exception as error:
+        logger.error(error)
         return jsonify({"error":error})
     mycursor.execute(f"select student_id from web_data.student where student_id={student_id}")
     if mycursor.fetchone()==None:
         error=f"student with id {student_id} not exist"
-        return jsonify({"error":error})
+        return jsonify({"error":error}),400
     try:
         sql=f"""update web_data.student set student_name='{student_name}',
         student_age={student_age} where student_id={student_id}"""
@@ -165,8 +179,10 @@ def student_update():
         pool_cnxn.commit()
         print(f"Data updatated successfully")
     except Exception as error:
-        print(f"error arise : {error}")
-        return jsonify({"error":error})
+        logger.error(f"error arise : {error}")
+        return jsonify({"error":"internal server error"})
     df=pd.read_sql(con=pool_cnxn, sql=f'SELECT * FROM web_data.student where student_id={student_id}')
     student = [{col:getattr(row, col) for col in df} for row in df.itertuples()]
-    return jsonify(student[0])
+    res={"response_msg":"student record successfully updated",
+        "data":student[0]}
+    return jsonify(res)

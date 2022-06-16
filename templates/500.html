@@ -1,13 +1,14 @@
-<!DOCTYPE html>
+
 <html>
     <head>
         <title>
             error page
         </title>
+        <script type='text/javascript' src='/static/custom.js'> </script>
     </head>
     <body>
         <h1>An unexpected error has occurred</h1>
         <p>The administrator has been notified. Sorry for the inconvenience!</p>
-        <input type="button" onclick=window.location.href="{{url_for('student.student_list')}}" value='Go Back'></a>
+        <input type="button" onclick=student_list() value='Go Back'></a>
     </body>
 </html>

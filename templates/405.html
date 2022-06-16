@@ -1,7 +1,8 @@
-<!DOCTYPE html>
+
 <html>
     <head>
         <title>method not allowed</title>
+        <script type='text/javascript' src='/static/custom.js'> </script>
     </head>
     <body>
         
@@ -9,6 +10,6 @@
             error  : {{error}} 
         </p>
         
-        <input type="button" onclick=window.location.href="{{url_for('student.student_list')}}" value='Go Back'></a>
+        <input type="button" onclick="student_list()" value='Go Back'></a>
     </body>
 </html>
