@@ -1,6 +1,7 @@
 def test():
     dict_2={}
     dict_2["name"]="abhinav"
+    dict_2['roll']=2
     return dict_2
     
 
