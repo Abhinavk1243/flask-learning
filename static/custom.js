@@ -224,6 +224,11 @@ function create_user_role(){
         toastr.error(response.message);  
       }else{
         console.log("Status : ok");
+        window.dataLayer.push({
+          "event":"CreateUserRole",
+          "Username": "{{user}}",
+          "platform_dv":"web"
+        });
         window.location.href="/admin/";
       }
   },

@@ -4,13 +4,13 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-#students{
+#table{
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   width: 100%;
 }
 
-#students td, #students th {
+#table td, #table th {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: center;
@@ -18,11 +18,11 @@
 .body{
   display: flexbox;
 }
-#students tr:nth-child(even){background-color: #f2f2f2;}
+#table tr:nth-child(even){background-color: #f2f2f2;}
 
-#students tr:hover {background-color: #ddd;}
+#table tr:hover {background-color: #ddd;}
 
-#students th {
+#table th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: center;
@@ -60,7 +60,7 @@
 <p></p>
 <br>
 <br>
-<table id="students">
+<table id="table">
   <tr>
     {% for col in content_data["columns"] %}
         <th >{{col}}</th>
@@ -78,9 +78,9 @@
 </table>
 <h3><strong>For further information </strong></h3>
 <p><strong>Contact Details</strong> </p>
-<p><strong>email</strong>: email123@gmail.com</p>
-<p><strong>Ph.no</strong>: 430924032</p>
-<p><strong>Site</strong>: <a href="sharecare.com">sharecare.com</a></p>
+<p><strong>email</strong>:</p>
+<p><strong>Ph.no</strong>: </p>
+<p><strong>Site</strong>: <a href="example.com"> </a></p>
 <p></p>
 <div class="footer">
   <p style="color: maroon;">@sharecare</p>

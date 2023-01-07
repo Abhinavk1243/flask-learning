@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 from flask_restful import Resource, Api
 from models import mysl_pool_connection,logger
 import pandas as pd
+import json
 
 pool_cnxn=mysl_pool_connection("mysql_web_data")
 mycursor=pool_cnxn.cursor()
@@ -11,14 +12,11 @@ app = Flask(__name__)
 api = Api(app)
   
 class student(Resource):
-  
-    # corresponds to the GET request.
-    # this function is called whenever there
-    # is a GET request for this resource
+
     def get(self):
         sql="select * from  web_data.student "
         df=pd.read_sql(con=pool_cnxn, sql=sql)
-        student = [{col:getattr(row, col) for col in df} for row in df.itertuples()]
+        student = df.to_dict('records')
         response={"method":"GET","data":student,"support": {"url": "http://127.0.0.1:5000/",
                                              "text": "To return student"}}
         return jsonify(response)
@@ -27,27 +25,34 @@ class student(Resource):
     def post(self):
           
         try:
-            student_data=request.get_json(force=True)
+            # data =request.get_data()
+
+            # print(data)
+           
+            # student_data= data.decode()
+            student_data =request.get_json()
             mycursor=pool_cnxn.cursor()  
             student_name=student_data['student_name']
             student_age=student_data['student_age']
-        except Exception as error:
-            return jsonify({"error":error}),500
+       
 
-        val=(student_name,student_age)
-        try:
+            val=(student_name,student_age)
+       
             sql=f"insert into web_data.student(student_name, student_age) values {val}"
             mycursor.execute(sql)
             pool_cnxn.commit()
             logger.debug(f"data {val} successfully inserted")
+       
+            df=pd.read_sql(con=pool_cnxn, sql='SELECT * FROM web_data.student ORDER BY student_id DESC LIMIT 1')
+            student = [{col:getattr(row, col) for col in df} for row in df.itertuples()]
+            response={"method":"POST","data":student[0],"support": {"url": "http://127.0.0.1:5000/",
+                                                "text": "New record created"}}
+            return jsonify(response)
         except Exception as error:
+            print("========================================================")
+            print(error)
             logger.error(f"exception arise : {error}")
             return jsonify({"error":error}), 500
-        df=pd.read_sql(con=pool_cnxn, sql='SELECT * FROM web_data.student ORDER BY student_id DESC LIMIT 1')
-        student = [{col:getattr(row, col) for col in df} for row in df.itertuples()]
-        response={"method":"POST","data":student[0],"support": {"url": "http://127.0.0.1:5000/",
-                                             "text": "New record created"}}
-        return jsonify(response)
   
     def delete(self):
         mycursor=pool_cnxn.cursor()
@@ -104,7 +109,7 @@ class student(Resource):
   
   
 # adding the defined resources along with their corresponding urls
-api.add_resource(student, '/')
+api.add_resource(student, '/student/')
 
 # @app.route("/student/",methods=['GET'])
 # def get_student():

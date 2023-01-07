@@ -28,6 +28,7 @@ def mysl_pool_connection(section):
               'user' : getconfig(section,"user"),
               'database' : getconfig(section,"database"),
               'password' : getconfig(section,"password"),  
+              'auth_plugin': 'mysql_native_password'
             }
     
     cnxn = pooling.MySQLConnectionPool(pool_name = "student",**dbconfig)

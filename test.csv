@@ -1,0 +1,164 @@
+metric_id|dims|entity|functional_area|metric_id_type|month_ending|metric_value
+100003004|Callable|66500003|qbr_coaching|Lifetime|2022-12|205.0
+100003004|Enrolled|315250001|qbr_coaching|Lifetime|2022-12|8.0
+100003004|Enrolled|9500038|qbr_coaching|Lifetime|2022-12|34.0
+100003004|Enrolled|66500003|qbr_coaching|Lifetime|2022-12|21.0
+100003004|Enrolled|28500003|qbr_coaching|Lifetime|2022-12|28.0
+100003004|Targeted|66500003|qbr_coaching|Lifetime|2022-12|274.0
+100003004|Targeted|77750001|qbr_coaching|Lifetime|2022-12|1556.0
+100003048|1|66500008|qbr_coaching|Lifetime|2022-12|8.0
+100003048|1|66500003|qbr_coaching|Lifetime|2022-12|49.0
+100003048|1|13750055|qbr_coaching|Lifetime|2022-12|129.0
+100003048|2|8500002|qbr_coaching|Lifetime|2022-12|12213.0
+100003048|3|8750049|qbr_coaching|Lifetime|2022-12|22.0
+100003048|3|94250004|qbr_coaching|Lifetime|2022-12|22.0
+100003048|5+|8500003|qbr_coaching|Lifetime|2022-12|7309.0
+100003003|abc|28750012|qbr_coaching|Monthly|2022-12|3.0
+100003003|abc|28750001|qbr_coaching|Monthly|2022-12|168.0
+100003003|abc|58250001|qbr_coaching|Monthly|2022-12|2.0
+100003001|Attempted|190250001|qbr_coaching|Lifetime|2022-12|46.0
+100003001|Attempted|134500001|qbr_coaching|Lifetime|2022-12|46.0
+100003001|Attempted|66500003|qbr_coaching|Lifetime|2022-12|595.0
+100003001|Attempted|13750046|qbr_coaching|Lifetime|2022-12|2135.0
+100003001|Attempted|13750045|qbr_coaching|Lifetime|2022-12|1893.0
+100003001|Attempted|13750050|qbr_coaching|Lifetime|2022-12|443.0
+100003001|Attempted|13750055|qbr_coaching|Lifetime|2022-12|2260.0
+100003001|Attempted|8500002|qbr_coaching|Lifetime|2022-12|271697.0
+100003001|Callable|8500002|qbr_coaching|Lifetime|2022-12|315884.0
+100003001|Callable|69000001|qbr_coaching|Lifetime|2022-12|200.0
+100003001|Callable|62500001|qbr_coaching|Lifetime|2022-12|88992.0
+100003001|Callable|66500003|qbr_coaching|Lifetime|2022-12|609.0
+100003001|Callable|13750046|qbr_coaching|Lifetime|2022-12|2181.0
+100003001|Callable|13750045|qbr_coaching|Lifetime|2022-12|1924.0
+100003001|Callable|13750050|qbr_coaching|Lifetime|2022-12|456.0
+100003001|Callable|13750055|qbr_coaching|Lifetime|2022-12|2292.0
+100003001|Callable|53750007|qbr_coaching|Lifetime|2022-12|924.0
+100003001|Enrolled|134500001|qbr_coaching|Lifetime|2022-12|9.0
+100003001|Enrolled|190250001|qbr_coaching|Lifetime|2022-12|9.0
+100003001|Enrolled|66500003|qbr_coaching|Lifetime|2022-12|105.0
+100003001|Enrolled|13750046|qbr_coaching|Lifetime|2022-12|326.0
+100003001|Enrolled|13750045|qbr_coaching|Lifetime|2022-12|209.0
+100003001|Enrolled|72500001|qbr_coaching|Lifetime|2022-12|971.0
+100003001|Enrolled|8500002|qbr_coaching|Lifetime|2022-12|96031.0
+100003001|Targeted|53750007|qbr_coaching|Lifetime|2022-12|924.0
+100003001|Targeted|66500003|qbr_coaching|Lifetime|2022-12|664.0
+100003001|Targeted|13750050|qbr_coaching|Lifetime|2022-12|497.0
+100003001|Targeted|13750045|qbr_coaching|Lifetime|2022-12|2188.0
+100003001|Targeted|13750055|qbr_coaching|Lifetime|2022-12|2597.0
+100003001|Targeted|8500002|qbr_coaching|Lifetime|2022-12|346534.0
+100003047|Get my blood pressure checked, at least annually|63000001|qbr_coaching|Lifetime|2022-12|69.0
+100003047|Get my blood pressure checked, at least annually|8750050|qbr_coaching|Lifetime|2022-12|69.0
+100003047|Get my blood pressure checked, at least annually|8500002|qbr_coaching|Lifetime|2022-12|70.0
+100003047|Get my blood pressure checked, at least annually|38750003|qbr_coaching|Lifetime|2022-12|69.0
+100003047|Get my blood pressure checked, at least annually|38750001|qbr_coaching|Lifetime|2022-12|68.0
+100003047|Get my blood pressure checked, at least annually|38750002|qbr_coaching|Lifetime|2022-12|68.0
+100003026|"Enrolled||18-24"|69500006|qbr_coaching|Lifetime|2022-12|22.0
+100003026|"Enrolled||35-44"|66500003|qbr_coaching|Lifetime|2022-12|7.0
+100003026|"Enrolled||45-54"|69500003|qbr_coaching|Lifetime|2022-12|642.0
+100003026|"Enrolled||45-54"|9500035|qbr_coaching|Lifetime|2022-12|62.0
+100003026|"Enrolled||45-54"|66500003|qbr_coaching|Lifetime|2022-12|6.0
+100003026|"Enrolled||55-64"|66500003|qbr_coaching|Lifetime|2022-12|3.0
+100003042|LM|66500003|qbr_coaching|Lifetime|2022-12|384.0
+100003042|LM|13750046|qbr_coaching|Lifetime|2022-12|1670.0
+100003042|LM|13750045|qbr_coaching|Lifetime|2022-12|1108.0
+100003042|LM|8500002|qbr_coaching|Lifetime|2022-12|758341.0
+100003023|"Enrolled||25-34"|8500002|qbr_coaching|Lifetime|2022-12|7733.0
+100003023|"Enrolled||25-34"|72500001|qbr_coaching|Lifetime|2022-12|127.0
+100003023|"Enrolled||25-34"|66500003|qbr_coaching|Lifetime|2022-12|24.0
+100003023|"Enrolled||25-34"|10500006|qbr_coaching|Lifetime|2022-12|20.0
+100003023|"Enrolled||25-34"|13750045|qbr_coaching|Lifetime|2022-12|31.0
+100003023|"Enrolled||35-44"|13750046|qbr_coaching|Lifetime|2022-12|88.0
+100003023|"Enrolled||35-44"|66500003|qbr_coaching|Lifetime|2022-12|38.0
+100003023|"Enrolled||35-44"|8500002|qbr_coaching|Lifetime|2022-12|17590.0
+100003023|"Enrolled||45-54"|13750046|qbr_coaching|Lifetime|2022-12|104.0
+100003023|"Enrolled||45-54"|66500003|qbr_coaching|Lifetime|2022-12|23.0
+100003023|"Enrolled||45-54"|72500001|qbr_coaching|Lifetime|2022-12|314.0
+100003023|"Enrolled||45-54"|8500002|qbr_coaching|Lifetime|2022-12|27796.0
+100003023|"Enrolled||55-64"|13750046|qbr_coaching|Lifetime|2022-12|73.0
+100003023|"Enrolled||55-64"|66500003|qbr_coaching|Lifetime|2022-12|19.0
+100003023|"Enrolled||55-64"|13750045|qbr_coaching|Lifetime|2022-12|44.0
+100003023|"Enrolled||55-64"|8500002|qbr_coaching|Lifetime|2022-12|36940.0
+100003043|LM|38750003|qbr_coaching|Lifetime|2022-12|2572.0
+100003043|LM|38750002|qbr_coaching|Lifetime|2022-12|2568.0
+100003043|LM|38750001|qbr_coaching|Lifetime|2022-12|2568.0
+100003043|LM|63000001|qbr_coaching|Lifetime|2022-12|2572.0
+100003043|LM|13750046|qbr_coaching|Lifetime|2022-12|104.0
+100003043|LM|8750050|qbr_coaching|Lifetime|2022-12|2572.0
+100003056|1|9500038|qbr_coaching|Lifetime|2022-12|21.0
+100003056|1|66500003|qbr_coaching|Lifetime|2022-12|16.0
+100003056|5+|29750001|qbr_coaching|Lifetime|2022-12|4521.0
+100003056|5+|66500008|qbr_coaching|Lifetime|2022-12|20.0
+100003024|"Enrolled||Employee"|9500038|qbr_coaching|Lifetime|2022-12|34.0
+100003024|"Enrolled||Employee"|315250001|qbr_coaching|Lifetime|2022-12|8.0
+100003025|"Enrolled||Female"|9500038|qbr_coaching|Lifetime|2022-12|23.0
+100003025|"Enrolled||Male"|66500003|qbr_coaching|Lifetime|2022-12|8.0
+100003025|"Enrolled||Male"|29000001|qbr_coaching|Lifetime|2022-12|21.0
+100003041|LM|13750045|qbr_coaching|Lifetime|2022-12|1188.0
+100003041|LM|8500002|qbr_coaching|Lifetime|2022-12|765613.0
+100003041|LM|13750046|qbr_coaching|Lifetime|2022-12|1774.0
+100003041|LM|66500003|qbr_coaching|Lifetime|2022-12|384.0
+100003055|Learn to practice regular stress management strategies|9750044|qbr_coaching|Lifetime|2022-12|13.0
+100003055|Learn to practice regular stress management strategies|8500003|qbr_coaching|Lifetime|2022-12|14.0
+100003045|LM|8750050|qbr_coaching|Monthly|2022-12|45.0
+100003045|LM|63000001|qbr_coaching|Monthly|2022-12|45.0
+100003045|LM|38750003|qbr_coaching|Monthly|2022-12|45.0
+100003045|LM|38750002|qbr_coaching|Monthly|2022-12|45.0
+100003045|LM|38750001|qbr_coaching|Monthly|2022-12|45.0
+100003005|abc|66500003|qbr_coaching|Lifetime|2022-12|1.7143
+100003060|Conquering Stress|10500004|qbr_coaching|Lifetime|2022-12|17.0
+100003060|Conquering Stress|10500002|qbr_coaching|Lifetime|2022-12|17.0
+100003060|Reduce Your Tobacco Use|69500002|qbr_coaching|Lifetime|2022-12|8.0
+100003002|abc|71500001|qbr_coaching|Lifetime|2022-12|2.4816
+100003002|abc|13750045|qbr_coaching|Lifetime|2022-12|3.8756
+100003002|abc|13750046|qbr_coaching|Lifetime|2022-12|4.2055
+100003021|"Enrolled||Employee"|13750046|qbr_coaching|Lifetime|2022-12|319.0
+100003021|"Enrolled||Employee"|190250001|qbr_coaching|Lifetime|2022-12|9.0
+100003021|"Enrolled||Employee"|134500001|qbr_coaching|Lifetime|2022-12|9.0
+100003021|"Enrolled||Employee"|66500003|qbr_coaching|Lifetime|2022-12|96.0
+100003021|"Enrolled||Employee"|13750054|qbr_coaching|Lifetime|2022-12|20.0
+100003021|"Enrolled||Employee"|13750045|qbr_coaching|Lifetime|2022-12|203.0
+100003021|"Enrolled||Employee"|72500001|qbr_coaching|Lifetime|2022-12|925.0
+100003021|"Enrolled||Employee"|8500002|qbr_coaching|Lifetime|2022-12|78351.0
+100003021|"Enrolled||Spouse"|9750045|qbr_coaching|Lifetime|2022-12|24.0
+100003021|"Enrolled||Spouse"|94250007|qbr_coaching|Lifetime|2022-12|24.0
+100003054|Add a variety of fruits and vegetables, at least 5 a day|69500003|qbr_coaching|Lifetime|2022-12|27.0
+100003054|Add muscle-strengthening activities into my weekly exercise routine at least 2 days per week|29750001|qbr_coaching|Lifetime|2022-12|124.0
+100003054|Develop a quit plan|69500005|qbr_coaching|Lifetime|2022-12|12.0
+100003054|Get a Spirometry test, if recommended by my doctor|62000001|qbr_coaching|Lifetime|2022-12|33.0
+100003054|Get a screening for diabetes annually|9750044|qbr_coaching|Lifetime|2022-12|16.0
+100003054|Get a screening for diabetes annually|8500003|qbr_coaching|Lifetime|2022-12|17.0
+100003054|"HOME/WORK STRESS
+        = often or constantly"|69500003|qbr_coaching|Lifetime|2022-12|5.0
+100003054|Improve adherence to recommended diet|69500006|qbr_coaching|Lifetime|2022-12|32.0
+100003054|Manage general stress or anxiety|8500002|qbr_coaching|Lifetime|2022-12|13.0
+100003054|Manage general stress or anxiety|9500047|qbr_coaching|Lifetime|2022-12|12.0
+100003054|Monitor blood glucose levels at home|28500001|qbr_coaching|Lifetime|2022-12|16.0
+100003054|Monitor blood glucose levels at home|69500002|qbr_coaching|Lifetime|2022-12|11.0
+100003054|Support|69500003|qbr_coaching|Lifetime|2022-12|11.0
+100003054|Understand my risks for developing diabetes related complications|28500001|qbr_coaching|Lifetime|2022-12|25.0
+100003022|"Enrolled||Female"|72500001|qbr_coaching|Lifetime|2022-12|375.0
+100003022|"Enrolled||Female"|8500002|qbr_coaching|Lifetime|2022-12|66847.0
+100003022|"Enrolled||Female"|13750046|qbr_coaching|Lifetime|2022-12|201.0
+100003022|"Enrolled||Male"|93500001|qbr_coaching|Lifetime|2022-12|80.0
+100003022|"Enrolled||Male"|13750045|qbr_coaching|Lifetime|2022-12|91.0
+100003022|"Enrolled||Male"|72500001|qbr_coaching|Lifetime|2022-12|596.0
+100003022|"Enrolled||Male"|8500002|qbr_coaching|Lifetime|2022-12|29183.0
+100003022|"Enrolled||Male"|13750046|qbr_coaching|Lifetime|2022-12|125.0
+100003022|"Enrolled||Male"|66500003|qbr_coaching|Lifetime|2022-12|21.0
+100003046|Develop a quit plan|69500005|qbr_coaching|Lifetime|2022-12|25.0
+100003046|Develop a quit plan|8500001|qbr_coaching|Lifetime|2022-12|987.0
+100003046|Develop a quit plan|8500002|qbr_coaching|Lifetime|2022-12|821.0
+100003046|Follow a regular exercise routine including moderate and or vigorous intensity activities|66500003|qbr_coaching|Lifetime|2022-12|3.0
+100003046|Follow my quit plan|8500002|qbr_coaching|Lifetime|2022-12|282.0
+100003046|Follow my quit plan|8500001|qbr_coaching|Lifetime|2022-12|318.0
+100003046|"HOME/WORK STRESS
+        = often or constantly"|69500003|qbr_coaching|Lifetime|2022-12|4.0
+100003054|Work toward 150 minutes a week of mixed intensity aerobic exericse every week|28750001|qbr_coaching|Lifetime|2022-12|47.0
+100003046|Manage my fluid intake and sodium restriction as recommended by my doctor|28500001|qbr_coaching|Lifetime|2022-12|10.0
+100003046|Manage my fluid intake and sodium restriction as recommended by my doctor|9750044|qbr_coaching|Lifetime|2022-12|10.0
+100003046|Manage my fluid intake and sodium restriction as recommended by my doctor|8500003|qbr_coaching|Lifetime|2022-12|11.0
+100003046|Prevent future challenges|8500001|qbr_coaching|Lifetime|2022-12|198.0
+100003046|Prevent future challenges|8500002|qbr_coaching|Lifetime|2022-12|186.0
+100003046|Work toward 150 mins a week of mixture intensity aerobic exercise (e.g. brisk walking) every week|69500005|qbr_coaching|Lifetime|2022-12|82.0
+100003044|LM|59750004|qbr_coaching|Monthly|2022-12|1.0
+100003044|LM|8500002|qbr_coaching|Monthly|2022-12|13103.0
